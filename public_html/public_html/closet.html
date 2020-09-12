@@ -1,0 +1,852 @@
+<html>
+
+<head>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+            background-color: #2e004d;
+        }
+
+        #container {}
+
+        .hoodie1 {
+            position: absolute;
+            left: 40vh;
+            top: 20vh;
+        }
+
+        .body {
+            position: absolute;
+            top: 3vh;
+            left: 3vh;
+            width: 20.5vh;
+            height: 27vh;
+            background-color: orange;
+            border-radius: 44% 40% 23% 23% / 100% 100% 100% 100%;
+            overflow: hidden;
+        }
+
+        .fix3 {
+            content: "";
+            position: absolute;
+            top: 30vh;
+            left: 4.4vh;
+            width: 18vh;
+            height: 1.3vh;
+            background-color: #cc8500;
+            border-top: .2vh solid #b37400;
+            z-index: -2;
+        }
+
+        .sleeve1::after {
+            content: "";
+            position: absolute;
+            left: -.75vh;
+            top: -23vh;
+            width: 4.5vh;
+            height: 25vh;
+            border-right: .5vh solid #f2a20d;
+            background-color: orange;
+            border-radius: 5vh 1vh 2vh 2vh;
+        }
+
+        .sleeve1 {
+            content: "";
+            position: absolute;
+            left: 3vh;
+            top: 29vh;
+            width: 3.5vh;
+            height: 3vh;
+            background-image: repeating-linear-gradient(90deg, #f2a20d 0px, #f2a20d 2.5px, #cc8500 2.5px, #cc8500 5px);
+            transform: skewY(20deg);
+        }
+
+        .sleeve2 {
+            position: absolute;
+            left: 21.25vh;
+            top: 28vh;
+            width: 3.5vh;
+            height: 3vh;
+            background-image: repeating-linear-gradient(90deg, #f2a20d 0px, #f2a20d 2.5px, #cc8500 2.5px, #cc8500 5px);
+            z-index: -1;
+            transform: skewY(10deg);
+        }
+
+        .sleeve2::after {
+            content: "";
+            position: absolute;
+            left: -.5vh;
+            top: -24vh;
+            width: 4.5vh;
+            height: 25vh;
+            border-left: .5vh solid #f2a20d;
+            background-color: orange;
+            border-radius: 1vh 5vh 2vh 2vh;
+        }
+
+        .fix {
+            position: absolute;
+            left: 4.5vh;
+            top: -6vh;
+            width: 10.5vh;
+            height: 10.5vh;
+            border-radius: 80% 10% 100% 100% / 55% 100% 100% 100%;
+            transform: rotateZ(135deg);
+            background-color: #f2a20d;
+            z-index: 5;
+            border-right: .2vh solid #b37400;
+        }
+
+        .fix::before {
+            content: "";
+            position: absolute;
+            left: -.7vh;
+            top: -1.2vh;
+            width: 10vh;
+            height: 10.5vh;
+            border-right: .2vh solid #b37400;
+            border-radius: 80% 10% 100% 100% / 55% 100% 100% 100%;
+            transform: rotateX(180deg) rotateZ(89deg);
+            background-color: #f2a20d;
+        }
+
+        .fix::after {
+            content: "";
+            position: absolute;
+            left: -.25vh;
+            top: -.25vh;
+            width: 10.2vh;
+            height: 10.2vh;
+            border-radius: 80% 0% 100% 100% / 55% 100% 100% 100%;
+            background-color: #805300;
+        }
+
+        .fix2 {
+            position: absolute;
+            left: 4.5vh;
+            top: 16vh;
+            width: 11vh;
+            height: 7vh;
+            border-radius: 100%;
+            border: .4vh solid #cc8500;
+            border-top: none;
+        }
+
+        .fix2::before {
+            content: "";
+            position: absolute;
+            width: 7vh;
+            height: 8vh;
+            background-color: orange;
+            left: 2vh;
+            top: 0;
+        }
+
+        .fix2::after {
+            content: "";
+            position: absolute;
+            width: 13vh;
+            height: 3.5vh;
+            background-color: orange;
+            left: -1vh;
+            top: 0;
+        }
+
+        .hood {
+            position: absolute;
+            width: 12vh;
+            height: 3vh;
+            border-radius: 100% 100% 0% 0%;
+            top: 0vh;
+            left: 7.5vh;
+            background-color: #e69500;
+        }
+
+        .hood::after {
+            content: "";
+            position: absolute;
+            width: 10.75vh;
+            height: 2vh;
+            border-radius: 100% 100% 0 0;
+            top: 1vh;
+            left: .9vh;
+            background-color: #805300;
+        }
+
+        .strand1 {
+            position: absolute;
+            width: .4vh;
+            height: 7vh;
+            top: 8vh;
+            left: 12vh;
+            background-color: darkred;
+            z-index: 4;
+        }
+
+        .strand1::after {
+            content: "";
+            position: absolute;
+            width: .6vh;
+            height: 1vh;
+            left: -.1vh;
+            top: 6.9vh;
+            background-color: lightblue;
+            border-radius: 25%;
+        }
+
+        .strand2 {
+            position: absolute;
+            width: .3vh;
+            height: 7vh;
+            top: 5vh;
+            left: 14.5vh;
+            background-color: darkred;
+            z-index: 4;
+        }
+
+        .strand2::after {
+            content: "";
+            position: absolute;
+            width: .6vh;
+            height: 1vh;
+            left: -.15vh;
+            top: 6.9vh;
+            background-color: lightblue;
+            border-radius: 25%;
+        }
+
+        .pants1 {
+            position: absolute;
+            left: 42vh;
+            top: 55vh;
+        }
+
+        .half1 {
+            position: absolute;
+            width: 17vh;
+            height: 15vh;
+            left: 3vh;
+            top: 3vh;
+            background-color: darkslateblue;
+            clip-path: polygon(1% 0%, 99% 0%, 100% 100%, 55% 100%, 52% 60%, 48% 60%, 45% 100%, 0 100%);
+        }
+
+        .half1::after {
+            content: "";
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: 8vh;
+            top: 1vh;
+            border-radius: 100%;
+            background-color: darkblue;
+        }
+
+        .half1_shade {
+            position: absolute;
+            width: 17vh;
+            height: 15vh;
+            left: 2.25vh;
+            top: 3vh;
+            background-color: darkblue;
+            clip-path: polygon(1% 0%, 99% 0%, 100% 100%, 55% 100%, 52% 60%, 48% 60%, 45% 100%, 0 100%);
+            z-index: -1;
+        }
+
+        .half2 {
+            position: absolute;
+            width: 17vh;
+            height: 15vh;
+            left: 3vh;
+            top: 18vh;
+            background-color: darkslateblue;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 56% 100%, 55% 0%, 45% 0%, 45% 100%, 0 100%);
+        }
+
+
+        .half2_shade {
+            position: absolute;
+            width: 17vh;
+            height: 15vh;
+            left: 2.25vh;
+            top: 18vh;
+            background-color: darkblue;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 56% 100%, 55% 0%, 45% 0%, 45% 100%, 0 100%);
+            z-index: -1;
+        }
+
+        .shirt1 {
+            position: absolute;
+            left: 10vh;
+            top: 10vh;
+        }
+
+        .bodyShirt {
+            position: absolute;
+            top: 3vh;
+            left: 3vh;
+            width: 20.5vh;
+            height: 27vh;
+            background-color: orange;
+            border-radius: 44% 40% 23% 23% / 100% 100% 100% 100%;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 57% 100%, 54% 90%, 50.5% 99%, 0% 99%);
+            overflow: hidden;
+        }
+
+        .bodyShirt::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 51%;
+            height: 100%;
+            border: .3vh solid #b37400;
+            border-radius: 0 0 20% 0;
+        }
+
+        .sleeve1Shirt {
+            position: absolute;
+            left: 1.75vh;
+            top: 5.5vh;
+            width: 4.5vh;
+            height: 25vh;
+            border-right: .2vh solid #f2a20d;
+            background-color: orange;
+            border-radius: 5vh 1vh 2vh 2vh;
+            transform: skewY(15deg);
+        }
+
+        .sleeve1Shirt::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 21vh;
+            width: 4.5vh;
+            height: 4vh;
+            border-top: .5vh solid #f2a20d;
+            border-radius: .5vh .5vh 1.5vh 1.5vh;
+            background-color: orange;
+        }
+
+        .sleeve1Shirt::after {
+            content: "";
+            position: absolute;
+            left: 1vh;
+            top: 23vh;
+            width: .75vh;
+            height: .75vh;
+            border-radius: 100%;
+            background-color: #805300;
+        }
+
+        .sleeve2Shirt {
+            content: "";
+            position: absolute;
+            left: 20vh;
+            top: 4vh;
+            width: 4.5vh;
+            height: 25vh;
+            border-left: .5vh solid #f2a20d;
+            background-color: orange;
+            border-radius: 1vh 5vh 2vh 2vh;
+        }
+
+        .sleeve2Shirt::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 21vh;
+            width: 4.5vh;
+            height: 4vh;
+            border-top: .5vh solid #f2a20d;
+            border-radius: .5vh .5vh 1.5vh 1.5vh;
+            background-color: orange;
+        }
+
+        .sleeve2Shirt::after {
+            content: "";
+            position: absolute;
+            left: 2.5vh;
+            top: 23vh;
+            width: .75vh;
+            height: .75vh;
+            border-radius: 100%;
+            background-color: #805300;
+        }
+
+        .fixShirt {
+            position: absolute;
+            left: 2.9vh;
+            top: -5vh;
+            width: 12.5vh;
+            height: 10.5vh;
+            transform: rotateZ(130deg);
+            background-color: #e69500;
+            z-index: 2;
+            border-right: .2vh solid #b37400;
+        }
+
+        .fixShirt::before {
+            content: "";
+            position: absolute;
+            left: 2vh;
+            top: -7.1vh;
+            width: 4vh;
+            height: 12vh;
+            border-left: .2vh solid #b37400;
+            transform: rotateZ(90deg);
+            background-color: #e69500;
+            z-index: -1;
+        }
+
+        .fixShirt::after {
+            content: "";
+            position: absolute;
+            left: -.25vh;
+            top: -.25vh;
+            width: 10.2vh;
+            height: 10.2vh;
+            border-radius: 80% 0% 100% 100% / 55% 100% 100% 100%;
+            transform: rotateZ(2deg);
+            background-color: #805300;
+        }
+
+        .hoodShirt {
+            position: absolute;
+            width: 12.2vh;
+            height: 3vh;
+            border-radius: 100% 100% 0% 0%;
+            top: 1vh;
+            left: 7.6vh;
+            background-color: #e69500;
+            z-index: -1;
+        }
+
+        .hoodShirt::after {
+            content: "";
+            position: absolute;
+            width: 11vh;
+            height: 2vh;
+            border-radius: 100% 100% 0 0;
+            top: .75vh;
+            left: .65vh;
+            background-color: #805300;
+        }
+
+
+        .btns {
+            position: absolute;
+            top: 13vh;
+            left: 14.75vh;
+            width: .75vh;
+            height: .75vh;
+            border-radius: 100%;
+            background-color: #805300;
+        }
+
+        .btns::before {
+            content: "";
+            position: absolute;
+            top: 5vh;
+            left: 0vh;
+            width: .75vh;
+            height: .75vh;
+            border-radius: 100%;
+            background-color: #805300;
+        }
+
+        .btns::after {
+            content: "";
+            position: absolute;
+            top: 10vh;
+            left: 0vh;
+            width: .75vh;
+            height: .75vh;
+            border-radius: 100%;
+            background-color: #805300;
+        }
+
+        .hanger1 {
+            position: absolute;
+            left: 10vh;
+            top: 60vh;
+        }
+
+        .struct {
+            position: absolute;
+            left: 0;
+            top: 4vh;
+            border: .5vh solid black;
+            border-top: none;
+            border-radius: 0 0 50% 50%;
+            width: 15vh;
+            height: 2vh;
+        }
+
+        .struct::before {
+            content: "";
+            position: absolute;
+            width: 8vh;
+            height: .5vh;
+            top: -1vh;
+            left: 7.5vh;
+            background-color: black;
+            transform: rotateZ(10deg);
+        }
+
+        .struct::after {
+            content: "";
+            position: absolute;
+            width: 8.5vh;
+            height: .5vh;
+            top: -1vh;
+            left: -.5vh;
+            background-color: black;
+            transform: rotateZ(-10deg);
+        }
+
+        .hang {
+            position: absolute;
+            width: 2.5vh;
+            height: 2.5vh;
+            border-radius: 100%;
+            border: .5vh solid black;
+            top: -1.6vh;
+            left: 6.5vh;
+            clip-path: polygon(0 0, 100% 0%, 100% 120%, 35% 120%, 35% 60%, 0% 60%);
+        }
+
+        .hanger1::after {
+            content: "";
+            position: absolute;
+            left: 8vh;
+            top: 1.5vh;
+            width: .5vh;
+            height: 1vh;
+            background-color: black;
+        }
+
+        .hanger2 {
+            position: absolute;
+            z-index: 5;
+            left: 5vh;
+            top: -.25vh;
+            width: 16vh;
+            height: 6.5vh;
+            clip-path: polygon(0% -25%, 114% -25%, 67.5% 100%, 52% 100%, 38% 100%, 0% -25%);
+        }
+
+        .hanger2::after {
+            content: "";
+            position: absolute;
+            left: 8vh;
+            top: 1.25vh;
+            width: .5vh;
+            height: 1.5vh;
+            background-color: black;
+        }
+
+        .sample {
+            position: relative;
+            display: flex;
+            place-items: center;
+            transform: scale(1.5);
+        }
+
+        .hoodie {
+            position: relative;
+            width: 25vh;
+            height: 30vh;
+            border-left: 4px solid transparent;
+            border-radius: 70% 0 0 20%;
+            transition: .2s;
+            perspective: 100px;
+            filter: hue-rotate(calc(var(--i) * 50deg));
+        }
+
+        .hoodie:not(:first-child) {
+            margin-left: -20vh;
+        }
+
+        .fixPos {
+            position: relative;
+            margin-left: -2vh;
+            transform: rotateY(20deg) skewY(5deg) scaleX(.8);
+        }
+
+        .hoodie:hover {
+            transform: translateY(-2vh);
+        }
+
+        .hoodie:hover~.hoodie {
+            transform: translateX(5vh);
+        }
+
+        #overlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            transition: 3s;
+            opacity: 1;
+            z-index: 20;
+        }
+
+        #back {
+            position: absolute;
+            width: 2.5vw;
+            height: 2.5vw;
+            background-color: transparent;
+            top: 2.5vh;
+            left: 45vw;
+            opacity: .5;
+            transition: .25s;
+            transform: rotateZ(45deg) scale(.5);
+            border-left: 2vh solid aliceblue;
+            border-top: 2vh solid aliceblue;
+            z-index: 15;
+        }
+
+        @font-face {
+            font-family: fontName;
+            src: url("fonts/font2.ttf");
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 85vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            width: 0;
+            font-family: fontName;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+        }
+        
+        #soundbtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+            z-index: 50;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+
+    </style>
+</head>
+
+<body onload="loadStuff()">
+    <div id="overlay"></div>
+    <div id="back" onclick="back()"></div>
+    <div id="dialogueBox"></div>
+    <div id="container">
+
+        <div class="sample">
+            <div class="hoodie" style="--i:1" onclick="pick(1)">
+                <div class="fixPos">
+                    <div class="body">
+                        <div class="fix">
+                        </div>
+                        <div class="fix2"></div>
+                    </div>
+                    <div class="hanger2">
+                        <div class="struct"></div>
+                        <div class="hang"></div>
+                    </div>
+                    <div class="hood"></div>
+                    <div class="sleeve1"></div>
+                    <div class="sleeve2"></div>
+                    <div class="fix3"></div>
+                    <div class="strand1"></div>
+                    <div class="strand2"></div>
+                </div>
+            </div>
+            <div class="hoodie" style="--i:2" onclick="pick(2)">
+                <div class="fixPos">
+                    <div class="bodyShirt">
+                        <div class="fixShirt"></div>
+                    </div>
+                    <div class="hanger2">
+                        <div class="struct"></div>
+                        <div class="hang"></div>
+                    </div>
+                    <div class="hoodShirt"></div>
+                    <div class="sleeve1Shirt"></div>
+                    <div class="sleeve2Shirt"></div>
+                    <div class="pocket"></div>
+                    <div class="btns"></div>
+                </div>
+            </div>
+            <div class="hoodie" style="--i:3" onclick="pick(3)">
+                <div class="fixPos">
+                    <div class="body">
+                        <div class="fix">
+                        </div>
+                        <div class="fix2"></div>
+                    </div>
+                    <div class="hanger2">
+                        <div class="struct"></div>
+                        <div class="hang"></div>
+                    </div>
+                    <div class="hood"></div>
+                    <div class="sleeve1"></div>
+                    <div class="sleeve2"></div>
+                    <div class="fix3"></div>
+                    <div class="strand1"></div>
+                    <div class="strand2"></div>
+                </div>
+            </div>
+            <div class="hoodie" style="--i:4" onclick="pick(4)">
+                <div class="fixPos">
+                    <div class="body">
+                        <div class="fix">
+                        </div>
+                        <div class="fix2"></div>
+                    </div>
+                    <div class="hanger2">
+                        <div class="struct"></div>
+                        <div class="hang"></div>
+                    </div>
+                    <div class="hood"></div>
+                    <div class="sleeve1"></div>
+                    <div class="sleeve2"></div>
+                    <div class="fix3"></div>
+                    <div class="strand1"></div>
+                    <div class="strand2"></div>
+                </div>
+            </div>
+            <div class="hoodie" style="--i:5" onclick="pick(5)">
+                <div class="fixPos">
+                    <div class="bodyShirt">
+                        <div class="fixShirt"></div>
+                    </div>
+                    <div class="hanger2">
+                        <div class="struct"></div>
+                        <div class="hang"></div>
+                    </div>
+                    <div class="hoodShirt"></div>
+                    <div class="sleeve1Shirt"></div>
+                    <div class="sleeve2Shirt"></div>
+                    <div class="pocket"></div>
+                    <div class="btns"></div>
+                </div>
+            </div>
+            <div class="hoodie" style="--i:6" onclick="pick(6)">
+                <div class="fixPos">
+                    <div class="body">
+                        <div class="fix">
+                        </div>
+                        <div class="fix2"></div>
+                    </div>
+                    <div class="hanger2">
+                        <div class="struct"></div>
+                        <div class="hang"></div>
+                    </div>
+                    <div class="hood"></div>
+                    <div class="sleeve1"></div>
+                    <div class="sleeve2"></div>
+                    <div class="fix3"></div>
+                    <div class="strand1"></div>
+                    <div class="strand2"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <audio src="files/room.mp3" autoplay loop id="audio" allow="autoplay" ></audio>
+    <div id="soundbtn" onclick="document.getElementById('audio').play();document.getElementById('soundbtn').remove();">Play</div>
+<script>
+    var dia=["There we go!", "Alright, click on the one you want to pick.",""];
+    
+    var pickDia = [["Ooh, nice pick!", "Although, that green does seem a bit distracting.","Too bright, isn't it?", "Sorry, I might be a bit pushy.", "I just feel like people will get the wrong idea...", "It looks so bold, almost too bold...",""], ["Ooh, really neat, a nice flannel shirt.", "Though I feel like that's too mundane?", "People wouldn't be interested in someone wearing just some green shirt...", "People will absolutely get the wrong impression...", "It's like camo, nothing standout at all.",""],["Oh gosh, the nice sky color!", "It's lovely!", "But what if it starts raining outside?", "We could ruin this amazing hoodie!", "That'd be so awfulll..",""],["Ohh, a nice calm color!","Though I feel like it could be too calm?","I might fall a-","Zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+"zzzzzzzzzzzzzzzzzzzzzzzzzzzz",""],["Oh, a hot pink!","Though I feel like it's just a bit too hot?","Oww oof ouch it burns!",""],["Can't go wrong with red!","Though it might come off as an aggressive color.","Just so fiery and angry.","That's not who we are, is it?",""]];
+    
+    var colorVals = ["5ce900","#00e979","#10d0ff","#999fff","#ff77ff","#ff759f"]
+    
+    document.getElementById("audio").volume = 0.15;
+    
+    setTimeout(function audioLoad() {
+        let myAudio = document.getElementById("audio"); 
+        if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+    },2500);
+        
+    function loadStuff() {
+        document.getElementById("overlay").style.opacity = 0;
+        var i = 0;
+        setTimeout(function() {
+            document.getElementById("overlay").style.zIndex = "-1";
+            var x2 = setInterval(function() {
+                var iter = dia[i];
+                document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                document.getElementById("dialogueBox").innerHTML = iter;
+                document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss)) infinite";
+                document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                ++i;
+
+                if (i == dia.length) {
+                    clearInterval(x2);
+                    document.getElementById("dialogueBox").style.display = "none";
+                }
+            }, 2000);
+        }, 3000);
+    }
+
+    function back() {
+        document.getElementById("overlay").style.zIndex = 20;
+        document.getElementById("overlay").style.transition = "3s";
+        document.getElementById("overlay").style.opacity = 1;
+        setTimeout(function() {
+            window.location.assign("room_noScript.html");
+        }, 3000);
+    }
+
+    function pick(a) {
+        --a;
+        document.cookie = "cl="+colorVals[a]+"; path=/";
+        var i=0;
+         document.getElementById("dialogueBox").style.display = "block";
+        var x3 = setInterval(function() {
+                var iter = pickDia[a][i];
+                document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                document.getElementById("dialogueBox").innerHTML = iter;
+                document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss)) infinite";
+                document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                ++i;
+
+                if (i == pickDia[a].length) {
+                    clearInterval(x3);
+                   
+            document.getElementById("overlay").style.zIndex = "20";
+        document.getElementById("overlay").style.opacity = 1;
+                   setTimeout(function() {
+                       window.location.assign("lvlCloset.html");
+                   },2000); document.getElementById("dialogueBox").style.display = "none";
+                }
+            }, 2000);
+    }
+
+</script>
+</body>
+
+
+
+</html>

@@ -1,0 +1,36 @@
+<html>
+<head>
+    <style>
+        button {
+            border-radius: 5px;
+            border: 5px inset red;
+            width: 100px;
+            height: 25px;
+            position: absolute;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body onload="timeOut()">
+    <div id="cont" onclick="act()"></div>
+    <img src="DogWince.gif" id="img">
+    <script>
+        function timeOut() {
+            setTimeout(function() {
+                var img = document.getElementById("img");
+                img.src = "DogCycleWince.gif";
+                var btn = document.createElement("BUTTON");
+                var t = document.createTextNode("BVCK");
+                btn.appendChild(t);
+                document.getElementById("cont").appendChild(btn);
+            }, 450);
+        }
+
+        function act() {
+            window.open("Cycle.html");
+            window.close();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<html>
+
+<head>
+    <style>
+        html {}
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #00001a;
+            position: absolute;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        #container {
+            position: absolute;
+            opacity: 0;
+            transition: 10s;
+            cursor: none;
+        }
+
+        canvas {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        @font-face {
+            font-family:countdown;
+            src:url("fonts/countdown.otf");
+        }
+        @font-face {
+            font-family:brush;
+            src:url("fonts/b1.ttf");
+        }
+
+        .wall {
+            position: relative;
+            color: white;
+            font-family: brush;
+            font-size: 10vh;
+            margin: 2vh;
+            margin-top: -5vh;
+            margin-left: -80.05vh;
+            white-space: nowrap;
+            transition: 10s;
+        }
+
+        .walls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: none;
+            transition: .5s;
+        }
+
+        #mausArrow {
+            position: absolute;
+            width: 15vh;
+            height: 7.5vh;
+            animation: float 2s ease infinite alternate;
+            z-index: 20;
+            transition: .5s;
+        }
+
+        #wasdArrow {
+            position: absolute;
+            width: 15vh;
+            height: 7.5vh;
+            animation: float 2s ease infinite alternate;
+            z-index: 20;
+            transition: .5s;
+            font-family: countdown;
+        }
+
+        #arrwArrow {
+            position: absolute;
+            width: 15vh;
+            height: 7.5vh;
+            animation: float 2s ease infinite alternate;
+            z-index: 20;
+            transition: .5s;
+        }
+
+        #rectUp {
+            position: absolute;
+            width: 4vh;
+            height: 4vh;
+            color: lightblue;
+            display: grid;
+            place-items: center;
+            border: .5vh solid lightskyblue;
+            border-radius: .5vh .5vh 0 0;
+            top: -.5vh;
+            left: 4.5vh;
+        }
+
+        #rectDn {
+            position: absolute;
+            width: 5vh;
+            height: 4.5vh;
+            color: lightblue;
+            display: grid;
+            place-items: center;
+            border-bottom: .5vh solid lightskyblue;
+            top: 4vh;
+            left: 4.5vh;
+        }
+
+        #rectLf {
+            position: absolute;
+            width: 4vh;
+            height: 4vh;
+            color: lightblue;
+            display: grid;
+            place-items: center;
+            border: .5vh solid lightskyblue;
+            border-radius: .5vh 0 0 .5vh;
+            top: 4vh;
+            left: 0;
+        }
+
+        #rectRg {
+            position: absolute;
+            width: 4vh;
+            height: 4vh;
+            color: lightblue;
+            display: grid;
+            place-items: center;
+            border: .5vh solid lightskyblue;
+            border-radius: 0 .5vh .5vh 0;
+            top: 4vh;
+            left: 9vh;
+        }
+        
+        #mouse {
+            position: absolute;
+            width:4vh;
+            height:7vh;
+            top:8vh;left:4.4vh;
+            border: .5vh solid lightskyblue;
+            border-radius: 2vh;
+        }
+
+        #mouse::after {
+            content:"";
+            position: absolute;
+            top:1vh;
+            left:1.75vh;
+            width:.5vh;
+            height:2vh;
+            background-color: lightskyblue;
+            border-radius: 2vh;
+        }
+        
+        #arrL {
+            position: absolute;
+            left: -4vh;
+            top: -2vh;
+            width: 3vh;
+            height: 12vh;
+            background-color: aqua;
+            clip-path: polygon(0 50%, 80% 0, 100% 0, 20% 50%, 100% 100%, 80% 100%  );
+        }
+
+        #arrR {
+            position: absolute;
+            left: 15vh;
+            top: -2vh;
+            width: 3vh;
+            height: 12vh;
+            background-color: aqua;
+            clip-path: polygon(0 0, 20% 0, 100% 50%, 20% 100%, 0 100%, 80% 50%);
+        }
+        
+        #arrU {
+            position: absolute;
+            left: 0vh;
+            top: 4vh;
+            width: 14vh;
+            height: 3vh;
+            background-color: aqua;
+            clip-path: polygon(0 100%, 0 80%, 50% 0%, 100% 80%, 100% 100%, 50% 20%);
+        }
+
+        @keyframes float {
+            from {
+                transform: scale(0.9) translateY(1vh);
+            }
+            to {
+                transform: scale(1.1) translateY(-1vh);
+            }
+        }
+        
+        #counterContainer {
+            position: absolute;
+            left:0;top:0;
+            width:100vw;
+            height:100vh;
+            display: grid;
+            place-items:center;
+            z-index: 19;
+            cursor: none;
+        }
+        
+        #counter {
+            position: relative;
+            color:deepskyblue;
+            transition: .5s;
+            font-size: 30vh;
+            cursor: none;
+            opacity: 0;
+            font-family: countdown;
+        }
+        
+        #btnReset {
+            position: relative;
+            width:20vh;
+            height:5vh;
+            background-color: deepskyblue;
+            color: aliceblue;
+            display: none;
+            font-size: 3vh;
+            border-radius: .5vh;
+            transition: .5s;
+            place-items:center;
+            text-transform: uppercase;
+            font-family: countdown;
+            padding:1vh;
+            cursor: pointer;
+        }
+        
+        #life {
+            position: absolute;
+            top:97.5vh;
+            left:0;
+            background-color: deepskyblue;
+            width:100vw;
+            height:2.5vh;
+            transition:1s;
+        }
+        
+        #soundBtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+            z-index: 50;
+        }
+    </style>
+    <script src="scripts/data.js"></script>
+</head>
+
+<body>
+    <div id="soundbtn" onclick="song.play();document.getElementById('soundbtn').remove();">Play</div>
+    <audio src="files/lvl1.mp3" autoplay loop id="audio" allow="autoplay" onload="audioLoad"></audio>
+    <canvas id="canvas"></canvas>
+    
+    <div id="life"></div>
+    
+    <div id="counterContainer">
+        <div id="counter">3</div>
+        <div id="btnReset" onclick="resetLevel()">Restart</div>
+    </div>
+    
+    <div id="container">
+        <div id="wasdArrow">
+            <div id="arrL"></div>
+            <div id="rectUp">W</div>
+            <div id="rectDn">S</div>
+            <div id="rectLf">A</div>
+            <div id="rectRg">D</div>
+        </div>
+        <div id="arrwArrow">
+            <div id="arrR"></div>
+            <div id="rectUp">↑</div>
+            <div id="rectDn">↓</div>
+            <div id="rectLf">←</div>
+            <div id="rectRg">→</div>
+        </div>
+        <div id="mausArrow">
+            <div id="arrU"></div>
+            <div id="mouse"></div>
+        </div>
+        <div class="walls">
+            
+        </div>
+    </div>
+
+    <script src="scripts/LVL1sound.js"></script>
+    <script type="text/javascript" src="scripts/LVL1draw.js"></script>
+    <script>
+        setTimeout(function audioLoad() {
+            let myAudio = document.getElementById("audio"); 
+            if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+        },2500);
+    </script>
+</body>
+
+</html>

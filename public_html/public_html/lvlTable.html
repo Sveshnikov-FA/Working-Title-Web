@@ -1,0 +1,954 @@
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: countdown;
+            src: url("fonts/countdown.otf");
+        }
+
+        body {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            background-color: #00001a;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        #container {
+            position: absolute;
+            opacity: 0;
+            transition: 10s;
+            cursor: none;
+        }
+
+        canvas {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #counterContainer {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: grid;
+            place-items: center;
+            z-index: 1;
+            cursor: none;
+        }
+
+        #counter {
+            position: relative;
+            opacity: 0;
+            font-family: countdown;
+            color: deepskyblue;
+            transition: .5s;
+            font-size: 30vh;
+            cursor: none;
+        }
+
+        #btnReset {
+            position: relative;
+            width: 20vh;
+            height: 5vh;
+            font-family: countdown;
+            background-color: deepskyblue;
+            color: aliceblue;
+            transition: .5s;
+            display: none;
+            font-size: 3vh;
+            border-radius: .5vh;
+            place-items: center;
+            text-transform: uppercase;
+            padding: 1vh;
+        }
+
+        #life {
+            position: absolute;
+            width: 100vw;
+            height: 2.5vh;
+            left: 0;
+            top: 97.5vh;
+            background-color: deepskyblue;
+            transition: 1s;
+            z-index: 3;
+        }
+
+        #key {
+            position: absolute;
+            width: 5vh;
+            height: 5vh;
+            left: -10vh;
+            color: aliceblue;
+            font-family: countdown;
+            font-size: 2vh;
+            border: .5vh solid aliceblue;
+            border-radius: 2vh;
+            display: grid;
+            place-items: center;
+            animation: pop .2s infinite alternate;
+            z-index: 2;
+        }
+
+        #ghostKey {
+            position: absolute;
+            width: 5vh;
+            height: 5vh;
+            left: -30vh;
+            color: aliceblue;
+            font-family: countdown;
+            font-size: 2vh;
+            border: .5vh solid aliceblue;
+            border-radius: 2vh;
+            display: grid;
+            place-items: center;
+            z-index: 2;
+            opacity: .25;
+            transition: .5s;
+        }
+
+        .bubble,
+        .bubbleDn {
+            position: absolute;
+            width: 20vh;
+            height: 10vh;
+            left: -40vw;
+            top: 40vh;
+            background-color: #00001a;
+            border: .5vh solid white;
+            border-radius: 2vh;
+            z-index: 2;
+        }
+        
+        .bdnCont {
+            z-index: 2;
+        }
+
+        #bubbleSide {
+            position: absolute;
+            width: 2vh;
+            height: 2vh;
+            left: 15vh;
+            top: 9.9vh;
+            background-color: #00001a;
+            border: .5vh solid white;
+            border-bottom-left-radius: 100%;
+            border-top: none;
+            z-index: 4;
+        }
+
+        .flowerCont {
+            position: absolute;
+            left: 60vh;
+            top: 59vh;
+            filter: hue-rotate(calc(var(--i) * 70deg));
+        }
+
+        .stem,
+        .stemDbl {
+            position: absolute;
+            width: 20vh;
+            height: 60vh;
+            left: 20vh;
+            top: 10vh;
+            border: .5vh solid white;
+            border-radius: 100%;
+        }
+
+        .stem {
+            clip-path: polygon(100% 50%, 100% 50%, 100% 50%, 100% 50%);
+            /* animation: flowerAppear 2.3s .25s ease-in forwards, FATw calc(var(--i)/5 * 5s) 3s ease infinite alternate; */
+        }
+
+        .stemDbl {
+            border: none;
+            width: 60vh;
+            height: 60vh;
+            left: -22vh;
+            top: 10vh;
+            /* animation: bitXShift 2.9s ease-in forwards; */
+            z-index: 3;
+        }
+
+        .bitBtm {
+            position: absolute;
+            width: 5vh;
+            height: 5vh;
+            border-bottom-left-radius: 100%;
+            border-bottom-right-radius: 100%;
+            background-color: aliceblue;
+            /* animation: bitRotationCorr 3s ease-out forwards, BRCTw calc(var(--i)/5 * 5s) 3s ease infinite alternate; */
+        }
+
+        .bitLayer {
+            position: absolute;
+            width: 5vh;
+            height: 5vh;
+            left: 0;
+            top: 0;
+            border-bottom-left-radius: 100%;
+            border-bottom-right-radius: 100%;
+            background-color: aliceblue;
+            z-index: 2;
+        }
+
+        .bit {
+            position: absolute;
+            width: 6vh;
+            height: 6vh;
+            left: -0.6vh;
+            top: -4.5vh;
+            background-color: palegoldenrod;
+            transform-origin: bottom;
+            border-radius: 100%;
+            transform: scale(0);
+            /* animation: bitBlowUp 3s ease-in-out forwards, flowOut 12s 8s ease-in-out forwards; */
+            z-index: 1;
+        }
+
+        .bitCont {
+            position: absolute;
+            width: 5vh;
+            height: 5vh;
+            left: 60vh;
+            top: 0;
+            transform: rotateZ(0deg);
+            /* animation: bitGrow 3s ease-out forwards, BGTw calc(var(--i)/5 * 5s) 3s ease infinite alternate; */
+        }
+
+        .absoluteCont {
+            position: absolute;
+            display: none;
+            z-index: 21;
+            /* animation: flowDown 9s 9s ease-in-out forwards; */
+        }
+
+        .window {
+            position: absolute;
+            width: 40vh;
+            height: 40vh;
+            background-color: azure;
+            transform: scale(0);
+            transition: .5s;
+            box-shadow: 1px 0px 1px 1px lightgray;
+            /* animation: openUp .4s linear 2 alternate; */
+            animation-delay: calc(var(--i)/2 * .4s);
+            z-index: 20;
+        }
+
+        .topBar {
+            position: absolute;
+            width: 100%;
+            height: 4vh;
+            left: 0;
+            top: -4vh;
+            background-color: lightgray;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .barCont {
+            width: 2vh;
+            height: 2vh;
+            padding: 1vh;
+        }
+
+        .m {
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: gray;
+        }
+
+        .m1 {
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: gray;
+        }
+
+        .c {
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: darkslategray;
+        }
+
+        #body {
+            width: 100vw;
+            height: 100vh;
+            margin-top: 10vh;
+            display: grid;
+            place-items: center;
+            z-index: 22;
+        }
+
+        #logo {
+            width: 40vh;
+            height: 40vh;
+            border-radius: 100%;
+            background: repeating-radial-gradient( azure 0vh, azure 2vh, #00001a 2vh, #00001a 4vh);
+            animation: loadCircles 7s ease-in-out infinite alternate;
+            transition: .5s;
+        }
+
+        #lText {
+            color: aliceblue;
+            font-family: countdown;
+            margin-left: 29vh;
+            margin-top: 24vh;
+            font-size: 6vh;
+        }
+
+        #lSText {
+            color: azure;
+            font-family: countdown;
+            margin-top: -1vh;
+            margin-left: 29vh;
+            font-size: 12vh;
+        }
+
+        #loading {
+            width: 70vh;
+            height: 20vh;
+            margin-top: -5vh;
+            display: flex;
+            padding: 1vh;
+        }
+
+        #lTxt {
+            position: absolute;
+            left: 90vh;
+            top: 86vh;
+            color: azure;
+            font-family: countdown;
+            font-size: 5vh;
+        }
+
+        #lB {
+            width: 4vh;
+            height: 1.5vh;
+            border: .5vh solid azure;
+            border-radius: 100%;
+            margin: 2vh;
+            animation: blink 1s ease infinite;
+            animation-delay: calc(var(--i)/2 * .25s);
+        }
+        
+        #soundbtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+            z-index: 50;
+        }
+
+        @keyframes openUp {
+            0% {
+                transform: scale(0);
+            }
+            60% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes flowerAppear {
+            0% {
+                clip-path: polygon(100% 50%, 100% 50%, 100% 50%, 100% 50%);
+            }
+
+            100% {
+                clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%);
+            }
+        }
+
+        @keyframes bitXShift {
+            35% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-9vh);
+            }
+        }
+
+        @keyframes bitGrow {
+            0% {
+                transform: scale(.3) translateY(90vh);
+            }
+            100% {
+                transform: scale(0.8) translateY(-3vh);
+            }
+        }
+
+        @keyframes bitRotationCorr {
+            40% {
+                transform: rotateZ(-5deg);
+            }
+            100% {
+                transform: rotateZ(-65deg);
+            }
+        }
+
+        @keyframes bitBlowUp {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes BRCTw {
+            0% {
+                transform: rotateZ(-65deg);
+            }
+            100% {
+                transform: rotateZ(-75deg);
+            }
+        }
+
+        @keyframes FATw {
+            0% {
+                clip-path: polygon(60% 0%, 100% 0%, 100% 50%, 60% 50%);
+            }
+            100% {
+                clip-path: polygon(60% 0%, 100% 0%, 100% 70%, 60% 70%);
+                transform: rotateZ(-5deg);
+            }
+        }
+
+        @keyframes BGTw {
+            0% {
+                transform: scale(0.8) translateY(-3vh);
+            }
+
+            100% {
+                transform: scale(0.8) translateY(-1vh);
+            }
+        }
+
+        @keyframes flowOut {
+            0% {
+                left: -0.6vh;
+                top: -4.5vh;
+            }
+            10% {
+                left: -1vh;
+                top: -5vh;
+            }
+            100% {
+                left: calc(var(--i)/2 * 30vw);
+                top: -300vh;
+            }
+        }
+
+        @keyframes flowDown {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(80vh);
+            }
+        }
+
+        @keyframes loadCircles {
+            0% {
+
+                background-position: 0% 0%;
+                background-size: 400%;
+            }
+            100% {
+                background-size: 500%;
+                background-position: 20% 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                background-color: azure;
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.5);
+            }
+        }
+
+        @keyframes msgFl {
+            100% {
+                left: 130vw;
+            }
+        }
+
+    </style>
+    <script src="scripts/data.js"></script>
+</head>
+
+<body>
+    
+    <div id="soundbtn" onclick="song.play();document.getElementById('soundbtn').style.display = 'none';">Play</div>
+    <div id="key" onmouseover="damageInit()">W</div>
+    <div id="ghostKey"></div>
+    <div class="bubble" onmouseover="damageInit()">
+        <div id="bubbleSide"></div>
+    </div>
+    <div class="bdnCont">
+        <div class="bubbleDn" onmouseover="damageInit()">
+        </div>
+    </div>
+    <canvas id="canvas">
+    </canvas>
+
+    <div id="life"></div>
+
+    <div id="counterContainer">
+        <div id="counter">3</div>
+        <div id="btnReset" onclick="resetLevel()">Restart</div>
+    </div>
+
+    <div class="absoluteCont">
+        <div class="flowerCont" style="--i:0">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:70vh; top:40vh; transform: rotateY(180deg) scale(1.5); --i:3">
+            <div class="stem" style="animation: flowerAppear 2.3s .25s ease-in forwards, FATw 15s 3s ease infinite alternate;"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit"  onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:70vh; top:75vh; transform:scale(.6); --i:3">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:140vh; top:85vh; transform: scale(.4) rotateY(180deg); --i:3">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:100vh; top:50vh; transform: scale(1.2); --i:4">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:-40vh; top:40vh; transform: scale(1.6); --i:5">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:20vh; --i:6">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:90vh; --i:7">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:50vh; transform: scale(1.1); top:55vh; --i:8">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:140vh; --i:9">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:100vh; --i:10">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:-10vh; --i:11">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:25vh; --i:12">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:150vh; transform: rotateY(180deg);--i:13">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:65vh; --i:14">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:99vh; transform: rotateY(180deg); --i:15">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:-20vh; transform: scale(0.9); top:65vh; --i:16">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:35vh; transform: scale(0.75); top:70vh; --i:17">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:125vh; transform: rotateY(180deg) scale(1.4); top:45vh; --i:18">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:-40vh; transform:scale(1.23); top:50vh; --i:19">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:135vh; top:65vh; transform: rotateY(180deg) scale(0.9); --i:20">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:110vh; transform: scale(0.8); top:69vh; --i:21">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:130vh; top:73vh; transform: scale(0.7) rotateY(5deg); --i:22">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:185vh; top:55vh; transform: rotateY(180deg) scale(1.15); --i:23">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:160vh; top:65vh; transform: scale(0.9); --i:24">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flowerCont" style="left:230vh; top:20vh; transform: rotateY(180deg) scale(2); --i:25">
+            <div class="stem"></div>
+            <div class="stemDbl">
+                <div class="bitCont">
+                    <div class="bitBtm">
+                        <div class="bitLayer"></div>
+                        <div class="bit" onmouseover="damageInit()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cont">
+        <div class="window" style="left:20vw;top:40vh;--i:0">
+            <div class="topBar">
+                <div class="barCont">
+                    <div class="m"></div>
+                </div>
+                <div class="barCont">
+                    <div class="m1"></div>
+                </div>
+                <div class="barCont">
+                    <div class="c"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" style="left:50vw;top:10vh;--i:1">
+            <div class="topBar">
+                <div class="barCont">
+                    <div class="m"></div>
+                </div>
+                <div class="barCont">
+                    <div class="m1"></div>
+                </div>
+                <div class="barCont">
+                    <div class="c"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" style="left:10vw;top:50vh;--i:2">
+            <div class="topBar">
+                <div class="barCont">
+                    <div class="m"></div>
+                </div>
+                <div class="barCont">
+                    <div class="m1"></div>
+                </div>
+                <div class="barCont">
+                    <div class="c"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" style="left:70vw;top:25vh;--i:3">
+            <div class="topBar">
+                <div class="barCont">
+                    <div class="m"></div>
+                </div>
+                <div class="barCont">
+                    <div class="m1"></div>
+                </div>
+                <div class="barCont">
+                    <div class="c"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" style="left:35vw;top:70vh;--i:3;">
+            <div class="topBar">
+                <div class="barCont">
+                    <div class="m"></div>
+                </div>
+                <div class="barCont">
+                    <div class="m1"></div>
+                </div>
+                <div class="barCont">
+                    <div class="c"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" style="left:15vw;top:35vh;--i:3;">
+            <div class="topBar">
+                <div class="barCont">
+                    <div class="m"></div>
+                </div>
+                <div class="barCont">
+                    <div class="m1"></div>
+                </div>
+                <div class="barCont">
+                    <div class="c"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="body">
+        <div id="logo">
+            <div id="lText">WindodniW</div>
+            <div id="lSText">XS6S</div>
+        </div>
+        <div id="lTxt">Booting up...</div>
+        <div id="loading">
+            <div id="lB" style="--i:0"></div>
+            <div id="lB" style="--i:1"></div>
+            <div id="lB" style="--i:2"></div>
+            <div id="lB" style="--i:3"></div>
+            <div id="lB" style="--i:4"></div>
+            <div id="lB" style="--i:5"></div>
+            <div id="lB" style="--i:6"></div>
+            <div id="lB" style="--i:7"></div>
+            <div id="lB" style="--i:8"></div>
+            <div id="lB" style="--i:9"></div>
+            <div id="lB" style="--i:10"></div>
+        </div>
+    </div>
+    <audio src="files/lvlTable.mp3" autoplay loop id="audio" allow="autoplay" onload="audioLoad"></audio>
+    <script>
+        setTimeout(function audioLoad() {
+            let myAudio = document.getElementById("audio"); 
+            if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+        },2500);
+    </script>
+    <script src="scripts/LVL2sound.js"></script>
+    <script type="text/javascript" src="scripts/LVL2draw.js"></script>
+
+</body>
+
+</html>

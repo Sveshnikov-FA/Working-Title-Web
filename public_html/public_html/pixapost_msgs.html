@@ -1,0 +1,487 @@
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            background-color: lightcyan;
+            overflow-x: hidden;
+        }
+
+        @font-face {
+            font-family: fontName;
+            src: url("fonts/font2.ttf");
+        }
+
+        @font-face {
+            font-family: countdown;
+            src: url("fonts/countdown.otf");
+        }
+
+        * {
+            transition: .5s;
+        }
+
+        #container {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #topBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 3vh;
+            background-color: lightblue;
+            padding: 2vh;
+            z-index: 20;
+        }
+
+        #topBar::after {
+            content: "";
+            position: absolute;
+            width: 20vw;
+            height: 3vh;
+            background-color: aliceblue;
+            border-radius: 1vh;
+        }
+
+        #sidebar {
+            position: fixed;
+            width: 5vh;
+            height: 100vh;
+            top: 7vh;
+            background-color: lightsteelblue;
+        }
+
+        .sideR {
+            left: 0;
+            position: relative;
+            width: 3.1vh;
+            height: 2.5vh;
+            padding: 1vh;
+            padding-bottom: 2.25vh;
+            display: grid;
+            place-items: center;
+            transition: .5s;
+        }
+
+        .sideR:hover {
+            background-color: lightblue;
+        }
+
+        #profileIcon {
+            position: relative;
+            top: 2vh;
+            left: 0;
+            width: 3vh;
+            height: 2vh;
+            background-color: powderblue;
+            border-radius: 4vh 4vh .5vh .5vh;
+            margin-bottom: .5vh;
+        }
+
+        #profileIcon::after {
+            content: "";
+            position: absolute;
+            top: -2.25vh;
+            left: .5vh;
+            width: 2vh;
+            height: 2vh;
+            background-color: powderblue;
+            border-radius: 100%;
+        }
+
+        #newsIcon {
+            position: relative;
+            width: 2vh;
+            height: 2.75vh;
+            border: .5vh solid powderblue;
+            background-image: repeating-linear-gradient(0deg, powderblue 0vh, powderblue .4vh, aliceblue .4vh, aliceblue .8vh);
+            border-radius: .5vh;
+            top: 0;
+            left: 0;
+        }
+
+        #messagesIcon {
+            position: relative;
+            margin-top: . 5vh;
+            width: 3vh;
+            height: 3vh;
+            background-color: powderblue;
+            border-radius: .5vh;
+            clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 75%, 90% 100%, 60% 75%, 0 75%);
+        }
+
+        #feed {
+            margin-left: 10vh;
+            padding: 0vh;
+        }
+
+        #messageFeed {
+            position: absolute;
+            top: 7vh;
+            left: 5vh;
+            padding: 0vh;
+            width: 100vw;
+            height: 93vh;
+            background-color: lightcyan;
+            display: none;
+            place-items: center;
+
+        }
+
+        .chatContainer {
+            position: relative;
+            width: 50vw;
+            height: auto;
+            background-color: paleturquoise;
+            border-radius: 2vh;
+            padding: 4vh;
+            margin-top: 4vh;
+        }
+
+        #chatProfile {
+            color: black;
+            font-family: countdown;
+            font-size: 4vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        #msgBodyContainer {
+            position: relative;
+            height: auto;
+            display: grid;
+            font-size: 3vh;
+        }
+
+        #messageFeedCont {
+            position: relative;
+        }
+
+        #header {
+            width: 60vw;
+            height: 7vh;
+            background-color: skyblue;
+            padding: 2vh;
+            display: flex;
+            align-items: center;
+        }
+
+        #back {
+            width: 2vh;
+            height: 2vh;
+            background-color: transparent;
+            border-left: 1vh solid aliceblue;
+            border-top: 1vh solid aliceblue;
+            transform: rotateZ(-45deg);
+        }
+
+        #headerText {
+            width: 100%;
+            height: auto;
+            display: grid;
+            place-items: center;
+            color: aliceblue;
+            font-family: countdown;
+            margin-top: -.5vh;
+        }
+
+        #username {
+            font-size: 5vh;
+        }
+
+        #ls {
+            font-size: 2vh;
+        }
+
+        #messagesCont {
+            width: 60vw;
+            height: 60vh;
+            background-color: powderblue;
+            padding: 2vh;
+        }
+
+        .messageBox {
+            width: 30vw;
+            min-height: 3vh;
+            display: flex;
+            border-radius: 2vh;
+            color: aliceblue;
+            padding: 1vh;
+            padding-left: 2vh;
+            background-color: lightblue;
+            margin-bottom: 1vh;
+            margin-right: 1vh;
+        }
+
+        #newMsg {
+            position: fixed;
+            width: 58vw;
+            bottom: 10vh;
+            height: 5vh;
+            background-color: skyblue;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            padding: 1vh;
+        }
+
+        textarea {
+            position: relative;
+            font-size: 2vh;
+            width: 80%;
+            height: 5vh;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: none;
+            resize: none;
+            padding: 1vh;
+            border-radius: 2vh 0 0 2vh;
+        }
+
+        #postSubmit {
+            position: relative;
+            width: 5vh;
+            height: 3vh;
+            width: 8vh;
+            background-color: lightsteelblue;
+            color: aliceblue;
+            font-family: countdown;
+            font-size: 2vh;
+            display: grid;
+            place-items: center;
+            padding: 1vh;
+            border-radius: 0 2vh 2vh 0;
+            cursor: pointer;
+        }
+
+        #msgBxCont {
+            width: 100%;
+            height: 54vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 93vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            width: 0;
+            font-family: fontName;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+            z-index: 15;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+
+        #overlay {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            width: 110vw;
+            height: 100vh;
+            background-color: #00001a;
+        }
+
+    </style>
+    <script src="scripts/data.js"></script>
+</head>
+
+<body>
+
+    <div id="dialogueBox"></div>
+    <div id="overlay"></div>
+    <div id="container">
+        <div id="topBar"></div>
+        <div id="sidebar">
+            <div class="sideR" onclick="window.location.assign('pixapost_profile.html')">
+                <div id="profileIcon"></div>
+            </div>
+            <div class="sideR" onclick="window.location.assign('pixapost.html')">
+                <div id="newsIcon"></div>
+            </div>
+            <div class="sideR" onclick="window.location.assign('pixapost_msgs.html')">
+                <div id="messagesIcon"></div>
+            </div>
+        </div>
+
+        <div id="feed">
+            <div class="chatContainer" style="margin-top:10vh" onclick="loadChat(0)">
+                <div id="chatProfile">Jai Denani</div>
+                <div id="msgBodyContainer">
+                    <div id="msg">Click to view chat with Jai</div>
+                </div>
+            </div>
+            <div class="chatContainer" onclick="loadChat(1)">
+                <div id="chatProfile">
+                    Theo Donesou
+                </div>
+                <div id="msgBodyContainer">
+                    <div id="msg">Click to view chat with Theo</div>
+                </div>
+            </div>
+            <div class="chatContainer" onclick="loadChat(2)">
+                <div id="chatProfile">
+                    Porter Robinson Stan
+                </div>
+                <div id="msgBodyContainer">
+                    <div id="msg">Click to view chat with Stan</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="messageFeed">
+            <div id="messageFeedCont">
+                <div id="header">
+                    <div id="back" onclick="back()"></div>
+                    <div id="headerText">
+                        <div id="username">Username</div>
+                        <div id="ls">Last onine: Never</div>
+                    </div>
+                </div>
+                <div id="messagesCont">
+                    <div id="msgBxCont">
+                        <div class="messageBox">
+                            Test Test
+                        </div>
+                    </div>
+                    <div id="newMsg">
+                        <textarea id="msgIn"></textarea>
+                        <div id="postSubmit" onclick="sendPost()">Send</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="messageBox" style="display:none"></div>
+
+    </div>
+    <script>
+        var dreamText = ["Have", "you", "ever", "had", "a", "dream", "that", "you", "um", "you", "had", "your", "could", "you’ll", "do", "wants", "do", "you’ll", "you", "want", "them", "to", "do", "much", "could", "anything"];
+        
+        var names = ["Jai Denani", "Theo Donseou", "Poreter Robinson Stan"];
+
+        var dia = ["Oh dear, they're not replying.", "Did we text at the wrong time?", "I'm so sorry, I totally messed it up!", "This is a disaster!", "Agh!", ""];
+
+        var inactive = 0, activeChat = 0;
+
+        //clicking "back"
+        function back() {
+            if (inactive == 0) document.getElementById("messageFeed").style.display = "none";
+        }
+
+        function loadChat(x) { //saving and loading chat message history
+            sel = x;
+            activeChat = names[x];
+            document.getElementById("messageFeed").style.display = "grid";
+            document.getElementById("username").innerHTML = names[x];
+            if (data[x].length == 0) firstTimeGen(x);
+            var nf = document.getElementsByClassName("messageBox")[0].cloneNode(true);
+            document.getElementById("msgBxCont").innerHTML = "";
+            for (var i = 0; i < data[x].length; ++i) {
+                var tmp = data[x][i].split("#"); //splitting away the parameter definign whose message it is
+                nf.innerHTML = tmp[0];
+                document.getElementById("msgBxCont").appendChild(nf); //styling it accordingly
+                document.getElementsByClassName("messageBox")[i].style.display = "flex";
+                document.getElementsByClassName("messageBox")[i].style.backgroundColor = (tmp[1] == "0") ? "lightsteelblue" : "lightblue";
+                document.getElementsByClassName("messageBox")[i].style.marginLeft = (tmp[1] == "0") ? "auto" : "0";
+                nf = document.getElementsByClassName("messageBox")[0].cloneNode(true);
+            }
+            document.getElementsByClassName("messageBox")[data[x].length - 1].scrollIntoView();
+        }
+
+        function firstTimeGen(x) { // first time random message generation (ideally it's supposed to be saved in db)
+            var msgAmount = Math.floor(Math.random() * 25 + 5);
+            for (var i = 0; i < msgAmount; ++i) {
+                var belong = (Math.floor(Math.random() * 3) == 1) ? "#0" : "#1"; //randomizing if it's sent or received
+                var msgLength = Math.floor(Math.random() * 15 + 2); //randomizing message length
+                var msgText = ""; //randomizing message content
+                for (var j = 0; j < msgLength; ++j) {
+                    msgText += (dreamText[Math.floor(Math.random() * dreamText.length)]) + " ";
+                }
+                msgText += belong; //adding belong variable as a parameter we split away
+                data[x].push(msgText);//data variable saved in data.js file
+            }
+        }
+
+        //sending new post to chat
+        function sendPost() {
+            if (document.getElementById("msgIn").value != "") {
+                var last = document.getElementsByClassName("messageBox").length - 1;
+                var nf = document.getElementsByClassName("messageBox")[last - 1].cloneNode(true);
+                document.getElementById("msgBxCont").appendChild(nf);
+                document.getElementsByClassName("messageBox")[last].style.display = "flex";
+                document.getElementsByClassName("messageBox")[last].style.backgroundColor = "lightsteelblue";
+                document.getElementsByClassName("messageBox")[last].style.marginLeft = "auto";
+                document.getElementsByClassName("messageBox")[last].innerHTML = document.getElementById("msgIn").value;
+                data[sel].push(document.getElementById("msgIn").value + "#0");
+                document.getElementById("msgIn").value = "";
+
+                setTimeout(function() { //dialogue starts right after you send one message 
+                    var i = 0;
+                    document.cookie = "userPicked="+activeChat+";path=/";
+                    inactive = 1; //not letting the user click "back"
+                    var x2 = setInterval(function() {
+                        var iter = dia[i];
+                        document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em"); //typing animation
+                        document.documentElement.style.setProperty("--stepss", (iter.length).toString()); // optimization advised
+                        document.getElementById("dialogueBox").innerHTML = iter;
+                        document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss)) infinite";
+                        document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                        ++i;
+
+                        if (i == dia.length - 1) {
+                            clearInterval(x2);
+                            document.getElementById("overlay").style.zIndex = 50;
+                            document.getElementById("overlay").style.opacity = 1;
+                            setTimeout(function() {
+                                window.location.assign("ph.html");
+                            }, 1000);
+                        }
+                    }, 2000);
+                }, 5000);
+            }
+        }
+
+    </script>
+</body>
+
+</html>

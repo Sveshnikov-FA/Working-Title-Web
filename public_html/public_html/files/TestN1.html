@@ -1,0 +1,501 @@
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: #00001a;
+            overflow: hidden;
+        }
+
+        #scissors, #scissors1, #scissors2, #scissors3, #scissors4, #scissors5 {
+            position: absolute;
+            top: -30vh;
+            left: 20vh;
+            transition: left 1.5s, top 1.5s;
+            transform: rotateZ(130deg);
+        }
+
+        #half1 {
+            position: absolute;
+            width: 3vh;
+            height: 3vh;
+            top: 0vh;
+            left: 0vh;
+            border-radius: 100% 0 100% 100%;
+            border: 1vh solid azure;
+            animation: half1 .25s ease-in infinite alternate;
+            transform-origin: top;
+        }
+
+        #half1::before {
+            content: "";
+            position: absolute;
+            width: 1.2vh;
+            height: 10vh;
+            background-color: azure;
+            border-top-right-radius: 100%;
+            top: -9vh;
+            left: 2.8vh;
+        }
+
+        #half1::after {
+            content: "";
+            position: absolute;
+            top: -1vh;
+            left: -1vh;
+            width: 3vh;
+            height: 3vh;
+            border: 1vh solid azure;
+            border-radius: 100%;
+        }
+
+        #half2 {
+            position: absolute;
+            width: 3vh;
+            height: 3vh;
+            top: 0vh;
+            left: 4vh;
+            border-radius: 0 100% 100% 100%;
+            border: 1vh solid azure;
+            transform-origin: top;
+            animation: half2 0.25s ease-in infinite alternate;
+        }
+
+        #half2::before {
+            content: "";
+            position: absolute;
+            width: 1.2vh;
+            height: 10vh;
+            background-color: azure;
+            border-top-left-radius: 100%;
+            top: -9vh;
+            left: -1vh;
+        }
+
+        #half2::after {
+            content: "";
+            position: absolute;
+            top: -1vh;
+            left: -1vh;
+            width: 3vh;
+            height: 3vh;
+            border: 1vh solid azure;
+            border-radius: 100%;
+        }
+
+        @keyframes half1 {
+            0% {
+                transform: rotateZ(45deg);
+            }
+            100% {
+                transform: rotateZ(0);
+            }
+        }
+
+        @keyframes half2 {
+            0% {
+                transform: rotateZ(-45deg);
+            }
+            100% {
+                transform: rotateZ(0);
+            }
+        }
+
+        #trail {
+            position: absolute;
+            left: 4.25vh;
+            width: .5vh;
+            height: 10vw;
+            background-color: aliceblue;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="scissors">
+        <div id="half1"></div>
+        <div id="half2"></div>
+    </div>
+    
+    <div id="scissors1">
+        <div id="half1"></div>
+        <div id="half2"></div>
+    </div>
+    
+    
+    <div id="scissors2">
+        <div id="half1"></div>
+        <div id="half2"></div>
+    </div>
+    
+    
+    <div id="scissors3">
+        <div id="half1"></div>
+        <div id="half2"></div>
+    </div>
+    
+    
+    <div id="scissors4">
+        <div id="half1"></div>
+        <div id="half2"></div>
+    </div>
+    
+    
+    <div id="scissors5">
+        <div id="half1"></div>
+        <div id="half2"></div>
+    </div>
+</body>
+<script>
+    setInterval(function() {
+        var scissors = document.getElementById("scissors");
+        //starting x y
+        var currLeft = scissors.style.left.split("vw").join("");
+        var currTop = scissors.style.top.split("vh").join("");
+        //-20 to the left means the scissors are on the left side; 120 - on the right; otherwise check top positions
+        var currShift = (currLeft == "-20") ? 0 : (currLeft == "120") ? 2 : (currTop == "-20") ? 1 : 3;
+        var Shif_t = 2,
+            nextLeft, nextTop;
+
+        //picking random target side
+        while (Shif_t == currShift)
+            Shif_t = Math.floor(Math.random() * 4);
+
+        //picking according target x y 
+        switch (Shif_t) {
+            case 0:
+                nextLeft = "-20vw";
+                nextTop = Math.floor(Math.random() * 80 + 10) + "vh";
+                break;
+            case 1:
+                nextTop = "-20vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+            case 2:
+                nextLeft = "120vw";
+                nextTop = Math.floor(Math.random() * 70 + 10) + "vh";
+                break;
+            case 3:
+                nextTop = "120vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+
+        }
+        //applying according target x y
+        scissors.style.left = nextLeft;
+        scissors.style.top = nextTop;
+        nextLeft.split("vw").join("");
+        nextLeft = parseInt(nextLeft);
+
+        nextTop.split("vh").join("");
+        nextTop = parseInt(nextTop);
+        currLeft = parseInt(currLeft);
+        currTop = parseInt(currTop);
+        
+        var addAngle = (currShift==0) ? 90 : (currShift==1) ? -180 : (currShift==2 && Shif_t==0) ? 90 : (currShift==2 && Shif_t==1) ? 180 : 0;
+        
+        var dAx = nextLeft - currLeft;
+        var dAy = nextTop - currTop;
+        var dBx = 85;
+        var dBy = 0;
+        var angle = Math.atan2(dAx * dBy - dAy * dBx, dAx * dBx + dAy * dBy);
+        var degree_angle = angle * (180 / Math.PI);
+        degree_angle += addAngle;
+
+        scissors.style.transform = "rotateZ(" + degree_angle + "deg)";
+    }, 1500);
+    
+    setInterval(function() {
+        var scissors = document.getElementById("scissors1");
+        //starting x y
+        var currLeft = scissors.style.left.split("vw").join("");
+        var currTop = scissors.style.top.split("vh").join("");
+        //-20 to the left means the scissors are on the left side; 120 - on the right; otherwise check top positions
+        var currShift = (currLeft == "-20") ? 0 : (currLeft == "120") ? 2 : (currTop == "-20") ? 1 : 3;
+        var Shif_t = 2,
+            nextLeft, nextTop;
+
+        //picking random target side
+        while (Shif_t == currShift)
+            Shif_t = Math.floor(Math.random() * 4);
+
+        //picking according target x y 
+        switch (Shif_t) {
+            case 0:
+                nextLeft = "-20vw";
+                nextTop = Math.floor(Math.random() * 80 + 10) + "vh";
+                break;
+            case 1:
+                nextTop = "-20vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+            case 2:
+                nextLeft = "120vw";
+                nextTop = Math.floor(Math.random() * 70 + 10) + "vh";
+                break;
+            case 3:
+                nextTop = "120vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+
+        }
+        //applying according target x y
+        scissors.style.left = nextLeft;
+        scissors.style.top = nextTop;
+        nextLeft.split("vw").join("");
+        nextLeft = parseInt(nextLeft);
+
+        nextTop.split("vh").join("");
+        nextTop = parseInt(nextTop);
+        currLeft = parseInt(currLeft);
+        currTop = parseInt(currTop);
+        
+        var addAngle = (currShift==0) ? 90 : (currShift==1) ? -180 : (currShift==2 && Shif_t==0) ? 90 : (currShift==2 && Shif_t==1) ? 180 : 0;
+        
+        var dAx = nextLeft - currLeft;
+        var dAy = nextTop - currTop;
+        var dBx = 85;
+        var dBy = 0;
+        var angle = Math.atan2(dAx * dBy - dAy * dBx, dAx * dBx + dAy * dBy);
+        var degree_angle = angle * (180 / Math.PI);
+        degree_angle += addAngle;
+
+        scissors.style.transform = "rotateZ(" + degree_angle + "deg)";
+    }, 1500);
+    
+    setInterval(function() {
+        var scissors = document.getElementById("scissors2");
+        //starting x y
+        var currLeft = scissors.style.left.split("vw").join("");
+        var currTop = scissors.style.top.split("vh").join("");
+        //-20 to the left means the scissors are on the left side; 120 - on the right; otherwise check top positions
+        var currShift = (currLeft == "-20") ? 0 : (currLeft == "120") ? 2 : (currTop == "-20") ? 1 : 3;
+        var Shif_t = 2,
+            nextLeft, nextTop;
+
+        //picking random target side
+        while (Shif_t == currShift)
+            Shif_t = Math.floor(Math.random() * 4);
+
+        //picking according target x y 
+        switch (Shif_t) {
+            case 0:
+                nextLeft = "-20vw";
+                nextTop = Math.floor(Math.random() * 80 + 10) + "vh";
+                break;
+            case 1:
+                nextTop = "-20vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+            case 2:
+                nextLeft = "120vw";
+                nextTop = Math.floor(Math.random() * 70 + 10) + "vh";
+                break;
+            case 3:
+                nextTop = "120vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+
+        }
+        //applying according target x y
+        scissors.style.left = nextLeft;
+        scissors.style.top = nextTop;
+        nextLeft.split("vw").join("");
+        nextLeft = parseInt(nextLeft);
+
+        nextTop.split("vh").join("");
+        nextTop = parseInt(nextTop);
+        currLeft = parseInt(currLeft);
+        currTop = parseInt(currTop);
+        
+        var addAngle = (currShift==0) ? 90 : (currShift==1) ? -180 : (currShift==2 && Shif_t==0) ? 90 : (currShift==2 && Shif_t==1) ? 180 : 0;
+        
+        var dAx = nextLeft - currLeft;
+        var dAy = nextTop - currTop;
+        var dBx = 85;
+        var dBy = 0;
+        var angle = Math.atan2(dAx * dBy - dAy * dBx, dAx * dBx + dAy * dBy);
+        var degree_angle = angle * (180 / Math.PI);
+        degree_angle += addAngle;
+
+        scissors.style.transform = "rotateZ(" + degree_angle + "deg)";
+    }, 1500);
+    
+    setInterval(function() {
+        var scissors = document.getElementById("scissors3");
+        //starting x y
+        var currLeft = scissors.style.left.split("vw").join("");
+        var currTop = scissors.style.top.split("vh").join("");
+        //-20 to the left means the scissors are on the left side; 120 - on the right; otherwise check top positions
+        var currShift = (currLeft == "-20") ? 0 : (currLeft == "120") ? 2 : (currTop == "-20") ? 1 : 3;
+        var Shif_t = 2,
+            nextLeft, nextTop;
+
+        //picking random target side
+        while (Shif_t == currShift)
+            Shif_t = Math.floor(Math.random() * 4);
+
+        //picking according target x y 
+        switch (Shif_t) {
+            case 0:
+                nextLeft = "-20vw";
+                nextTop = Math.floor(Math.random() * 80 + 10) + "vh";
+                break;
+            case 1:
+                nextTop = "-20vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+            case 2:
+                nextLeft = "120vw";
+                nextTop = Math.floor(Math.random() * 70 + 10) + "vh";
+                break;
+            case 3:
+                nextTop = "120vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+
+        }
+        //applying according target x y
+        scissors.style.left = nextLeft;
+        scissors.style.top = nextTop;
+        nextLeft.split("vw").join("");
+        nextLeft = parseInt(nextLeft);
+
+        nextTop.split("vh").join("");
+        nextTop = parseInt(nextTop);
+        currLeft = parseInt(currLeft);
+        currTop = parseInt(currTop);
+        
+        var addAngle = (currShift==0) ? 90 : (currShift==1) ? -180 : (currShift==2 && Shif_t==0) ? 90 : (currShift==2 && Shif_t==1) ? 180 : 0;
+        
+        var dAx = nextLeft - currLeft;
+        var dAy = nextTop - currTop;
+        var dBx = 85;
+        var dBy = 0;
+        var angle = Math.atan2(dAx * dBy - dAy * dBx, dAx * dBx + dAy * dBy);
+        var degree_angle = angle * (180 / Math.PI);
+        degree_angle += addAngle;
+
+        scissors.style.transform = "rotateZ(" + degree_angle + "deg)";
+    }, 1500);
+    
+    setInterval(function() {
+        var scissors = document.getElementById("scissors4");
+        //starting x y
+        var currLeft = scissors.style.left.split("vw").join("");
+        var currTop = scissors.style.top.split("vh").join("");
+        //-20 to the left means the scissors are on the left side; 120 - on the right; otherwise check top positions
+        var currShift = (currLeft == "-20") ? 0 : (currLeft == "120") ? 2 : (currTop == "-20") ? 1 : 3;
+        var Shif_t = 2,
+            nextLeft, nextTop;
+
+        //picking random target side
+        while (Shif_t == currShift)
+            Shif_t = Math.floor(Math.random() * 4);
+
+        //picking according target x y 
+        switch (Shif_t) {
+            case 0:
+                nextLeft = "-20vw";
+                nextTop = Math.floor(Math.random() * 80 + 10) + "vh";
+                break;
+            case 1:
+                nextTop = "-20vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+            case 2:
+                nextLeft = "120vw";
+                nextTop = Math.floor(Math.random() * 70 + 10) + "vh";
+                break;
+            case 3:
+                nextTop = "120vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+
+        }
+        //applying according target x y
+        scissors.style.left = nextLeft;
+        scissors.style.top = nextTop;
+        nextLeft.split("vw").join("");
+        nextLeft = parseInt(nextLeft);
+
+        nextTop.split("vh").join("");
+        nextTop = parseInt(nextTop);
+        currLeft = parseInt(currLeft);
+        currTop = parseInt(currTop);
+        
+        var addAngle = (currShift==0) ? 90 : (currShift==1) ? -180 : (currShift==2 && Shif_t==0) ? 90 : (currShift==2 && Shif_t==1) ? 180 : 0;
+        
+        var dAx = nextLeft - currLeft;
+        var dAy = nextTop - currTop;
+        var dBx = 85;
+        var dBy = 0;
+        var angle = Math.atan2(dAx * dBy - dAy * dBx, dAx * dBx + dAy * dBy);
+        var degree_angle = angle * (180 / Math.PI);
+        degree_angle += addAngle;
+
+        scissors.style.transform = "rotateZ(" + degree_angle + "deg)";
+    }, 1500);
+    
+    setInterval(function() {
+        var scissors = document.getElementById("scissors5");
+        //starting x y
+        var currLeft = scissors.style.left.split("vw").join("");
+        var currTop = scissors.style.top.split("vh").join("");
+        //-20 to the left means the scissors are on the left side; 120 - on the right; otherwise check top positions
+        var currShift = (currLeft == "-20") ? 0 : (currLeft == "120") ? 2 : (currTop == "-20") ? 1 : 3;
+        var Shif_t = 2,
+            nextLeft, nextTop;
+
+        //picking random target side
+        while (Shif_t == currShift)
+            Shif_t = Math.floor(Math.random() * 4);
+
+        //picking according target x y 
+        switch (Shif_t) {
+            case 0:
+                nextLeft = "-20vw";
+                nextTop = Math.floor(Math.random() * 80 + 10) + "vh";
+                break;
+            case 1:
+                nextTop = "-20vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+            case 2:
+                nextLeft = "120vw";
+                nextTop = Math.floor(Math.random() * 70 + 10) + "vh";
+                break;
+            case 3:
+                nextTop = "120vh";
+                nextLeft = Math.floor(Math.random() * 70 + 10) + "vw";
+                break;
+
+        }
+        //applying according target x y
+        scissors.style.left = nextLeft;
+        scissors.style.top = nextTop;
+        nextLeft.split("vw").join("");
+        nextLeft = parseInt(nextLeft);
+
+        nextTop.split("vh").join("");
+        nextTop = parseInt(nextTop);
+        currLeft = parseInt(currLeft);
+        currTop = parseInt(currTop);
+        
+        var addAngle = (currShift==0) ? 90 : (currShift==1) ? -180 : (currShift==2 && Shif_t==0) ? 90 : (currShift==2 && Shif_t==1) ? 180 : 0;
+        
+        var dAx = nextLeft - currLeft;
+        var dAy = nextTop - currTop;
+        var dBx = 85;
+        var dBy = 0;
+        var angle = Math.atan2(dAx * dBy - dAy * dBx, dAx * dBx + dAy * dBy);
+        var degree_angle = angle * (180 / Math.PI);
+        degree_angle += addAngle;
+
+        scissors.style.transform = "rotateZ(" + degree_angle + "deg)";
+    }, 1500);
+
+</script>
+
+</html>

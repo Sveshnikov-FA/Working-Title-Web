@@ -1,0 +1,829 @@
+<html>
+
+<head>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #2e004d;
+            backface-visibility: hidden;
+        }
+
+        * {
+            transition: .1s;
+        }
+
+        #container {
+            position: absolute;
+            width: 200vh;
+            height: 100vh;
+            perspective: 40vh;
+            transition: .25s ease;
+            left: -10vh;
+        }
+
+        #table {
+            position: absolute;
+            left: 0vh;
+            top: 55vh;
+        }
+
+        .body {
+            position: absolute;
+            width: 173vh;
+            height: 30vh;
+            top: 0;
+            left: 15vh;
+            transform-style: preserve-3d;
+            transform: rotateX(75deg);
+            background-color: #3b0066;
+        }
+
+        .ridge {
+            position: absolute;
+            left: -30vh;
+            top: 32vh;
+            width: 150vw;
+            height: 10vh;
+            background-color: #2c0449;
+        }
+
+        .leg1 {
+            position: absolute;
+            left: -9vh;
+            top: 42vh;
+            width: 10vh;
+            height: 5vh;
+            background-color: #1e0033;
+        }
+
+        .leg1::after {
+            content: "";
+            position: absolute;
+            left: 15vh;
+            top: 0;
+            height: 19vh;
+            width: 7vh;
+            background-color: #1e0033;
+        }
+
+        .leg2 {
+            position: absolute;
+            left: 202vh;
+            top: 42vh;
+            width: 10vh;
+            height: 5vh;
+            background-color: #1e0033;
+        }
+
+        .leg2::after {
+            content: "";
+            position: absolute;
+            left: -15vh;
+            top: 0;
+            height: 5vh;
+            width: 7vh;
+            background-color: #1e0033;
+        }
+
+        .laptop {
+            position: absolute;
+            left: 110vh;
+            top: -21.3vh;
+            height: 30vh;
+            width: 42vh;
+            background-color: darkslateblue;
+            border-radius: .5vh;
+            z-index: 2;
+        }
+
+        .laptopDown {
+            content: "";
+            position: absolute;
+            left: 0vh;
+            top: 30vh;
+            height: 12vh;
+            width: 42vh;
+            transform-origin: top;
+            transform-style: preserve-3d;
+            transform: rotateX(57deg);
+            background-color: darkblue;
+            border-radius: 1vh;
+            z-index: 1;
+        }
+
+
+        .fix {
+            position: absolute;
+            left: .25vh;
+            top: 30.5vh;
+            background-color: #00004d;
+            width: 2.5vh;
+            height: 2.5vh;
+            z-index: 0;
+        }
+
+        .fixDown {
+            content: "";
+            position: absolute;
+            left: -.22vh;
+            top: 1.8vh;
+            height: 12vh;
+            width: 40.5vh;
+            transform-origin: top;
+            transform-style: preserve-3d;
+            transform: rotateX(65deg) skewX(-2deg);
+            background-color: #00004d;
+            border-radius: 1vh;
+            z-index: -1;
+        }
+
+        .fixBottom {
+            content: "";
+            position: absolute;
+            left: 54.5vh;
+            top: 12.4vh;
+            background-color: #00004d;
+            width: 3.8vh;
+            height: 2.25vh;
+            border-radius: .5vh;
+        }
+
+        .screen {
+            position: absolute;
+            left: 1.5vh;
+            top: 1.5vh;
+            width: 39vh;
+            height: 25vh;
+            border-bottom: 1.5vh solid #99ccff;
+            background-color: floralwhite;
+        }
+
+        .window1 {
+            position: absolute;
+            top: 2vh;
+            left: 4vh;
+            width: 21vh;
+            height: 12vh;
+            background-color: #e6f2ff;
+            border-top: 1.5vh solid #99ccff;
+        }
+
+        .window2 {
+            position: absolute;
+            top: 5vh;
+            left: 15vh;
+            width: 16vh;
+            height: 16vh;
+            background-color: #b3d9ff;
+            border-top: 1.5vh solid #99ccff;
+        }
+
+        .cup {
+            position: absolute;
+            left: 87vh;
+            top: 5vh;
+            width: 10.5vh;
+            height: 12.5vh;
+            z-index: 3;
+            background-color: antiquewhite;
+        }
+
+        .handle {
+            content: "";
+            position: absolute;
+            left: 6.5vh;
+            top: 2vh;
+            width: 6vh;
+            height: 5vh;
+            border: 2vh solid antiquewhite;
+            border-left: none;
+            border-radius: 3.5vh;
+            transition: transform .5s ease;
+        }
+
+        .cupInsideTop {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 11vh;
+            width: 10.5vh;
+            height: 3vh;
+            border-radius: 100%;
+            background-color: antiquewhite;
+        }
+
+        .inside {
+            position: absolute;
+            left: 0;
+            top: -1.5vh;
+            width: 10.5vh;
+            height: 3.5vh;
+            border-radius: 100%;
+            background-color: antiquewhite;
+            overflow: hidden;
+        }
+
+        .inside::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 1.75vh;
+            width: 10.5vh;
+            height: 4vh;
+            border-radius: 100%;
+            background-color: #c88937;
+            overflow: hidden;
+        }
+
+        .smoke {
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: 1vh;
+            top: -2vh;
+            background-color: gray;
+            border-radius: 100%;
+            animation: smokeMovement 3s linear infinite;
+        }
+
+        .smoke::before {
+            content: "";
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: 1.5vh;
+            top: 0;
+            background-color: gray;
+            border-radius: 100%;
+            animation: smokeMovement 10s linear infinite;
+        }
+
+        .smoke::after {
+            content: "";
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: 2.25vh;
+            top: 0;
+            background-color: gray;
+            border-radius: 100%;
+            animation: smokeMovement 1s linear infinite;
+        }
+
+        @keyframes smokeMovement {
+            0% {
+                opacity: .6;
+                width: 4vh;
+                height: 4vh;
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                opacity: .25;
+                width: 2vh;
+                height: 2vh;
+                transform: translateX(2vh) translateY(-4vh);
+            }
+            100% {
+                opacity: 0;
+                width: 0;
+                height: 0;
+                transform: translate(0) translateY(-6vh);
+            }
+        }
+
+        .lamp {
+            position: absolute;
+            left: 170vh;
+            top: 7vh;
+            transform: rotateY(180deg) scale(1.4);
+            z-index: 1;
+        }
+
+        .lamplamp {
+            position: absolute;
+            top: -30vh;
+            left: 13vh;
+            width: 15vh;
+            height: 3vh;
+            border-radius: 100%;
+            transform: rotateZ(-42deg);
+            background-color: #d499ff;
+            overflow: hidden;
+            z-index: 11;
+        }
+
+        .lampbulb {
+            content: "";
+            position: absolute;
+            top: -3vh;
+            left: 3.8vh;
+            width: 7vh;
+            height: 5vh;
+            background-color: #f4e6ff;
+            border-radius: 100%;
+        }
+
+        .lampbtm {
+            position: absolute;
+            width: 17vh;
+            height: 4vh;
+            top: 0.5vh;
+            left: 0;
+            background-color: #2d004d;
+            border-radius: 2vh 2vh 0 0;
+        }
+
+        .lampbtmTop {
+            content: "";
+            position: absolute;
+            width: 15vh;
+            height: 1.5vh;
+            left: 0.8vh;
+            top: -0.4vh;
+            border-radius: 100%;
+            background-color: #4a0080;
+        }
+
+        .lampstand {
+            position: absolute;
+            left: -3.5vh;
+            top: -18.5vh;
+            width: 3vh;
+            height: 20.5vh;
+            background-color: #4a0080;
+            transform: rotateZ(-30deg);
+            border-right: .5vh solid #3b0066;
+            border-radius: 1vh;
+            z-index: 2;
+        }
+
+        .lampstand::after {
+            content: "";
+            position: absolute;
+            left: -.25vh;
+            top: -3vh;
+            width: 6vh;
+            height: 4.5vh;
+            background-color: darkslateblue;
+            border-radius: 0 0 100% 100%;
+        }
+
+        .lampstand::before {
+            content: "";
+            position: absolute;
+            left: 13.5vh;
+            top: -14.5vh;
+            width: 3vh;
+            height: 21vh;
+            background-color: #4a0080;
+            border-right: .5vh solid #3b0066;
+            border-radius: 1vh;
+            transform: rotateZ(75deg);
+        }
+
+        .lamphead {
+            position: absolute;
+            top: -42.5vh;
+            left: 8vh;
+            width: 8vh;
+            height: 9vh;
+            border-radius: 5vh 5vh 0 0;
+            background-color: #4a0080;
+            transform: rotateZ(-42deg);
+            z-index: 10;
+        }
+
+        .lamphead::after {
+            content: "";
+            position: absolute;
+            left: -3.5vh;
+            top: 8.5vh;
+            width: 15vh;
+            height: 9vh;
+            background-color: #3b0066;
+            border-radius: 6vh 6vh 0 0;
+
+        }
+
+        .books {
+            transform: scale(1.6);
+            position: absolute;
+            left: 40vh;
+            top: 5vh;
+        }
+
+        .book1 {
+            position: absolute;
+            left: 5vh;
+            top: 5vh;
+            width: 15vh;
+            height: 1.5vh;
+            background-color: azure;
+            border: 1.5vh solid #4a0080;
+            border-left: .9vh solid #4a0080;
+            border-right: none;
+            z-index: 3;
+            perspective: 10vh;
+            border-radius: 1.2vh 0 0 .6vh;
+        }
+
+        .book1Side1 {
+            content: "";
+            position: absolute;
+            left: 15vh;
+            top: -1.5vh;
+            width: 12vh;
+            height: 1.5vh;
+            background-color: azure;
+            border-top: 1.5vh solid #2d004d;
+            border-bottom: 1.5vh solid #2d004d;
+            transform-style: preserve-3d;
+            transform-origin: left;
+            transform: rotateY(35deg) rotateZ(-18deg) skewX(-18deg);
+        }
+
+        .book2 {
+            position: absolute;
+            left: 6.5vh;
+            top: 0vh;
+            width: 15vh;
+            height: 2.25vh;
+            background-color: azure;
+            border: 1.5vh solid #4a0080;
+            border-left: .9vh solid #4a0080;
+            border-right: none;
+            z-index: 3;
+            perspective: 10vh;
+            border-radius: .3vh 0 0 .6vh;
+        }
+
+        .book2Side1 {
+            content: "";
+            position: absolute;
+            left: 15vh;
+            top: -1.5vh;
+            width: 12vh;
+            height: 2.25vh;
+            background-color: azure;
+            border-top: 1.5vh solid #2d004d;
+            border-bottom: 1.5vh solid #2d004d;
+            transform-style: preserve-3d;
+            transform-origin: left;
+            transform: rotateY(32deg) rotateZ(-15deg) skewX(-15deg);
+            border-radius: 0 1.2vh 1.2vh 0;
+        }
+
+        .book2Side2 {
+            content: "";
+            position: absolute;
+            left: 0.9vh;
+            top: -2.85vh;
+            width: 15.9vh;
+            height: 1.35vh;
+            transform: skewX(-70deg);
+            background-color: #590099;
+            border-top-right-radius: 20%;
+        }
+
+        .book3 {
+            content: "";
+            position: absolute;
+            left: -5vh;
+            top: -1vh;
+            width: 13.5vh;
+            height: 1.5vh;
+            background-color: azure;
+            border: 1.5vh solid #4a0080;
+            border-left: .9vh solid #4a0080;
+            border-right: none;
+            transform: rotateZ(-60deg);
+        }
+
+        .book3Side2 {
+            content: "";
+            position: absolute;
+            left: 2.25vh;
+            top: 3vh;
+            width: 14.4vh;
+            height: 7.5vh;
+            background-color: #2d004d;
+            transform: skewX(40deg);
+        }
+
+        .book3Side1 {
+            content: "";
+            position: absolute;
+            left: 14.4vh;
+            top: 1.35vh;
+            width: 1.5vh;
+            height: 6.3vh;
+            border-left: 1.5vh solid #590099;
+            border-right: 1.5vh solid #590099;
+            background-color: azure;
+            transform: skewY(50deg) rotateZ(90deg);
+        }
+
+        .marker1 {
+            position: absolute;
+            left: 90vh;
+            top: 15vh;
+            width: 14.4vh;
+            height: 2.1vh;
+            background-color: aliceblue;
+            border-right: 3vh solid blue;
+            transition: transform .5s ease;
+        }
+
+        .marker2 {
+            position: absolute;
+            left: 70vh;
+            top: 24vh;
+            width: 14.4vh;
+            height: 2.1vh;
+            background-color: aliceblue;
+            border-left: 3vh solid green;
+            transition: transform .5s ease;
+        }
+
+        .smokeCont {
+            position: absolute;
+            transition: .5s;
+            transform-style: preserve-3d;
+        }
+
+        #overlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            transition: 3s;
+            opacity: 1;
+            z-index: 20;
+        }
+
+        #back {
+            position: absolute;
+            width: 2.5vw;
+            height: 2.5vw;
+            background-color: transparent;
+            top: 2.5vh;
+            left: 45vw;
+            opacity: .5;
+            transition: .25s;
+            transform: rotateZ(45deg) scale(.5);
+            border-left: 2vh solid aliceblue;
+            border-top: 2vh solid aliceblue;
+            z-index: 15;
+        }
+
+        @font-face {
+            font-family: fontName;
+            src: url("fonts/font2.ttf");
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 91vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            font-family: fontName;
+            z-index: 10;
+            width:0;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+        
+        
+        #soundbtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+
+<body onmousemove="shiftScreen(event)" onload="loadStuff()">
+    <div id="soundbtn" onclick="document.getElementById('audio').play();document.getElementById('soundbtn').remove();">Play</div>
+    
+    <audio src="files/room.mp3" autoplay loop id="audio" allow="autoplay" ></audio>
+    <div id="overlay"></div>
+    <div id="back" onclick="back()"></div>
+    <div id="dialogueBox">boop boop boop boop</div>
+    <div id="container">
+        <div id="table">
+            <div class="body"></div>
+            <div class="ridge"></div>
+            <div class="leg1"></div>
+            <div class="leg2"></div>
+            <div class="cup" onclick="cupSpin()">
+                <div class="cupInsideTop"></div>
+                <div class="inside"></div>
+                <div class="handle"></div>
+                <div class="smokeCont">
+                    <div class="smoke"></div>
+                </div>
+            </div>
+            <div class="marker1" onclick="markerRoll1()"></div>
+            <div class="marker2" onclick="markerRoll2()"></div>
+            <div class="laptop" onclick="diaShow(1)">
+                <div class="screen">
+                    <div class="window1"></div>
+                    <div class="window2"></div>
+                </div>
+                <div class="laptopDown"></div>
+                <div class="fix">
+                    <div class="fixDown"></div>
+                    <div class="fixBottom"></div>
+                </div>
+            </div>
+            <div class="lamp" onclick="lampToggle()">
+                <div class="lamphead"></div>
+                <div class="lampstand"></div>
+                <div class="lampbtm">
+                    <div class="lampbtmTop"></div>
+                </div>
+                <div class="lamplamp">
+                    <div class="lampbulb"></div>
+                </div>
+            </div>
+            <div class="books" onclick="diaShow(0)">
+                <div class="book1">
+                    <div class="book1Side1"></div>
+                </div>
+                <div class="book2">
+                    <div class="book2Side1"></div>
+                    <div class="book2Side2"></div>
+                </div>
+                <div class="book3">
+                    <div class="book3Side1"></div>
+                    <div class="book3Side2"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var lampState = 1;
+
+        var dia = [
+            ["I'm not sure what these are for.", "They look neat though.",""],
+            ["Ookay, let's go online!",""]
+        ]
+        
+        setTimeout(function audioLoad() {
+            let myAudio = document.getElementById("audio"); 
+            if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+        },2500);
+        
+        document.getElementById("audio").volume = 0.15;
+
+        function loadStuff() {
+            document.getElementById("overlay").style.opacity = 0;
+            setTimeout(function() {
+                document.getElementById("overlay").style.zIndex = "-1";
+            }, 3000);
+        }
+
+        function back() {
+            document.getElementById("overlay").style.zIndex = 20;
+            document.getElementById("overlay").style.transition = "3s";
+            document.getElementById("overlay").style.opacity = 1;
+            setTimeout(function() {
+                window.location.assign("room_noScript.html");
+            }, 3000);
+        }
+
+        function diaShow(x) {
+            var k  = 0;
+            var x1 = setInterval(function() {
+                var iter = dia[x][k]
+                document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                document.getElementById("dialogueBox").innerHTML = iter;
+                document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss)) infinite";
+                document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                ++k;
+                if (k == dia[x].length) {
+                    clearInterval(x1);
+                    document.getElementById("dialogueBox").style.display = "none";
+                    if(x==1) {
+                        document.getElementById("overlay").style.zIndex = 20;
+                        document.getElementById("overlay").style.opacity = 1;
+                        setTimeout(function () { window.location.assign("chat.html") },3000);
+                    }
+                }
+            }, 2000);
+            
+        }
+
+        function shiftScreen(ev) {
+            document.getElementById("container").style.transform = "translateX(" + ((window.screen.width - ev.clientX) / 10).toString() + "px)";
+        }
+
+        function markerRoll1() {
+            document.getElementsByClassName("marker1")[0].style.transform = "translate(.3vh,-2.25vh)";
+            setTimeout(function() {
+                document.getElementsByClassName("marker1")[0].style.transform = "translate(0,0)";
+            }, 500);
+        }
+
+        function markerRoll2() {
+            document.getElementsByClassName("marker2")[0].style.transform = "translate(-.3vh,2.25vh)";
+            setTimeout(function() {
+                document.getElementsByClassName("marker2")[0].style.transform = "translate(0,0)";
+            }, 500);
+        }
+
+        function cupSpin() {
+            var cupHandle = document.getElementsByClassName("handle")[0],
+                sm = document.getElementsByClassName("smokeCont")[0]
+            cupHandle.style.transform = "translate(-10.5vh,.4vh) rotateY(180deg)";
+            sm.style.transform = "rotateY(90deg)";
+            setTimeout(function() {
+                cupHandle.style.transform = "translate(0vh,.4vh) rotateY(0)";
+                sm.style.transform = "rotateY(0)";
+            }, 500);
+        }
+
+        function lampToggle() {
+            lampState *= -1;
+            document.body.style.backgroundColor = (lampState == -1) ? "#714f58" : "#2e004d";
+            document.getElementsByClassName("lampbulb")[0].style.backgroundColor = (lampState == -1) ? "#ffffe5" : "#f4e6ff";
+            document.getElementsByClassName("lamplamp")[0].style.backgroundColor = (lampState == -1) ? "#e5c3b4" : "#d499ff";
+            document.getElementsByClassName("lamp")[0].style.opacity = (lampState == -1) ? .5 : 1;
+            document.getElementsByClassName("body")[0].style.backgroundColor = (lampState == -1) ? "#7a4f69" : "#3b0066";
+            document.getElementsByClassName("leg1")[0].style.opacity = (lampState == -1) ? .25 : 1;
+            document.getElementsByClassName("leg2")[0].style.opacity = (lampState == -1) ? .25 : 1;
+            document.getElementsByClassName("laptop")[0].style.backgroundColor = (lampState == -1) ? "#827782" : "darkslateblue";
+            document.getElementsByClassName("cup")[0].style.backgroundColor = (lampState == -1) ? "#f8eab3" : "antiquewhite";
+            document.getElementsByClassName("cupInsideTop")[0].style.backgroundColor = (lampState == -1) ? "#f8eab3" : "antiquewhite";
+            document.getElementsByClassName("inside")[0].style.backgroundColor = (lampState == -1) ? "#f8eab3" : "antiquewhite";
+            document.getElementsByClassName("handle")[0].style.border = (lampState == -1) ? "2vh solid #f8eab3" : "2vh solid antiquewhite";
+            document.getElementsByClassName("handle")[0].style.borderLeft = "none";
+            document.getElementsByClassName("ridge")[0].style.backgroundColor = (lampState == -1) ? "#6f4d58" : "#2d004d";
+            document.getElementsByClassName("laptopDown")[0].style.backgroundColor = (lampState == -1) ? "#524f82" : "darkblue";
+            document.getElementsByClassName("fix")[0].style.backgroundColor = (lampState == -1) ? "#534f58" : "#00004d";
+            document.getElementsByClassName("fixDown")[0].style.backgroundColor = (lampState == -1) ? "#534f58" : "#00004d";
+            document.getElementsByClassName("fixBottom")[0].style.backgroundColor = (lampState == -1) ? "#534f58" : "#00004d";
+            document.getElementsByClassName("marker1")[0].style.backgroundColor = (lampState == -1) ? "#f1f3ce" : "azure";
+            document.getElementsByClassName("marker1")[0].style.borderRight = (lampState == -1) ? "3vh solid #514ecf" : "3vh solid blue";
+
+            document.getElementsByClassName("marker2")[0].style.backgroundColor = (lampState == -1) ? "#f1f3ce" : "azure";
+            document.getElementsByClassName("marker2")[0].style.borderLeft = (lampState == -1) ? "3vh solid #53a426" : "3vh solid green";
+
+            document.getElementsByClassName("book1")[0].style.backgroundColor = (lampState == -1) ? "#f1f7ce" : "azure";
+            document.getElementsByClassName("book1")[0].style.border = (lampState == -1) ? "1.5vh solid #844f7a" : "1.5vh solid #4a0080";
+            document.getElementsByClassName("book1")[0].style.borderLeft = (lampState == -1) ? ".9vh solid #844f7a" : ".9vh solid #4a0080";
+            document.getElementsByClassName("book1")[0].style.borderRight = "none";
+            document.getElementsByClassName("book1Side1")[0].style.backgroundColor = (lampState == -1) ? "#f1f7ce" : "azure";
+            document.getElementsByClassName("book1Side1")[0].style.borderBottom = (lampState == -1) ? "1.5vh solid #704f58" : "1.5vh solid #2d004d";
+            document.getElementsByClassName("book1Side1")[0].style.borderTop = (lampState == -1) ? "1.5vh solid #704f58" : "1.5vh solid #2d004d";
+
+            document.getElementsByClassName("book2")[0].style.backgroundColor = (lampState == -1) ? "#f1f7ce" : "azure";
+            document.getElementsByClassName("book2")[0].style.border = (lampState == -1) ? "1.5vh solid #844f7a" : "1.5vh solid #4a0080";
+            document.getElementsByClassName("book2")[0].style.borderLeft = (lampState == -1) ? ".9vh solid #844f7a" : ".9vh solid #4a0080";
+            document.getElementsByClassName("book2")[0].style.borderRight = "none";
+
+            document.getElementsByClassName("book2Side1")[0].style.backgroundColor = (lampState == -1) ? "#f1f7ce" : "azure";
+            document.getElementsByClassName("book2Side1")[0].style.borderBottom = (lampState == -1) ? "1.5vh solid #704f58" : "1.5vh solid #2d004d";
+            document.getElementsByClassName("book2Side1")[0].style.borderTop = (lampState == -1) ? "1.5vh solid #704f58" : "1.5vh solid #2d004d";
+
+            document.getElementsByClassName("book2Side2")[0].style.backgroundColor = (lampState == -1) ? "#8e4f8b" : "#590099";
+
+            document.getElementsByClassName("book3")[0].style.backgroundColor = (lampState == -1) ? "#f1f7ce" : "azure";
+            document.getElementsByClassName("book3")[0].style.border = (lampState == -1) ? "1.5vh solid #844f7a" : "1.5vh solid #4a0080";
+            document.getElementsByClassName("book3")[0].style.borderLeft = (lampState == -1) ? ".9vh solid #844f7a" : ".9vh solid #4a0080";
+            document.getElementsByClassName("book3")[0].style.borderRight = "none";
+
+
+            document.getElementsByClassName("book3Side1")[0].style.backgroundColor = (lampState == -1) ? "#f1f7ce" : "azure";
+            document.getElementsByClassName("book3Side1")[0].style.border = (lampState == -1) ? "1.5vh solid #704f58" : "1.5vh solid #590099";
+            document.getElementsByClassName("book3Side1")[0].style.borderTop = "none";
+            document.getElementsByClassName("book3Side1")[0].style.borderBottom = "none";
+
+            document.getElementsByClassName("book3Side2")[0].style.backgroundColor = (lampState == -1) ? "#704f58" : "#2d004d";
+
+        }
+
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,523 @@
+<html>
+
+<head>
+    <style>
+        html {}
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #00001a;
+            position: absolute;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        #flowerCont {
+            position: absolute;
+            left: 60vh;
+            top: 59vh;
+            filter: hue-rotate(calc(var(--i) * 70deg));
+        }
+
+        #stem,
+        #stemDbl {
+            position: absolute;
+            left: 20vh;
+            top: 10vh;
+            width: 20vh;
+            height: 60vh;
+            border: .5vh solid white;
+            border-radius: 100%;
+        }
+
+        #stem {
+            clip-path: polygon(100% 50%, 100% 50%, 100% 50%, 100% 50%);
+            animation: flowerAppear 2.3s .25s ease-in forwards, FATw calc(var(--i)/5 * 5s) 3s ease infinite alternate;
+        }
+
+        #stemDbl {
+            border: none;
+            left: -22vh;
+            top: 10vh;
+            width: 60vh;
+            height: 60vh;
+            animation: bitXShift 2.9s ease-in forwards;
+            z-index: 3;
+        }
+
+        #bitBtm {
+            position: absolute;
+            width: 5vh;
+            height: 5vh;
+            border-bottom-left-radius: 100%;
+            border-bottom-right-radius: 100%;
+            background-color: aliceblue;
+            animation: bitRotationCorr 3s ease-out forwards, BRCTw calc(var(--i)/5 * 5s) 3s ease infinite alternate;
+        }
+
+        #bitLayer {
+            position: absolute;
+            width: 5vh;
+            height: 5vh;
+            left: 0;
+            top: 0;
+            border-bottom-left-radius: 100%;
+            border-bottom-right-radius: 100%;
+            background-color: aliceblue;
+            z-index: 2;
+        }
+
+        #bit {
+            position: absolute;
+            width: 6vh;
+            height: 6vh;
+            left: -0.6vh;
+            top: -4.5vh;
+            transform-origin: bottom;
+            border-radius: 100%;
+            background-color: palegoldenrod;
+            transform: scale(0);
+            animation: bitBlowUp 3s ease-in-out forwards, flowOut 12s 8s ease-in-out forwards;
+            z-index: 1;
+        }
+
+        #bitCont {
+            position: absolute;
+            transform: rotateZ(0deg);
+            width: 5vh;
+            height: 5vh;
+            top: 0;
+            left: 60vh;
+            animation: bitGrow 3s ease-out forwards, BGTw calc(var(--i)/5 * 5s) 3s ease infinite alternate;
+        }
+        
+        #absoluteCont {
+            animation: flowDown 9s 9s ease-in-out forwards;
+        }
+
+        @keyframes flowerAppear {
+            0% {
+                clip-path: polygon(100% 50%, 100% 50%, 100% 50%, 100% 50%);
+            }
+
+            100% {
+                clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%);
+            }
+        }
+
+        @keyframes bitXShift {
+            35% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-9vh);
+            }
+        }
+
+        @keyframes bitGrow {
+            0% {
+                transform: scale(.3) translateY(90vh);
+            }
+            100% {
+                transform: scale(0.8) translateY(-3vh);
+            }
+        }
+
+        @keyframes bitRotationCorr {
+            40% {
+                transform: rotateZ(-5deg);
+            }
+            100% {
+                transform: rotateZ(-65deg);
+            }
+        }
+
+        @keyframes bitBlowUp {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes BRCTw {
+            0% {
+                transform: rotateZ(-65deg);
+            }
+            100% {
+                transform: rotateZ(-75deg);
+            }
+        }
+
+        @keyframes FATw {
+            0% {
+                clip-path: polygon(60% 0%, 100% 0%, 100% 50%, 60% 50%);
+            }
+            100% {
+                clip-path: polygon(60% 0%, 100% 0%, 100% 70%, 60% 70%);
+                transform: rotateZ(-5deg);
+            }
+        }
+
+        @keyframes BGTw {
+            0% {
+                transform: scale(0.8) translateY(-3vh);
+            }
+
+            100% {
+                transform: scale(0.8) translateY(-1vh);
+            }
+        }
+        
+        @keyframes flowOut {
+            0% {
+                left: -0.6vh;
+                top: -4.5vh;
+            }
+            10% {
+                left:-1vh;
+                top:-5vh;
+            }
+            100% {
+                left: calc(var(--i)/2 * 30vw);
+                top:-300vh;
+            }
+        }
+        
+        @keyframes flowDown {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(80vh);
+            }
+        }
+
+    </style>
+    <script src="scripts/data.js"></script>
+    <script src="p5/p5.js"></script>
+    <script src="p5/addons/p5.sound.js"></script>
+    <script src="scripts/tabletest.js"></script>
+</head>
+
+<body>
+    <div id="absoluteCont">
+        <div id="flowerCont" style="--i:0">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:70vh; top:40vh; transform: rotateY(180deg) scale(1.5); --i:1">
+            <div id="stem" style="animation: flowerAppear 2.3s .25s ease-in forwards, FATw 15s 3s ease infinite alternate;"></div>
+            <div id="stemDbl">
+                <div id="bitCont" style="
+            animation: bitGrow 3s ease-out forwards, BGTw 15s 3s ease infinite alternate;">
+                    <div id="bitBtm" style="animation: bitRotationCorr 3s ease-out forwards, BRCTw 15s 3s ease infinite alternate;">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:70vh; top:75vh; transform:scale(.6); --i:2">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:140vh; top:85vh; transform: scale(.4) rotateY(180deg); --i:3">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:100vh; top:50vh; transform: scale(1.2); --i:4">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:-40vh; top:40vh; transform: scale(1.6); --i:5">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:20vh; --i:6">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:90vh; --i:7">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:50vh; transform: scale(1.1); top:55vh; --i:8">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:140vh; --i:9">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:100vh; --i:10">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:-10vh; --i:11">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:25vh; --i:12">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:150vh; transform: rotateY(180deg);--i:13">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:65vh; --i:14">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:99vh; transform: rotateY(180deg); --i:15">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:-20vh; transform: scale(0.9); top:65vh; --i:16">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:35vh; transform: scale(0.75); top:70vh; --i:17">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:125vh; transform: rotateY(180deg) scale(1.4); top:45vh; --i:18">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:-40vh; transform:scale(1.23); top:50vh; --i:19">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:135vh; top:65vh; transform: rotateY(180deg) scale(0.9); --i:20">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:110vh; transform: scale(0.8); top:69vh; --i:21">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:130vh; top:73vh; transform: scale(0.7) rotateY(5deg); --i:22">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:185vh; top:55vh; transform: rotateY(180deg) scale(1.15); --i:23">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:160vh; top:65vh; transform: scale(0.9); --i:24">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flowerCont" style="left:230vh; top:20vh; transform: rotateY(180deg) scale(2); --i:25">
+            <div id="stem"></div>
+            <div id="stemDbl">
+                <div id="bitCont">
+                    <div id="bitBtm">
+                        <div id="bitLayer"></div>
+                        <div id="bit"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<html>
+
+<head>
+    <style>
+        html {}
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #00001a;
+            position: absolute;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        @font-face {
+            font-family: countdown;
+            src: url("fonts/countdown.otf");
+        }
+
+        #msg {
+
+            position: relative;
+            perspective: 20px;
+            transform-style: preserve-3d;
+            transform: rotateY(20deg);
+            opacity: 0;
+            animation: zoom 5s forwards, rotating 30s linear infinite alternate;
+        }
+
+        #subMsg {
+            position: absolute;
+            top: 0vh;
+            left: 0vh;
+            opacity: .5;
+            animation: rotatingShift 30s linear infinite alternate;
+        }
+
+        .bubble {
+            position: absolute;
+            width: 40vh;
+            height: 20vh;
+            left: 0vw;
+            top: 0vh;
+            border: 2vh solid lightblue;
+            background-color: #00001a;
+            border-radius: 4vh;
+            z-index: 2;
+        }
+
+        .bubbleSide {
+            position: absolute;
+            width: 4vh;
+            height: 4vh;
+            left: 30vh;
+            top: 19.9vh;
+            border: 2vh solid lightblue;
+            background-color: #00001a;
+            border-bottom-left-radius: 100%;
+            border-top: none;
+            z-index: 4;
+        }
+
+        #absss {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 82vw;
+            height: 75vh;
+            display: grid;
+            place-items: center;
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 85vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            width: 0;
+            font-family: fontName;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+
+        @keyframes rotating {
+            0% {
+                transform: rotateY(-40deg)translateX(0vh);
+            }
+            100% {
+                transform: rotateY(40deg) translateX(3vh);
+            }
+        }
+
+        @keyframes rotatingShift {
+            0% {
+                left: -2vh;
+            }
+            100% {
+                left: 2vh;
+            }
+        }
+
+
+        @keyframes zoom {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+
+<body onload="loadStuff()">
+
+    <div id="dialogueBox"></div>
+
+    <canvas id="canvas"></canvas>
+    <div id="absss">
+        <div id="msg">
+            <div class="bubble">
+                <div class="bubbleSide"></div>
+            </div>
+            <div id="subMsg">
+                <div class="bubble">
+                    <div class="bubbleSide"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cover">
+        <div id="keyPick">
+
+        </div>
+        <div id="massiveTitle"></div>
+    </div>
+
+    <script type="text/javascript">
+        class Circle {
+            constructor(x, y, radius, rgb_string) {
+                this.radius = radius;
+                this.w = this.h = radius;
+                this.vx = this.vy = 0;
+            }
+        }
+
+        class Particle extends Circle {
+
+            constructor(x, y, radius, rgb_string) {
+                super(x, y, radius, rgb_string);
+                this.x = x;
+                this.y = y;
+                this.vx = Math.random() * 4 - 2;
+                this.vy = Math.random() * 4 - 2;
+                this.rgb_string = rgb_string;
+                this.a = 1;
+            }
+
+            get color() {
+                return "rgba(" + this.rgb_string + "," + this.a + ")";
+            }
+
+            updatePosition() {
+                this.x += this.vx / 2;
+                this.y += this.vy / 2;
+            }
+
+        }
+
+        class Color {
+            constructor(r, g, b) {
+                this.r = 0;
+                this.g = 0;
+                this.b = 255;
+            }
+            getRGBString() {
+                return String(this.r + "," + this.g + "," + this.b);
+            }
+            gradualShift(direction) {
+                this.r = Math.floor(Math.abs(Math.cos(direction * 0.15) * 256)) - 100;
+                this.g = Math.floor(Math.abs(Math.sin(direction * 0.15) * 256)) + 100;
+                this.b = Math.floor(Math.abs(Math.sin(direction * 0.15) * 256)) + 200;
+            }
+        }
+
+        var particles = new Array();
+
+        var context = document.getElementById("canvas").getContext("2d");
+
+        var pointer = {
+            x: 0,
+            y: 0,
+            down: false
+        };
+        var color = new Color(0, 0, 255);
+        var direction = 0.5;
+
+
+        var cck = document.cookie.split(";");
+        for (var i = 0; i < cck.length; ++i)
+            eval("var " + cck[i].split("=")[0] + "='" + cck[i].split("=")[1] + "'");
+
+        var dia = ["Oh, looks like we got a new message!", "It's from "+userPicked+"!","They said that they hope you're doing well?","Huh.",""];
+
+        function loadStuff() {
+            var i = 0;
+            var x2 = setInterval(function() {
+                var iter = dia[i];
+                document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                document.getElementById("dialogueBox").innerHTML = iter;
+                document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss)) infinite";
+                document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                ++i;
+                if (i == dia.length) {
+                    clearInterval(x2);
+                }
+            }, 2000);
+        }
+
+        function loop(time_stamp) {
+            window.requestAnimationFrame(loop);
+            context.fillStyle = "#00001a";
+            context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+            direction += 0.01;
+            color.gradualShift(direction);
+
+            for (let index = 0; index < 1; ++index) {
+                if (particles.length < 500) {
+                    particles.push(new Particle(context.canvas.width / 2, context.canvas.height / 2, Math.floor(Math.random() * 10 + 10), color.getRGBString()));
+                }
+            }
+
+            for (let index = particles.length - 1; index > -1; --index) {
+                let particle = particles[index];
+                particle.updatePosition();
+                //if (particle.a <= 0) particles.shift();
+                context.beginPath();
+                context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                context.fillStyle = particle.color;
+                context.fill();
+                context.closePath();
+            }
+        }
+
+        function resize(event) {
+            context.canvas.height = document.documentElement.clientHeight - 16;
+            context.canvas.width = document.documentElement.clientWidth - 16;
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+        setTimeout(loop, 10000);
+
+        setTimeout(function() {
+            document.cookie = "stT=1;path=/";
+            window.location.assign("room_noScript.html");
+        }, 15000);
+
+    </script>
+
+</body>
+
+</html>

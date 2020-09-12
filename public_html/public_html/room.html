@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #2e004d;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+            align-items: center;
+        }
+
+        .container {}
+
+        .scene {
+            position: relative;
+            width: 100vh;
+            height: 10vh;
+            margin-top: 10vh;
+            transform: scale(1.1);
+            background-color: transparent;
+        }
+
+
+        .character {
+            position: absolute;
+            top: 45vh;
+            left: 60vh;
+        }
+
+        .head {
+            position: relative;
+            width: 6vh;
+            height: 7vh;
+            background-color: #e4c381;
+            border-radius: 10% 10% 20% 20%;
+            transform: rotateZ(-10deg);
+            transition: 1s box-shadow ease;
+            box-shadow: inset -3px 5px 5px .5px rgba(255, 228, 181, 0.9);
+        }
+
+        .hair {
+            position: absolute;
+            top: -0.25vh;
+            width: 6.5vh;
+            height: 2.25vh;
+            background-color: slategray;
+            border-radius: 40% 10% 100% 0;
+
+        }
+
+        .hair::after {
+            content: "";
+            position: absolute;
+            top: 0.4vh;
+            left: -0.4vh;
+            width: 1.5vh;
+            height: 5.25vh;
+            border-radius: 60% 0% 100% 10%;
+            background-color: slategray;
+        }
+
+        .hair::before {
+            content: "";
+            position: absolute;
+            top: .5vh;
+            left: 5.7vh;
+            width: 1vh;
+            height: 2.5vh;
+            border-radius: 100% 0% 0% 100%;
+            background-color: darkslategray;
+            clip-path: polygon(0 28%, 70% 0%, 30% 100%);
+        }
+
+        .eyes::before {
+            position: absolute;
+            top: 5vh;
+            left: 2.5vh;
+            content: "";
+            width: 0.5vh;
+            height: 0.5vh;
+            background-color: black;
+            border-radius: 100% 100% 100% 100%;
+        }
+
+        .eyes::after {
+            content: "";
+            position: absolute;
+            top: 5vh;
+            left: 6.5vh;
+            width: 0.5vh;
+            height: 0.5vh;
+            background-color: black;
+            border-radius: 100% 100% 100% 100%;
+        }
+
+        .body {
+            position: absolute;
+            top: 6vh;
+            left: 1.2vh;
+            width: 4.6vh;
+            height: 6vh;
+            background-color: darkblue;
+            z-index: -1;
+            border-radius: 0 0 10% 10%;
+        }
+
+        .body::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 90%;
+            background-color: #5c0099;
+        }
+
+        .armLeft {
+            position: absolute;
+            top: 1vh;
+            left: -.5vh;
+            width: 1vh;
+            height: 3.5vh;
+            background-color: #e4c381;
+            border-radius: 40% 0 20% 20%;
+            z-index: 1;
+            transition: transform .1s linear;
+        }
+
+        .armLeft::before {
+            content: "";
+            position: absolute;
+            width: 110%;
+            height: 20%;
+            background-color: #5c0099;
+            border-radius: 50% 30% 0 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+        }
+
+        .armRight {
+            position: absolute;
+            top: 0.7vh;
+            left: 4vh;
+            width: 1vh;
+            height: 3.5vh;
+            background-color: #e4c381;
+            border-radius: 40% 0 20% 20%;
+            transition: transform .1s linear;
+            z-index: -2;
+            box-shadow: inset .3px .5px 3px .5px rgba(255, 228, 181, 0.9);
+        }
+
+        .armRight::before {
+            content: "";
+            position: absolute;
+            top: -0.1vh;
+            left: 0;
+            width: 110%;
+            height: 20%;
+            background-color: #5c0099;
+            z-index: -2;
+            border-radius: 50% 30% 0 0;
+            box-shadow: inset .3px .5px 3px .5px rgba(255, 228, 181, 0.9);
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+        }
+
+        .leg1 {
+            position: absolute;
+            top: 6vh;
+            left: .6vh;
+            width: 1vh;
+            height: 1vh;
+            background-color: darkblue;
+            z-index: 1;
+        }
+
+        .leg2 {
+            position: absolute;
+            top: 6vh;
+            left: 3vh;
+            width: 1vh;
+            height: 1vh;
+            background-color: darkblue;
+        }
+
+        .leg1::after {
+            content: "";
+            position: absolute;
+            top: 1vh;
+            left: auto;
+            width: 1.15vh;
+            height: .2vh;
+            background-color: darkblue;
+        }
+
+        .leg2::after {
+            content: "";
+            position: absolute;
+            top: 1vh;
+            left: auto;
+            width: 1.15vh;
+            height: .2vh;
+            background-color: darkblue;
+        }
+
+        .door {
+            position: absolute;
+            top: 23vh;
+            left: 75vh;
+            width: 15vh;
+            height: 32vh;
+            background-color: #1f0033;
+            z-index: -2;
+        }
+
+        .door::after {
+            content: "";
+            position: absolute;
+            top: 20vh;
+            left: 1.5vh;
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: #0f001a;
+        }
+
+        .obj1 {
+            position: absolute;
+            top: 3vh;
+            left: 0;
+            width: 15vh;
+            height: 58vh;
+            background-color: #2e004d;
+            z-index: 3;
+            perspective: 25vh;
+        }
+
+        .angle1 {
+            position: absolute;
+            top: 0;
+            left: 5.9vh;
+            width: 9vh;
+            height: 100%;
+            background: linear-gradient(90deg, #ffd480, #1f0033);
+            transform-style: preserve-3d;
+            transform-origin: right;
+            transform: rotateY(-145deg);
+        }
+
+        .angle1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10vh;
+            width: 100%;
+            height: .5vh;
+            background-color: black;
+        }
+
+        .angle1::before {
+            content: "";
+            position: absolute;
+            left: -2vh;
+            top: 30vh;
+            width: 1vh;
+            height: 6vh;
+            background-color: transparent;
+            border-top: 1vh solid #ffe6b3;
+            border-left: 1vh solid #ffe6b3;
+            border-bottom: 1vh solid #ffe6b3;
+            border-radius: 20%;
+            transform: rotateY(-40deg);
+        }
+
+        .angle2 {
+            position: absolute;
+            top: -1vh;
+            left: 88.25vh;
+            background: linear-gradient(90deg, #ffd480, #1f0033);
+            height: 57.5vh;
+            width: 11vh;
+            transform-style: preserve-3d;
+            transform-origin: right;
+            transform: rotateY(-160.5deg);
+            transition: transform .1s ease;
+        }
+
+        .angle3 {
+            position: absolute;
+            top: 2vh;
+            left: -1vh;
+            background-color: #1f0033;
+            height: 60.25vh;
+            width: 7vh;
+            transform: rotateY(100deg);
+            transform-origin: left;
+            transform-style: preserve-3d;
+            z-index: -3;
+        }
+
+        .sampleObj {
+            position: absolute;
+            transition: left 0.1s linear;
+        }
+
+        .window1 {
+            position: absolute;
+            top: 20vh;
+            left: 30vh;
+            width: 25vh;
+            height: 25vh;
+            background-color: #edd7ab;
+            z-index: -3;
+            transition: 0.1s left linear;
+        }
+
+        .window1::before {
+            content: "";
+            position: absolute;
+            top: 25vh;
+            left: -1vh;
+            width: 27vh;
+            height: 2vh;
+            background-color: darkblue;
+        }
+
+        .window1::after {
+            content: "";
+            position: absolute;
+            top: 27vh;
+            left: 0vh;
+            width: 25vh;
+            height: 8vh;
+            background-color: #003333;
+            opacity: .4;
+        }
+
+        .curtainRack {
+            position: absolute;
+            top: -2vh;
+            left: -1vh;
+            width: 27vh;
+            height: 1vh;
+            background-color: darkslateblue;
+        }
+
+        .curtainRack::before {
+            content: "";
+            position: absolute;
+            top: -.5vh;
+            left: -1vh;
+            height: 2vh;
+            width: 1vh;
+            background-color: darkblue;
+        }
+
+        .curtainRack::after {
+            content: "";
+            position: absolute;
+            top: -.5vh;
+            left: 27vh;
+            height: 2vh;
+            width: 1vh;
+            background-color: darkblue;
+        }
+
+        .curtain1 {
+            position: absolute;
+            top: -0.25vh;
+            left: -0.25vh;
+            width: 5vh;
+            height: 27vh;
+            background-color: #5c0099;
+        }
+
+        .curtain1::before {
+            content: "somet";
+            position: absolute;
+            top: -4.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .curtain1::after {
+            content: "somet";
+            position: absolute;
+            top: 22.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .curtain2 {
+            position: absolute;
+            top: -0.25vh;
+            left: 20.5vh;
+            width: 5vh;
+            height: 27vh;
+            background-color: #5c0099;
+        }
+
+        .curtain2::before {
+            content: "somet";
+            position: absolute;
+            top: -4.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .curtain2::after {
+            content: "somet";
+            position: absolute;
+            top: 22.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .flower1 {
+            position: absolute;
+            left: 16vh;
+            top: 21vh;
+            perspective: 100px;
+        }
+
+        .pot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4vh;
+            height: 4vh;
+            background-image: repeating-linear-gradient(0deg, #3b0066 0px, #3b0066 5px, #fff 5px, #fff 10px);
+        }
+
+        .pot::after {
+            content: "";
+            position: absolute;
+            left: -0.5vh;
+            top: 3vh;
+            width: 5vh;
+            height: 1vh;
+            background-color: #2d004d;
+        }
+
+        .pot::before {
+            content: "";
+            position: absolute;
+            left: 1.75vh;
+            top: -1vh;
+            width: .5vh;
+            height: 1vh;
+            background-color: darkgreen;
+        }
+
+        .leaf {
+            position: absolute;
+            left: .4vh;
+            top: -2vh;
+            width: 2vh;
+            height: 2vh;
+            background-color: darkgreen;
+            border-radius: 100%;
+            transform-style: preserve-3d;
+            transform: skewX(10deg)skewY(5deg)rotateY(55deg) rotateX(10deg) rotateZ(20deg);
+        }
+
+        .leaf::after {
+            content: "";
+            position: absolute;
+            left: 2.25vh;
+            top: -1vh;
+            width: 2.5vh;
+            height: 2vh;
+            background-color: darkgreen;
+            border-radius: 100%;
+            transform-style: preserve-3d;
+            transform: skewX(-40deg)skewY(25deg) rotateY(65deg) rotateX(15deg);
+        }
+
+        .table {
+            position: absolute;
+            left: 28vh;
+            top: 50vh;
+            width: 30vh;
+            height: 2vh;
+            background-color: #3b0066;
+            z-index: 3
+        }
+
+        .table::before {
+            content: "";
+            position: absolute;
+            left: 2vh;
+            top: 2vh;
+            width: 1.5vh;
+            height: 8vh;
+            background-color: #390d59;
+        }
+
+        .table::after {
+            content: "";
+            position: absolute;
+            left: 26.5vh;
+            top: 2vh;
+            width: 1.5vh;
+            height: 8vh;
+            background-color: #390d59;
+        }
+
+        .laptop {
+            position: absolute;
+            left: 4vh;
+            top: -.5vh;
+            height: .5vh;
+            width: 10vh;
+            background-color: darkblue;
+            border-radius: .5vh .5vh 2vh 2vh;
+        }
+
+        .laptop::before {
+            content: "";
+            position: absolute;
+            left: 0h;
+            top: -7vh;
+            height: 7vh;
+            width: 10vh;
+            background-color: darkslateblue;
+            border-radius: .5vh;
+        }
+
+        .laptop::after {
+            content: "";
+            position: absolute;
+            left: 3.75vh;
+            top: -4.6vh;
+            height: 2vh;
+            width: 2vh;
+            background-color: transparent;
+            border-radius: 100%;
+            border: 0.4vh solid whitesmoke;
+        }
+
+        .cup1 {
+            position: absolute;
+            left: 15.5vh;
+            top: -3vh;
+            width: 2vh;
+            height: 3vh;
+            z-index: 3;
+            background-color: antiquewhite;
+        }
+
+        .cup1::before {
+            content: "";
+            position: absolute;
+            left: 1.69vh;
+            top: .6vh;
+            width: .5vh;
+            height: 1vh;
+            border: .4vh solid antiquewhite;
+            border-left: none;
+            border-radius: 1.5vh;
+        }
+
+        .smoke {
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: 15.7vh;
+            top: -3vh;
+            background-color: whitesmoke;
+            border-radius: 100%;
+            animation: smokeMovement 3s linear infinite;
+        }
+
+        .smoke::before {
+            content: "";
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: .5vh;
+            top: 0;
+            background-color: whitesmoke;
+            border-radius: 100%;
+            animation: smokeMovement 10s linear infinite;
+        }
+
+        .smoke::after {
+            content: "";
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: -.25vh;
+            top: 0;
+            background-color: whitesmoke;
+            border-radius: 100%;
+            animation: smokeMovement 1s linear infinite;
+        }
+
+        @keyframes smokeMovement {
+            0% {
+                opacity: .6;
+                width: 1vh;
+                height: 1vh;
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                opacity: .25;
+                width: .5vh;
+                height: .5vh;
+                transform: translateX(.6vh) translateY(-.5vh);
+            }
+            100% {
+                opacity: 0;
+                width: 0;
+                height: 0;
+                transform: translate(0) translateY(-1.5vh);
+            }
+        }
+
+        .lamp {
+            position: absolute;
+            left: 2vh;
+            top: -1vh;
+        }
+
+        .lampbtm {
+            position: absolute;
+            width: 5vh;
+            height: 1vh;
+            top: 0;
+            left: 0;
+            background-color: #3b0066;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .lampbtm::before {
+            content: "";
+            position: absolute;
+            width: .5vh;
+            height: .25vh;
+            top: -0.15vh;
+            left: 3.5vh;
+            background-color: aliceblue;
+        }
+
+        .lampstand {
+            position: absolute;
+            left: -1vh;
+            top: -6vh;
+            width: 1vh;
+            height: 7vh;
+            background-color: #4a0080;
+            transform: rotateZ(-30deg);
+        }
+
+        .lampstand::after {
+            content: "";
+            position: absolute;
+            left: -.25vh;
+            top: -1vh;
+            width: 2vh;
+            height: 1.5vh;
+            background-color: darkslateblue;
+            border-radius: 0 0 100% 100%;
+        }
+
+        .lampstand::before {
+            content: "";
+            position: absolute;
+            left: 3.5vh;
+            top: -4.5vh;
+            width: 1vh;
+            height: 7vh;
+            background-color: #4a0080;
+            transform: rotateZ(75deg);
+        }
+
+        .lamphead {
+            position: absolute;
+            top: -13vh;
+            left: 2.5vh;
+            width: 2.75vh;
+            height: 3vh;
+            border-radius: 10px 10px 0 0;
+            background-color: #4a0080;
+            transform: rotateZ(-45deg);
+        }
+
+        .lamphead::after {
+            content: "";
+            position: absolute;
+            left: -1.1vh;
+            top: 2.5vh;
+            width: 5vh;
+            height: 3vh;
+            background-color: #3b0066;
+            border-radius: 2vh 2vh 0 0;
+
+        }
+
+
+        .books {
+            position: absolute;
+            left: 23vh;
+            top: -1.5vh;
+            width: 5vh;
+            height: .5vh;
+            background-color: azure;
+            border: .5vh solid #4a0080;
+            border-left: .3vh solid #4a0080;
+            border-right: none;
+        }
+
+        .books::before {
+            content: "";
+            position: absolute;
+            left: .5vh;
+            top: -2.25vh;
+            width: 5vh;
+            height: .75vh;
+            background-color: azure;
+            border: .5vh solid #4a0080;
+            border-left: .3vh solid #4a0080;
+            border-right: .3vh solid #4a0080;
+        }
+
+        .books::after {
+            content: "";
+            position: absolute;
+            left: -3.2vh;
+            top: -2vh;
+            width: 4.5vh;
+            height: .5vh;
+            background-color: azure;
+            border: .5vh solid #4a0080;
+            border-left: .3vh solid #4a0080;
+            border-right: none;
+            transform: rotateZ(-60deg)
+        }
+
+        .rand {
+            position: absolute;
+            left: 18vh;
+            top: -.5vh;
+            width: 3vh;
+            height: .5vh;
+            background-color: aliceblue;
+            border-right: 1vh solid blue;
+        }
+
+        .rand::after {
+            content: "";
+            position: absolute;
+            left: -5vh;
+            top: 0vh;
+            width: 3vh;
+            height: .5vh;
+            background-color: aliceblue;
+            border-left: 1vh solid green;
+        }
+
+        .picture {
+            position: absolute;
+            left: 67vh;
+            top: 30vh;
+            width: 5vh;
+            height: 5vh;
+            background-image("files/1.png");
+            object-fit: fill;
+            border: 1vh solid #0f001a;
+        }
+
+        .picture::after {
+            content: "";
+            position: absolute;
+            left: -9.5vh;
+            top: -.75vh;
+            width: 6vh;
+            height: 6vh;
+            background-image: url("files/2.png");
+            border: .75vh solid #0f001a;
+        }
+
+        .picture::before {
+            content: "";
+            position: absolute;
+            left: -1vh;
+            top: 7vh;
+            width: 5vh;
+            height: 3vh;
+            background-image: url("files/4.png");
+            border: .75vh solid #0f001a;
+        }
+
+        .ceiling {
+            position: absolute;
+            top: 2vh;
+            left: -1vh;
+            background-color: #1f0033;
+            height: 5vh;
+            width: 100vh;
+        }
+
+        .ceilingLight {
+            position: absolute;
+            left: 55vh;
+            top: 2vh;
+            width: 5vh;
+            height: 2vh;
+            background-color: #0f001a;
+            border-radius: 0 0 .5vh .5vh;
+        }
+
+        .ceilingLight::before {
+            content: "";
+            position: absolute;
+            left: 2.4vh;
+            top: 2vh;
+            width: .5vh;
+            height: 15vh;
+            background-color: #0f001a;
+        }
+
+        .light {
+            position: absolute;
+            left: -2.5vh;
+            top: 17vh;
+            width: 10vh;
+            height: 6vh;
+            background-color: burlywood;
+            border-radius: 1.5vh 1.5vh .5vh .5vh;
+        }
+
+        .light::before {
+            content: "";
+            position: absolute;
+            top: 4.75vh;
+            left: 3vh;
+            width: 4vh;
+            height: 2vh;
+            background-color: #edd7ab;
+            z-index: -1;
+            border-radius: 1.5vh;
+        }
+
+        .walls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vh;
+            height: 70vh;
+            z-index: 1;
+            perspective: 15.5vh;
+        }
+
+        .wallPic {
+            position: absolute;
+            left: 1.5vh;
+            top: 30vh;
+            width: 5vh;
+            height: 5vh;
+            background-image: url("files/3.png");
+            border: .5vh solid #0f001a;
+        }
+
+        .wallPic::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: -.5vh;
+            width: .5vh;
+            height: 6vh;
+            background-color: #0f001a;
+            transform: rotateY(30deg);
+        }
+
+        .wallPic::after {
+            content: "";
+            position: absolute;
+            left: 5vh;
+            top: 0;
+            width: .5vh;
+            height: 5vh;
+            background-color: #0f001a;
+            transform: rotateY(40deg);
+        }
+
+
+        .floor {
+            position: absolute;
+            top: 55vh;
+            left: -12vh;
+            width: 122vh;
+            height: 65vh;
+            background-color: #1f0033;
+            z-index: -3;
+            box-shadow: inset 9px -200px 100px 40px rgba(0, 51, 51, 1), inset 0 4px 15px 1px rgba(255, 212, 128, 0.9), inset 0px 5px 40px 3px rgba(255, 212, 128, 0.75);
+            clip-path: polygon(9% 0%, 91% 0%, 91% 100%, 9% 100%);
+            perspective: 15vh;
+        }
+
+        .objs {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        :root {
+            --stepss: 44;
+            --fLen: 20em;
+        }
+
+        @font-face {
+            font-family: fontName;
+            src: url("fonts/font2.ttf");
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 65vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            width: 0;
+            font-family: fontName;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+
+        #canvas {
+            position: absolute;
+            width: 150vw;
+            height: 150vh;
+            left: -28vh;
+            top: 0;
+            align-self: center;
+            justify-self: center;
+            z-index: 25;
+            overflow: visible;
+            transition: background-color 10s ease;
+        }
+        
+        #soundbtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+            z-index: 50;
+        }
+
+    </style>
+</head>
+
+<body onkeydown="move(event)" onkeyup="unmove(event)" onload="loadstuff()" allow="autoplay">
+    <canvas id="canvas"></canvas>
+    
+    <div class="container">
+        <div class="scene">
+            <div class="objs">
+                <div class="window1">
+                    <div class="curtainRack"></div>
+                    <div class="curtain1"></div>
+                    <div class="curtain2"></div>
+                    <div class="flower1">
+                        <div class="leaf"></div>
+                        <div class="pot"></div>
+                    </div>
+                </div>
+
+                <div class="sampleObj obj1">
+                    <div class="angle1"></div>
+                    <div class="handle"></div>
+                    <div class="angle2">
+                        <div class="wallPic"></div>
+                    </div>
+                </div>
+                <div class="walls">
+                    <div class="angle3"></div>
+                </div>
+
+                <div class="picture"></div>
+
+                <div class="floor">
+                </div>
+
+                <div class="door"></div>
+
+                <div class="ceiling">
+                    <div class="ceilingLight">
+                        <div class="light"></div>
+                    </div>
+                </div>
+
+                <div class="table">
+                    <div class="laptop"></div>
+                    <div class="cup1">
+                    </div>
+                    <div class="smoke"></div>
+                    <div class="clock"></div>
+                    <div class="rand"></div>
+                    <div class="lamp">
+                        <div class="lamphead"></div>
+                        <div class="lampstand"></div>
+                        <div class="lampbtm"></div>
+                    </div>
+                    <div class="books"></div>
+                </div>
+                <div id="dialogueBox"></div>
+            </div>
+
+            <div class="character">
+                <div class="head">
+                    <div class="hair"> </div>
+                    <div class="eyes"></div>
+                </div>
+                <div class="body">
+                    <div class="armLeft"></div>
+                    <div class="armRight"></div>
+                    <div class="leg1"></div>
+                    <div class="leg2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="soundbtn" onload="audioLoad" onclick="document.getElementById('audio').play();document.getElementById('soundbtn').remove();">Play</div>
+    <audio src="files/room.mp3" autoplay loop id="audio" allow="autoplay" onload="audioLoad"></audio>
+    <script>
+        setTimeout(function audioLoad() {
+            let myAudio = document.getElementById("audio"); 
+            if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+        },2500);
+        var stop = [0, 0, 0],
+            tick = 0,
+            lock = 0,
+            chPos = 600,
+            winPos = 300,
+            flPos = 0,
+            scenePosition = 0,
+            CurrObjPos = [0, 65, -1],
+            initObjLeftPos = [0, 65, -1],
+            clips = ["-145", "-160", "90"],
+            dia = ["Oh wait! I didn't explain what the controls are...", "Have you just been standing here all this time?", [
+                ["Oh no, you have? I'm so sorry...", "Well, now you don't like this project.", "How do you even show controls properly?", "That'd look really clunky and out of place.", "That makes the game look cheesy and basic", "There's always all these clever developers", "They come up with the coolest things", "Oh no, what if someone", "has already made a game just like this one?", "What if this comes off", "as insulting to them?", "What if their version actually works?", "What if it's backed by years", "of actual trauma and sadness?", "Could this be devaluing?", "What even is value?", "What am I worth?", "How do I get where I want to be?", "How do I improve?", "How do I become happy?", "How do I make progress and learn to be happy?", "How do I make a schedule?", "How do I get Grammarly off my computer?", "How do I know my worth?"],
+                ["Oh, you haven't? That's good to see.", "Oh no, what if you have a really small keyboard?", "Maybe picking the arrow keys wasn't a good idea", "But why would it be WASD?", "You can't move Y or Z-wise.", "That's my problem, I  know, I know.", "I should have thought of this.", "Is this where I thought I'd be 5 years ago?", "I don't even like Java that much", "But then do I really know how to use it?", "Can I write good code?", "Or dialogue?", "Or just good like handwriting?", "Can I be loved?", "Can I plant a tree and build a house?", "Can I move on?"]
+            ]];
+
+        document.cookie = "stT=0; path=/";
+        document.cookie = "cl=None; path=/";
+        document.cookie = "diaDisplay=Y; path=/"
+        document.cookie = "ctrl=0; path=/";
+        document.cookie = "stC=0; path=/";
+        document.cookie = "userPicked=None; path=/";
+
+        document.getElementById("audio").volume = 0.15;
+
+        function loadstuff() {
+            for (var i = 0; i < initObjLeftPos.length; ++i) {
+                document.getElementsByClassName("angle" + (i + 1).toString())[0].style.transform = "rotateY(" + clips + "deg)";
+            }
+            var i = 0;
+            setTimeout(function() {
+                var mv = (scenePosition == 0) ? 0 : 1;
+                setInterval(function() {
+                    if (i == (dia.length + dia[2][mv].length)) {
+                        clearInterval();
+                    }
+                    var iter = (i < 2) ? dia[i] : dia[2][mv][i - 2];
+                    document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                    document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                    document.getElementById("dialogueBox").innerHTML = iter;
+                    document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss)) infinite";
+                    document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                    ++i;
+                }, 2000 - i * 3);
+            }, 10000);
+        }
+
+        function unmove(event) {
+            let QuirKey = event.keyCode;
+            if (QuirKey == 39 || QuirKey == 37) {
+                document.getElementsByClassName("leg1")[0].style.top = "6vh";
+                document.getElementsByClassName("leg2")[0].style.top = "6vh";
+                document.getElementsByClassName("armRight")[0].style.transform = "";
+                document.getElementsByClassName("armLeft")[0].style.transform = "";
+                tick = 0;
+            }
+        }
+        document.getElementsByClassName("angle1")[0].style.left = "5.9vh";
+
+        function move(event) {
+            let QKey = event.keyCode;
+            let sizeA = 3;
+
+            if (QKey == 13) { //Enter
+                var dBox = document.getElementsByClassName("dialogueBox")[0];
+
+
+            } else if (((QKey == 39 && scenePosition > -31) || (QKey == 37 && scenePosition < 42)) && lock == 0) { //Right Left 
+                function armSwing(val1, val2, val3, val4) {
+                    document.getElementsByClassName("leg1")[0].style.top = val1;
+                    document.getElementsByClassName("leg2")[0].style.top = val2;
+                    document.getElementsByClassName("armRight")[0].style.transform = val3;
+                    document.getElementsByClassName("armLeft")[0].style.transform = val4;
+                }
+
+
+                function shading(head, arm) {
+                    document.getElementsByClassName("head")[0].style.boxShadow = head;
+                    document.getElementsByClassName("armRight")[0].style.boxShadow = arm;
+                }
+
+                for (var i = 0; i < sizeA; ++i) {
+                    var rotateObjAngle = document.getElementsByClassName("angle" + (i + 1).toString())[0].style.transform;
+                    rotateObjAngle = (rotateObjAngle == "") ? clips[i] : (rotateObjAngle.match(/-?\d+/g)[0]);
+
+
+                    var temp = (parseInt(rotateObjAngle) + ((QKey == 39) ? -1 : 1) * ((chPos > CurrObjPos[i]) ? 1 : -1));
+
+                    if ((i == 2 && temp >= 90 && temp < 150) || (i == 1 && tick % 8 == 1 && temp > -164.0 && temp < -157.5) || (i == 0 && temp > -145 && temp < -115))
+                        document.getElementsByClassName("angle" + (i + 1).toString())[0].style.transform = "rotateY(" + temp.toString() + "deg)";
+
+                    CurrObjPos[i] -= 10 * ((QKey == 39) ? 1 : -1);
+                }
+
+                document.getElementsByClassName("objs")[0].style.left = (scenePosition - 1.25 * ((QKey == 39) ? 1 : -1)).toString() + "%";
+                scenePosition -= 1.25 * ((QKey == 39) ? 1 : -1);
+                //winPos -= 8 * ((QKey == 39) ? 1 : -1);
+                //flPos -= 8 * ((QKey == 39) ? 1 : -1);
+
+                document.getElementsByClassName("character")[0].style.transform = (QKey == 39) ? "rotateY(0)" : "rotateY(180deg)";
+
+                (chPos > winPos + 500 || chPos < winPos - 500) ? shading("none", "none"): shading("-3px 5px 5px .5px rgba(255,228,181,0.9) inset", ".3px .5px 3px .5px rgba(255,228,181,0.9) inset");
+
+                if (tick % 8 == 0)
+                    armSwing("5.75vh", "6vh", "rotateZ(45deg) translate(-2vh,2.5vh)", "rotateZ(-45deg) translate(2vh,1.5vh)");
+                else if (tick % 4 == 0)
+                    armSwing("6vh", "5.75vh", "rotateZ(-45deg) translate(.25vh,0)", "rotateZ(45deg) translate(.2vh,-.5vh)");
+                ++tick;
+            }
+        }
+
+        setTimeout(function() {
+            document.getElementById("canvas").style.backgroundColor = "white";
+            setTimeout(function() {
+                window.location.assign("tutorial.html");
+            }, 11000);
+        }, 50000);
+
+
+        class Circle {
+            constructor(x, y, radius, rgb_string) {
+                this.radius = radius;
+                this.vx = this.vy = 0;
+            }
+        }
+
+        class Particle extends Circle {
+
+            constructor(x, y, radius, rgb_string, i) {
+                super(x, y, radius, rgb_string);
+                this.x = x;
+                this.y = y;
+                this.i = i;
+                this.vx = (Math.random() * 2 + 0.005 * Math.sign(this.i - 400));
+                this.vy = (Math.random() * 2 - 0.5 * -Math.sign(this.i - 400));
+                this.rgb_string = rgb_string;
+                this.a = 1;
+            }
+
+            get ParticleColor() {
+                return "rgba(" + this.rgb_string + "," + this.a + ")";
+            }
+
+            updatePosition() {
+                this.x += this.vx / 2;
+                this.y += this.vy / 2;
+                this.radius -= 0.005;
+            }
+
+        }
+
+        class ColorPick {
+
+            constructor(r, g, b) {
+                this.r = r;
+                this.g = g;
+                this.b = b;
+            }
+
+            getRGBString() {
+                return String(this.r + "," + this.g + "," + this.b);
+            }
+
+            gradualShift_(direction) {
+                if (this.r > 250) cnt = 0;
+                if (cnt == 0) {
+                    direction = -0.5;
+                }
+                if (cnt == 1 || this.r < 220) {
+                    cnt = 1;
+                    direction = 0.5;
+                }
+                this.r = this.g = this.b += direction;
+            }
+
+        }
+
+        var particles = new Array();
+
+        var context = document.getElementById("canvas").getContext("2d");
+        var ParticleColor = new ColorPick(250, 250, 250);
+        var direction = 0,
+            cnt = 0,
+            complete = 0;
+
+        var xC = -2200,
+            yC = -2200;
+
+        function loop_(time_stamp) {
+            window.requestAnimationFrame(loop_);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = "transparent";
+            context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+
+
+            direction += 0.01;
+            ParticleColor.gradualShift_(direction);
+            if (complete == 0) {
+                for (let i = 0; i < 800; ++i) {
+                    particles.push(new Particle(xC, yC, Math.floor(Math.random() * 50 + 20), ParticleColor.getRGBString(), i + 1));
+                }
+            }
+            if (particles.length == 800)
+                complete = 1;
+
+            for (let index = particles.length - 1; index > -1; --index) {
+                let particle = particles[index];
+                particle.updatePosition();
+                context.beginPath();
+                context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                context.fillStyle = particle.ParticleColor;
+                context.fill();
+                context.closePath();
+            }
+        }
+
+        function resize(event) {
+            context.canvas.height = document.documentElement.clientHeight - 16;
+            context.canvas.width = document.documentElement.clientWidth - 16;
+
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+        loop_();
+
+    </script>
+</body>
+
+</html>

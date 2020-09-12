@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width">
+    <title>Pool</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            background-color: #000;
+            cursor: pointer;
+            display: grid;
+        }
+
+        canvas {
+            align-self: center;
+            justify-self: center;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+    <p id="p"></p>
+
+    <script type="text/javascript">
+        class Circle {
+            constructor(x, y, radius, rgb_string) {
+                this.radius = radius;
+                this.l = this.ol = x - radius; // left and old left
+                this.r = this.or = x + radius * 2; // right and old 
+                this.t = this.ot = y - radius; // top and old top
+                this.b = this.ob = y + radius * 2; // bottom and old 
+                this.w = this.h = radius;
+                this.vx = this.vy = 0;
+            }
+        }
+
+        class Particle extends Circle {
+
+            constructor(x, y, radius, rgb_string) {
+                super(x, y, radius, rgb_string);
+                this.x = x;
+                this.y = y;
+                this.vx = Math.random() * -1 - 0.5;
+                this.vy = Math.random() * -1 - 0.5;
+                this.rgb_string = rgb_string;
+                this.a = 1;
+            }
+
+            get color() {
+                return "rgba(" + this.rgb_string + ","+this.a+")";
+            }
+
+            updatePosition() {
+                this.x += this.vx/2;
+                if(this.y<(Math.random() * 150)) this.vy*=-0.25;
+                if(this.vy>0) this.a -= 0.01;
+                this.y += this.vy/2;
+                this.radius -= 0.005;
+            }
+
+        }
+        class Player extends Circle {
+            constructor(x, y, radius, rgb_string) {
+                super(x, y, radius, rgb_string);
+            }
+            update() {
+                this.vx *= 0.9;
+                this.vy *= 0.9
+            }
+
+            collidecircle_(circle_) {
+                /*if (this.b < circle_.t || this.t > circle_.b || this.l > circle_.r || this.r < circle_.l) return;
+
+                if (this.b >= circle_.t) {
+                    circle_.rgb_string = "0,0,255";
+                } */
+                let xD = pointer.x - circle_.x;
+                let yD = pointer.y - circle_.y;
+                xD *= xD;
+                yD *= yD;
+                xD = Math.sqrt(xD + yD);
+                if (xD < (circle_.radius + this.radius)) circle_.rgb_string = "0,0,255";
+            }
+        }
+
+        class Color {
+
+            constructor(r, g, b) {
+
+                this.r = r;
+                this.g = g;
+                this.b = b;
+
+            }
+
+            getRGBString() {
+                return String(this.r + "," + this.g + "," + this.b);
+            }
+
+            gradualShift(direction) {
+                if (this.r > 250) cnt = 0;
+                if (cnt == 0) {
+                    direction = -0.5;
+                }
+                if (cnt == 1 || this.r < 220) {
+                    cnt = 1;
+                    direction = 0.5;
+                }
+                this.r = this.g = this.b += direction;
+            }
+
+        }
+
+        var particles = new Array();
+
+        var context = document.getElementById("canvas").getContext("2d");
+
+        var output = document.getElementById("p");
+
+        var pointer = {
+            x: 0,
+            y: 0,
+            down: false
+        };
+        var color = new Color(250, 250, 250);
+        var direction = 0;
+        var cnt = 0;
+        var player_ = new Player(pointer.x, pointer.y, Math.floor(Math.random() * 10 + 10), color.getRGBString());
+
+        function loop(time_stamp) {
+            window.requestAnimationFrame(loop);
+
+            function drawPlayer() {
+                context.beginPath();
+                context.arc(pointer.x, pointer.y, player_.radius, 0, 2 * Math.PI, true);
+                context.fillStyle = player_.color;
+                context.fill();
+                requestAnimationFrame(drawPlayer);
+            }
+            drawPlayer();
+            player_.update();
+            for (let index = particles.length - 1; index > -1; --index) {
+                player_.collidecircle_(particles[index]);
+            }
+            context.fillStyle = "#000";
+            context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+
+            direction += 0.01;
+            color.gradualShift(direction);
+
+            for (let index = 0; index < 1; ++index) {
+                if (particles.length < 500) {
+                    particles.push(new Particle(1200, 700, Math.floor(Math.random() * 50 + 20), color.getRGBString()));
+
+                }
+            }
+
+            for (let index = particles.length - 1; index > -1; --index) {
+
+                let particle = particles[index];
+
+                particle.updatePosition();
+
+                //if (particle.a <= 0) particles.shift();
+
+                context.beginPath();
+                context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                context.fillStyle = particle.color;
+                context.fill();
+                context.closePath();
+
+            }
+        }
+
+        function resize(event) {
+
+            context.canvas.height = document.documentElement.clientHeight - 16;
+            context.canvas.width = document.documentElement.clientWidth - 16;
+
+        }
+
+        function mouseDownMoveUp(event) {
+
+            event.preventDefault();
+
+            var rect = context.canvas.getBoundingClientRect();
+
+            pointer.x = event.clientX - rect.left;
+            pointer.y = event.clientY - rect.top;
+
+            switch (event.type) {
+
+                case "mousedown":
+                    pointer.down = true;
+                    break;
+                case "mouseup":
+                    pointer.down = false;
+
+            }
+
+        }
+
+        function touchEndMoveStart(event) {
+
+            event.preventDefault();
+
+            var rect = context.canvas.getBoundingClientRect();
+            var touch = event.targetTouches[0];
+
+            if (touch) {
+                pointer.x = touch.clientX - rect.left;
+                pointer.y = touch.clientY - rect.top;
+            }
+
+            switch (event.type) {
+
+                case "touchstart":
+                    pointer.down = true;
+                    break;
+                case "touchend":
+                    pointer.down = false;
+
+            }
+
+        }
+
+        window.addEventListener("resize", resize);
+
+        window.addEventListener("mousedown", mouseDownMoveUp);
+        window.addEventListener("mousemove", mouseDownMoveUp);
+        window.addEventListener("mouseup", mouseDownMoveUp);
+
+        window.addEventListener("touchend", touchEndMoveStart);
+        window.addEventListener("touchmove", touchEndMoveStart);
+        window.addEventListener("touchstart", touchEndMoveStart);
+
+        resize();
+        loop();
+
+    </script>
+
+</body>
+
+</html>

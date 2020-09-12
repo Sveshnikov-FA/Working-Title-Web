@@ -1,0 +1,173 @@
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #00001a;
+            position: absolute;
+            overflow: hidden;
+            cursor: none;
+        }
+
+
+        canvas {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            align-self: center;
+            justify-self: center;
+            transition: opacity 10s ease;
+        }
+
+        #ph1 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 10vh;
+            z-index: 2;
+            opacity: 1;
+            width: 100vw;
+            height: 100vh;
+            visibility: hidden;
+        }
+
+        :root {
+            --stepss: 44;
+            --fLen: 20em;
+        }
+
+        @font-face {
+            font-family: fontName;
+            src: url("fonts/font2.ttf");
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 65vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            width: 0;
+            font-family: fontName;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+            z-index: 25;
+        }
+
+        #arrow {
+            position: absolute;
+            top: 4vh;
+            left: 95vh;
+            width: 15vh;
+            height: 7.5vh;
+            background-color: aliceblue;
+            clip-path: polygon(0% 80%, 50% 50%, 100% 80%, 100% 100%, 50% 70%, 0% 100%);
+            animation: float 2s ease infinite alternate;
+            z-index: 20;
+            opacity: 0;
+            transition: .5s;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+
+        @keyframes float {
+            from {
+                transform: scale(0.9) translateY(1vh);
+            }
+            to {
+                transform: scale(1.1) translateY(-1vh);
+            }
+        }
+
+        #life {
+            position: absolute;
+            top:97.5vh;
+            left:0;
+            background-color: deepskyblue;
+            width:100vw;
+            height:2.5vh;
+            transition:1s;
+            opacity: 0;
+            z-index: 20;
+        }
+        
+        #soundbtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+            z-index:50;
+        }
+    </style>
+    <script src="scripts/data.js"></script>
+</head>
+
+<body>
+    <audio src="files/tutorial.mp3" autoplay loop id="audio" allow="autoplay" onload="audioLoad"></audio>
+    <div id="soundbtn" onclick="document.getElementById('audio').play();document.getElementById('soundbtn').remove();">Play</div>
+    <div id="ph1"></div>
+    <div id="arrow"></div>
+    <div id="life"></div>
+    <div id="dialogueCont">
+        <div id="dialogueBox"></div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript" src="scripts/tutorialDraw.js"></script>
+    <script>
+        var dia = ["Oh, that was so stupid.", "We have only just started and I'm getting anxious again.", "That's no good, isn't it?", "...", "I feel like we can do something about it though.", "This right here?", "That's the visual representation of one of your thoughts.", "Though, what happens when you think of something?", "That's right, many new different thoughts appear.", "That makes you want to focus on them, and them only.", "Don't get distracted!", "Watch out!", "", "You can only get distracted so many times before you lose focus completely.", "Now, a thought has to go somewhere.", "I'm sure you'll know where to go best.", "Now, we actually got distracted.", "What were we nervous about initially?", "Oh, right, the contols...", ""];
+        var i = 0,
+            tick = 1;
+            
+        setTimeout(function audioLoad() {
+            console.log("oop");
+            let myAudio = document.getElementById("audio"); 
+            myAudio.volume = 0.15;
+            if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+        },2500);
+
+        function loop2() {
+
+            if (stage == 4 || stage == 6) document.getElementById("dialogueBox").innerHTML = "";
+            if (tick % 31 == 0 && (stage != 4 && stage != 6)) {
+                tick = 1;
+
+                var iter = dia[i];
+
+                document.getElementById("dialogueBox").style.animation = "none";
+
+                setTimeout(function() {
+                    document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                    document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                    document.getElementById("dialogueBox").innerHTML = iter;
+                    document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss))";
+                    if (i == 3) {
+                        document.getElementById("dialogueBox").style.animation = "typetype 6s steps(var(--stepss))";
+                        setTimeout(function() {}, 6000);
+                    }
+                    document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                    ++i;
+
+                    
+                }, 2000);
+            }
+            ++tick;
+        }
+        setInterval(function() {
+            loop2();
+        }, 100);
+
+    </script>
+</body>
+
+</html>

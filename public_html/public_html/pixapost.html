@@ -1,0 +1,204 @@
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            background-color: lightcyan;
+        }
+        
+        @font-face {
+            font-family:countdown;
+            src:url("fonts/countdown.otf");
+        }
+
+        #container {
+            height: 100vh;
+        }
+
+        #topBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 3vh;
+            background-color: lightblue;
+            padding: 2vh;
+            z-index: 20;
+        }
+
+        #topBar::after {
+            content: "";
+            position: absolute;
+            width: 20vw;
+            height: 3vh;
+            background-color: aliceblue;
+            border-radius: 1vh;
+        }
+
+        #sidebar {
+            position: fixed;
+            width: 5vh;
+            height: 100vh;
+            top: 7vh;
+            background-color: lightsteelblue;
+        }
+
+        .sideR {
+            left: 0;
+            position: relative;
+            width: 3.1vh;
+            height: 2.5vh;
+            padding: 1vh;
+            padding-bottom: 2.25vh;
+            display: grid;
+            place-items: center;
+            transition: .5s;
+        }
+
+        .sideR:hover {
+            background-color: lightblue;
+        }
+
+        #profileIcon {
+            position: relative;
+            top: 2vh;
+            left: 0;
+            width: 3vh;
+            height: 2vh;
+            background-color: powderblue;
+            border-radius: 4vh 4vh .5vh .5vh;
+            margin-bottom: .5vh;
+        }
+
+        #profileIcon::after {
+            content: "";
+            position: absolute;
+            top: -2.25vh;
+            left: .5vh;
+            width: 2vh;
+            height: 2vh;
+            background-color: powderblue;
+            border-radius: 100%;
+        }
+
+        #newsIcon {
+            position: relative;
+            width: 2vh;
+            height: 2.75vh;
+            border: .5vh solid powderblue;
+            background-image: repeating-linear-gradient(0deg, powderblue 0vh, powderblue .4vh, aliceblue .4vh, aliceblue .8vh);
+            border-radius: .5vh;
+            top: 0;
+            left: 0;
+        }
+
+        #messagesIcon {
+            position: relative;
+            margin-top: . 5vh;
+            width: 3vh;
+            height: 3vh;
+            background-color: powderblue;
+            border-radius: .5vh;
+            clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 75%, 90% 100%, 60% 75%, 0 75%);
+        }
+
+        #feed {
+            margin: 5vh;
+            padding: 5vh;
+        }
+
+        #postContainer {
+            position: relative;
+            width: 50vw;
+            height: auto;
+            background-color: paleturquoise;
+            border-radius: 2vh;
+            margin: 4vh;
+            padding: 4vh;
+        }
+        #postProfile {
+            color:black;
+            font-family:countdown;
+            font-size:4vh;
+            width:100%;
+            display: flex;
+            align-items: center;
+        }
+                
+        #postBodyContainer{
+            position: relative;
+            height: auto;
+            display: grid;
+        }
+        
+        #PostAttachment {
+            position: relative;
+            margin-top:2vh;
+            width:30vh;
+            height:30vh;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 1vh;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="topBar"></div>
+        <div id="sidebar">
+            <div class="sideR" onclick="window.location.assign('pixapost_profile.html')">
+                <div id="profileIcon"></div>
+            </div>
+            <div class="sideR" onclick="window.location.assign('pixapost.html')">
+                <div id="newsIcon"></div>
+            </div>
+            <div class="sideR" onclick="window.location.assign('pixapost_msgs.html')">
+                <div id="messagesIcon"></div>
+            </div>
+        </div>
+        <div id="feed">
+            <div id="postContainer">
+                <div id="postProfile">
+                    Post My Loans
+                </div>
+                <div id="postBodyContainer">
+                    <div id="PostCaption"></div>
+                    <div id="PostAttachment"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        //post text random content
+        var dreamText = ["Have", "you", "ever", "had", "a", "dream", "that", "you", "um", "you", "had", "your", "could", "you’ll", "do", "wants", "do", "you’ll", "you", "want", "them", "to", "do", "much", "could", "anything"];
+        
+        //usernames
+        var xName = ["Thanbo Ianchumchu", "Althony Bumtano", "Kham Shalisse", "Jackham Mer", "Thor Tnight", "Won't Smith", "AAAAA", "Mike Rihvse", "Polly Decal", "RedditPremiumAdAccount", "Lil Impeachu", "Caree Tikhal", "Hah Rumbey", "Alexander Ham", "Desnys Theliankin", "Ko Dyco", "Flo Werpot", "Jai Denani", "Theo Donesou", "Pewter Diepier", "Porter Robinson Stan"];
+        
+        window.addEventListener('scroll', function(event) {
+            var element = document.body;
+            if (Math.round(element.scrollHeight - element.scrollTop) <= element.clientHeight+1) { //as soon as you scroll to the bottom, 25 new messages appear
+                for (var i = 0; i < 25; ++i) {
+                    var newFeedItem = document.getElementById("postContainer").cloneNode(true);
+                    newFeedItem.style.backgroundColor = "rgb(" + (Math.random() * 50 + 150) + ",255,255)"
+                    document.getElementById("postProfile").innerHTML = xName[Math.floor(Math.random()*(xName.length))] + " ";//picking random name
+                    var postLength = Math.random()*100, postContent = "";
+                    for(var j = 0;j<postLength;++j) postContent += dreamText[Math.floor(Math.random()*(dreamText.length))] + " ";
+                    document.getElementById("PostCaption").innerHTML = postContent; //randomizing post content
+                                                            
+                    var ImgAttached = Math.floor(Math.random()*3); //randomizing attached "image"
+                    document.getElementById("PostAttachment").style.display = (ImgAttached==1) ? "flex" : "none";
+                    document.getElementById("PostAttachment").style.backgroundColor = "rgba("+Math.floor(Math.random()*205)+",205,"+Math.floor(Math.random()*55+150)+", 0.5)";//randomizing post body color
+                    
+                    document.getElementById("feed").appendChild(newFeedItem);
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+// table
+particles could be different notification icons, like the bell with a "1" or an envelope or something like that
+maybe make the keys different colors depending on the pitch of the plucks (through amp, I guess, idk?)
+
+// closet
+
+to every synth hit make the scissors make a line from one side to the other; Make sure they start from 2 specific sides only to make it fair
+maybe also 2 combs swinging in different directions on the sides
+for synth swings in intro make an animation of a button getting into the seam, or two tightening strings slide down
+for drums it should just be round buttons zooming in and out quickly in random locations,highlighted with gray for 1s before it hits; same for the keys
+
+//finale
+
+intro should be clouds moving slowly but developing overtime, as the beat hits; the build up should be a move down, provided the player is given space
+
+first drop could be waves going to the center and the closest to it gets a bit distorted; or it could be the ones on the glitchier side of it
+
+on the buildup of the second drop it should start cornering the player in the center, then, as the drums hit, make the blocks create a landscape-like thing
+    i imagine that can be done by just adding an extra layer with no repaints and a gradual color change from gray to white
+    
+the second drop has to be random but simple shapes, with the synth hits clearing the canvas for a second to play a quick animation of like the button  
+    from last lvl spinning or a key being pressed
+
+the outro takes the control away from user and just zooms out indefinitely until it's revealed that the dot we're moving is inside the eye of the player 
+    model we've used before, but in a blank space. Then, dialogue
+    

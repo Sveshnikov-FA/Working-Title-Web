@@ -1,0 +1,40 @@
+<html>
+<head>
+    <style>
+        button {
+            border-radius: 5px;
+            border: 5px inset red;
+            width: 100px;
+            height: 25px;
+            position: absolute;
+            background-color: red;
+        }
+        .pause {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+
+<body onload="timeOut()">
+    <div id="cont" onclick="act()"></div>
+    <img id="img" src="DogRoll.gif">
+    <script>
+        function timeOut() {
+            setTimeout(function() {
+                var image = document.getElementById("img");
+                image.src = "DogRollNotAnim.gif";
+            },500);
+                var btn = document.createElement("BUTTON");
+                var t = document.createTextNode("BVCK");
+                btn.appendChild(t);
+                document.getElementById("cont").appendChild(btn);
+            
+        }
+
+        function act() {
+            window.open("Cycle.html");
+            window.close();
+        }
+    </script>
+</body>
+</html>

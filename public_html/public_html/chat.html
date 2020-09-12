@@ -1,0 +1,1039 @@
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        @font-face {
+            font-family: fontName;
+            src: url("fonts/font2.ttf");
+        }
+
+        .taskbar {
+            position: absolute;
+            width: 100vw;
+            height: 5vh;
+            top: 96vh;
+            background-color: lightblue;
+            display: flex;
+            overflow: hidden;
+            justify-content: flex-end;
+        }
+
+        .left {
+            width: 40vh;
+            display: flex;
+            margin-right: auto;
+        }
+
+        .win {
+            position: relative;
+            width: 3vh;
+            height: 5vh;
+            perspective: 100px;
+            padding: 1.25vh;
+            cursor: pointer;
+        }
+
+        .TBCont {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            margin-top: -1vh;
+            display: flex;
+        }
+
+        .iconTB {
+            position: relative;
+            width: 4vh;
+            height: 3.5vh;
+            padding: 1.25vh;
+            padding-top: 1.25vh;
+            display: grid;
+            place-items: center;
+            display: none;
+            cursor: pointer;
+        }
+
+        .iconTB:hover {
+            background-color: aqua;
+
+        }
+
+        .w:before {
+            content: "";
+            position: absolute;
+            left: 1.5vh;
+            top: 1.5vh;
+            width: 1vh;
+            height: 1.2vh;
+            border: solid .5vh lightblue
+        }
+
+        .w:after {
+            content: "";
+            position: absolute;
+            left: -.75vh;
+            top: -1vh;
+            width: 1vh;
+            height: 1.2vh;
+            border: solid .5vh lightblue;
+        }
+
+        .win:hover {
+            background-color: aquamarine;
+        }
+
+        .w {
+            width: 2.5vh;
+            height: 2.5vh;
+            transform-style: preserve-3d;
+            transform: rotateY(-30deg);
+            background-color: azure;
+        }
+
+        .explorer {
+            position: relative;
+            margin-top: -1vh;
+            width: 100vw;
+            height: 96vh;
+            background-color: powderblue;
+            background-image: url(files/wp.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .desktopIcons {
+            padding-top: 1vh;
+        }
+
+
+        .shortcut {
+            position: relative;
+            width: 7vh;
+            height: 7vh;
+            background-color: transparent;
+            transition: .25s;
+            padding: 1vh;
+            margin: 1vh;
+            display: grid;
+            place-items: center;
+            border-radius: 1vh;
+            perspective: 100px;
+            cursor: pointer;
+        }
+
+        .backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: transparent;
+            transition: .25s;
+            width: 9vh;
+            height: 9vh;
+            z-index: 2;
+            opacity: .5;
+        }
+
+        .computer {
+            width: 4vh;
+            height: 3vh;
+            background-color: azure;
+            border: .5vh solid #3b0066;
+            margin-bottom: 1.5vh;
+            border-radius: 1vh;
+
+        }
+
+        .computer::after {
+            content: "";
+            position: absolute;
+            width: 4vh;
+            height: .5vh;
+            background-color: #3b0066;
+            top: 5.5vh;
+            border-radius: 100% 100% 10% 10%;
+        }
+
+        .recyclingBin {
+            width: 3vh;
+            height: 4vh;
+            border: .2vh solid #3b0066;
+            border-bottom: .5vh solid #3b0066;
+            background-color: white;
+            margin-bottom: .5vh;
+            transform-style: preserve-3d;
+            transform: rotateX(-25deg) rotateZ(180deg);
+        }
+
+        .recyclingBin::after {
+            content: "";
+            position: absolute;
+            top: 1vh;
+            width: 3vh;
+            height: 2vh;
+            background-image: repeating-linear-gradient(90deg, #3b0066 0px, #3b0066 2.5px, rgba(0, 0, 0, 0) 2.5px, rgba(0, 0, 0, 0) 10px);
+        }
+
+        .recyclingBin::before {
+            content: "";
+            position: absolute;
+            top: 1vh;
+            width: 3vh;
+            height: 2.25vh;
+            background-image: repeating-linear-gradient(0deg, #3b0066 0px, #3b0066 2.5px, rgba(0, 0, 0, 0) 2.5px, rgba(0, 0, 0, 0) 5px);
+        }
+
+        .chrome {
+            width: 3.5vh;
+            height: 3.5vh;
+            margin-bottom: 1vh;
+            background-color: rebeccapurple;
+            border-radius: 100%;
+            border: .5vh solid azure;
+            display: grid;
+            place-items: center;
+        }
+
+        .chrome::after {
+            content: "";
+            width: 1.5vh;
+            height: 1.5vh;
+            background-color: mediumpurple;
+            border-radius: 100%;
+        }
+
+        .brackets {
+            font-size: 1.75vh;
+            width: 3vh;
+            height: 3vh;
+            border-radius: .5vh;
+            border: .5vh solid azure;
+            color: azure;
+            background-color: mediumpurple;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1vh;
+        }
+
+        .folder {
+            width: 3.25vh;
+            height: 3.5vh;
+            margin-bottom: 1.75vh;
+            background-color: rebeccapurple;
+            clip-path: polygon(0 0, 90% 0, 90% 80%, 100% 90%, 100% 150%, 0% 150%);
+            perspective: 100px;
+            border-radius: .25vh;
+        }
+
+        .folder::after {
+            content: "";
+            position: absolute;
+            left: -.7vh;
+            top: 0vh;
+            width: 3.5vh;
+            height: 4vh;
+            background-color: mediumpurple;
+            transform-style: preserve-3d;
+            transform: rotateY(-50deg) skewY(5deg);
+            border-radius: .25vh;
+        }
+
+        .Icontext {
+            font-size: 1vh;
+            width: 7vh;
+            margin: 0;
+            margin-top: .3vh;
+            padding: 0;
+            font-family: sans-serif;
+            align-self: baseline;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: none;
+            outline: none;
+            overflow: hidden;
+            border: none;
+            resize: none;
+            background-color: transparent;
+            text-align: center;
+        }
+
+        .window {
+            position: absolute;
+            left: calc((20vw * var(--i)/2) + 11vh);
+            top: calc(20vw * var(--i)/4 + 10vh);
+            width: 40vh;
+            height: 40vh;
+            background-color: azure;
+            transform: scale(0);
+            transition: .5s;
+            box-shadow: 1px 0px 1px 1px lightgray;
+        }
+
+        .topBar {
+            position: absolute;
+            top: -4vh;
+            left: 0;
+            height: 4vh;
+            width: 100%;
+            background-color: lightblue;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .barCont {
+            width: 2vh;
+            height: 2vh;
+            transition: .5s;
+            padding: 1vh;
+            cursor: pointer;
+        }
+
+        .barCont:hover {
+            background-color: aquamarine;
+        }
+
+        .minimize {
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: deepskyblue;
+        }
+
+        .maximize {
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: deepskyblue;
+        }
+
+        .closeW {
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: crimson;
+        }
+
+        .ctxM {
+            position: absolute;
+            left: 20vh;
+            top: 20vh;
+            transition: .2s;
+            z-index: -25;
+            cursor: pointer;
+        }
+
+        .opn,
+        .dps,
+        .rnm,
+        .del {
+            width: 25vh;
+            height: 2.5vh;
+            padding: 1vh;
+            background-color: lightskyblue;
+            transition: .2s;
+            font-size: 1.5vh;
+        }
+
+        .opn:hover,
+        .dps:hover,
+        .rnm:hover,
+        .del:hover {
+            background-color: aqua;
+        }
+
+        .right {
+            display: flex;
+            width: 20vh;
+        }
+
+        .desktop {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            background-color: transparent;
+        }
+
+        .sound {
+            position: relative;
+            width: 2vh;
+            height: 5vh;
+            perspective: 50px;
+            padding: 1.25vh;
+            padding-left: .5vh;
+            padding-right: .5vh;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .sound:hover {
+            background-color: aquamarine;
+        }
+
+        .soundBody {
+            margin-top: .5vh;
+            width: .75vh;
+            height: 1.3vh;
+            background-color: white;
+        }
+
+        .soundBody::before {
+            content: "";
+            position: absolute;
+            width: 2.5vh;
+            height: 1.75vh;
+            left: .5vh;
+            top: 1.45vh;
+            transform-style: preserve-3d;
+            transform: rotateY(-75deg) skewY(10deg) rotateZ(2deg);
+            background-color: white;
+        }
+
+        .soundBody::after {
+            content: "";
+            position: absolute;
+            width: 2.5vh;
+            height: 1.5vh;
+            transform-style: preserve-3d;
+            transform: rotateY(-70deg) skewY(10deg);
+            left: 2vh;
+            top: 1.6vh;
+            background-image: repeating-linear-gradient(90deg, white 0px, white 5px, transparent 5px, transparent 10px);
+            border-radius: .5vh;
+        }
+
+        .battery {
+            position: relative;
+            width: 2vh;
+            height: 5vh;
+            perspective: 50px;
+            padding: 1.25vh;
+            padding-left: .8vh;
+            padding-right: .5vh;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .battery:hover {
+            background-color: aqua;
+        }
+
+        .batteryBody {
+            width: 1vh;
+            height: 2vh;
+            border: .3vh solid white;
+            border-radius: .5vh;
+        }
+
+        .batteryBody::after {
+            content: "";
+            position: absolute;
+            width: .6vh;
+            height: .5vh;
+            top: 1.1vh;
+            left: 1.3vh;
+            background-color: azure;
+        }
+
+        .batteryBody:before {
+            content: "";
+            position: absolute;
+            width: .8vh;
+            height: .5vh;
+            top: 2.9vh;
+            left: 1.15vh;
+            background-color: aliceblue;
+            border-radius: .1vh;
+        }
+
+        .time {
+            position: relative;
+            width: 6vh;
+            height: 5vh;
+            perspective: 50px;
+            padding: 1.25vh;
+            padding-top: .7vh;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .timeBody {
+            font: 1.25vh bold Arial;
+            text-align: center;
+            color: azure;
+
+        }
+
+        .notifications {
+            position: relative;
+            width: 6vh;
+            height: 5vh;
+            padding: 1.25vh;
+            padding-top: .7vh;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .notifRect {
+            width: 3vh;
+            height: 2vh;
+            background-color: aliceblue;
+            border-radius: .5vh;
+        }
+
+        .notifBbl {
+            margin-top: -1.1vh;
+            width: 1vh;
+            height: 1vh;
+            border: .5vh solid darkslateblue;
+            border-radius: 100%;
+            text-align: center;
+            color: white;
+            background-color: darkslateblue;
+            padding: .5vh;
+            display: grid;
+            place-items: center;
+            justify-content: center;
+            align-content: center;
+            font: 1vh bold Arial;
+        }
+
+        .computerWindow {}
+
+        .chromeWindow {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .chromeBar {
+            width: 100%;
+            height: 3vh;
+            padding: .5vh;
+            background-color: lightskyblue;
+
+        }
+
+        #searchbar {
+            width: 75%;
+            border-radius: .5vh;
+
+        }
+
+        #chromeSite {
+            width: 100%;
+            height: 100%;
+            display: grid;
+        }
+
+        .folderWindow {}
+
+        .bracketsWindow {}
+
+        .recBinWindow {}
+
+        .audioSlider {
+            position: absolute;
+            top: 85vh;
+            left: 88vw;
+            width: 10vw;
+            height: 10vh;
+            background-color: #75bff0;
+            padding: 2vh;
+            transition: 0.5s;
+            transform: scale(0);
+            display: grid;
+            place-items: center;
+            font: 2vh bold Roboto;
+            color: #e6f5ff;
+            text-transform: uppercase;
+            border-radius: 3vh 2vh 0 0;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 1vh;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 1vh;
+            height: 3vh;
+            border-radius: 50%;
+            background: #66c2ff;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 1vh;
+            height: 3vh;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 85vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            width: 0;
+            font-family: fontName;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+            
+        }
+        
+        #soundbtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+            z-index: 50;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+
+    </style>
+    <script src="scripts/data.js"></script>
+</head>
+
+<body onload="loadStuff()">
+    <div id="soundbtn" onclick="document.getElementById('audio').play();document.getElementById('soundbtn').remove();">Play</div>
+    <div id="container">
+        <div class="explorer">
+
+            <div class="desktop" onclick="defocus()"></div>
+            <div class="ctxM">
+                <div class="opn" onclick="openClick()">Open</div>
+                <div class="dps" onclick="dumbClick()">Send via E-mail</div>
+                <div class="rnm" onclick="renameClick()">Rename</div>
+                <div class="del" onclick="deleteClick()">Delete</div>
+            </div>
+
+            <div class="audioSlider">
+                <input type="range" min="1" max="100" value="15" class="slider" id="myRange">
+                <p>Volume: <span id="demo"></span></p>
+            </div>
+
+            <div class="desktopIcons">
+                <div class="shortcut">
+                    <div class="backdrop" data="1"></div>
+                    <div class="computer"></div>
+                    <textarea class="Icontext" onkeypress="textEnter(event)" spellcheck="false" autocorrect="off" autocapitalize="off">My Computer</textarea>
+                </div>
+                <div class="shortcut">
+                    <div class="backdrop" data="2"></div>
+                    <div class="recyclingBin"></div>
+                    <textarea class="Icontext" onkeypress="textEnter(event)" spellcheck="false" autocorrect="off" autocapitalize="off">Recycling Bin</textarea>
+                </div>
+                <div class="shortcut">
+                    <div class="backdrop" data="3"></div>
+                    <div class="chrome"></div>
+                    <textarea class="Icontext" onkeypress="textEnter(event)" spellcheck="false" autocorrect="off" autocapitalize="off">Not Chrome</textarea>
+                </div>
+                <div class="shortcut">
+                    <div class="backdrop" data="4"></div>
+                    <div class="brackets">[ ]</div>
+                    <textarea class="Icontext" onkeypress="textEnter(event)" spellcheck="false" autocorrect="off" autocapitalize="off">Brackets</textarea>
+                </div>
+                <div class="shortcut">
+                    <div class="backdrop" data="5"></div>
+                    <div class="folder"></div>
+                    <textarea class="Icontext" onkeypress="textEnter(event)" spellcheck="false" autocorrect="off" autocapitalize="off">New Folder</textarea>
+                </div>
+            </div>
+
+            <div class="taskbar">
+                <div class="left">
+                    <div class="win">
+                        <div class="w"></div>
+                    </div>
+                    <div class="TBCont">
+                        <div class="iconTB" onclick="maximize(0,1)">
+                            <div class="computer" style="transform:scale(.75)"></div>
+                        </div>
+                        <div class="iconTB" onclick="maximize(1,1)">
+                            <div class="recyclingBin" style="transform:scale(.75)"></div>
+                        </div>
+                        <div class="iconTB" onclick="maximize(2,1)">
+                            <div class="chrome" style="transform:scale(.75)"></div>
+                        </div>
+                        <div class="iconTB" onclick="maximize(3,1)">
+                            <div class="brackets" style="transform:scale(.75)">[ ]</div>
+                        </div>
+                        <div class="iconTB" onclick="maximize(4,1)">
+                            <div class="folder" style="transform:scale(.75)"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="web">
+                        <div class="webBody"></div>
+                    </div>
+                    <div class="sound" onclick="audioPopup()">
+                        <div class="soundBody"></div>
+                    </div>
+                    <div class="battery">
+                        <div class="batteryBody"></div>
+                    </div>
+                    <div class="time">
+                        <div class="timeBody">
+                            19:14 25.05.2015
+                        </div>
+                    </div>
+                    <div class="notifications">
+                        <div class="notifRect"></div>
+                        <div class="notifBbl">99+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="windowCont">
+
+            <div class="window" style="--i:0">
+                <div class="topBar">
+                    <div class="barCont" data="minimize" dx="0">
+                        <div class="minimize" onclick="minimize(0)"></div>
+                    </div>
+                    <div class="barCont" onclick="maximize(0,0)">
+                        <div class="maximize"></div>
+                    </div>
+                    <div class="barCont" onclick="closeW(0)">
+                        <div class="closeW"></div>
+                    </div>
+                </div>
+                <div class="computerWindow">
+                </div>
+            </div>
+            <div class="window" style="--i:1">
+                <div class="topBar">
+                    <div class="barCont" onclick="minimize(1)">
+                        <div class="minimize"></div>
+                    </div>
+                    <div class="barCont" onclick="maximize(1,0)">
+                        <div class="maximize"></div>
+                    </div>
+                    <div class="barCont" onclick="closeW(1)">
+                        <div class="closeW"></div>
+                    </div>
+                </div>
+                <div class="recBinWindow">
+                </div>
+            </div>
+            <div class="window" style="--i:2">
+                <div class="topBar">
+                    <div class="barCont" onclick="minimize(2)">
+                        <div class="minimize"></div>
+                    </div>
+                    <div class="barCont" onclick="maximize(2,0)">
+                        <div class="maximize"></div>
+                    </div>
+                    <div class="barCont" onclick="closeW(2)">
+                        <div class="closeW"></div>
+                    </div>
+                </div>
+                <div class="chromeWindow">
+                    <div class="chromeBar">
+                        <input type="text" id="searchbar" onkeypress="urlChange(event)">
+                    </div>
+                    <iframe id="chromeSite" src="./Dog/Cycle.html" onload="newPage()"></iframe>
+                </div>
+            </div>
+            <div class="window" style="--i:3">
+                <div class="topBar">
+                    <div class="barCont" onclick="minimize(3)">
+                        <div class="minimize"></div>
+                    </div>
+                    <div class="barCont" onclick="maximize(3,0)">
+                        <div class="maximize"></div>
+                    </div>
+                    <div class="barCont" onclick="closeW(3)">
+                        <div class="closeW"></div>
+                    </div>
+                </div>
+                <div class="folderWindow">
+                </div>
+            </div>
+
+            <div class="window" style="--i:4">
+                <div class="topBar">
+                    <div class="barCont" onclick="minimize(4)">
+                        <div class="minimize"></div>
+                    </div>
+                    <div class="barCont" onclick="maximize(4,0)">
+                        <div class="maximize"></div>
+                    </div>
+                    <div class="barCont" onclick="closeW(4)">
+                        <div class="closeW"></div>
+                    </div>
+                </div>
+                <div class="bracketsWindow">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <audio src="files/chat1.mp3" autoplay loop id="audio" allow="autoplay" ></audio>
+
+    <div id="dialogueBox"></div>
+    <script>
+        setTimeout(function audioLoad() {
+            let myAudio = document.getElementById("audio"); 
+            if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+        },2500);
+        function newPage() {
+            if(document.getElementById("chromeSite").contentWindow.window.location=="https://stripedabsolute.000webhostapp.com/ph.html") window.location.assign("lvlTable.html");
+        }
+        var icons = document.getElementsByClassName("shortcut").length;
+        var clicked = [0, 0, 0, 0, 0],
+            rsz = [0, 0, 0, 0, 0];
+        var currIndex = 0;
+        var dia = ["There we are!", "It seems the internet is under maintenance today...","Well, good thing you can always count on your favourite site,","'pixapost.com'!","Now, let's open Not Chrome and check on your friends!","(What is it if not chrome then though?)",""]
+        
+        document.getElementById("audio").volume = 0.15;
+
+        function loadStuff() { //onload fadein and dialogue
+            var i = 0;
+            setTimeout(function() {
+            var x2 = setInterval(function() {
+                var iter = dia[i];
+                document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                document.getElementById("dialogueBox").innerHTML = iter;
+                document.getElementById("dialogueBox").style.animation = "typetype 5s steps(var(--stepss)) infinite";
+                document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                ++i;
+
+                if (i == dia.length) {
+                    clearInterval(x2);
+                    document.getElementById("dialogueBox").style.display = "none";
+                }
+            }, 5000);
+        }, 2000);
+    }
+        //icon event handling
+        for (var i = 0; i < icons; ++i) {
+
+            //HOVER
+            document.getElementsByClassName("backdrop")[i].addEventListener("mouseover", function iconHover(ev, i) {
+                ev.preventDefault();
+                var index = parseInt(ev.target.getAttribute("data")) - 1;
+                ev.target.style.backgroundColor = (clicked[index] == 0) ? "#f4e6ff" : "eaccff";
+            });
+
+            //HOVER WHEN CLICKED
+            document.getElementsByClassName("backdrop")[i].addEventListener("mouseout", function iconHover(ev, i) {
+                ev.preventDefault();
+                var index = parseInt(ev.target.getAttribute("data")) - 1;
+                ev.target.style.backgroundColor = (clicked[index] == 0) ? "transparent" : "dfb3ff";
+            });
+
+            //SINGLE CLICK
+            document.getElementsByClassName("backdrop")[i].addEventListener("click", function iconClick(ev, i) {
+
+                document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+                document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+                ev.preventDefault();
+                var index = parseInt(ev.target.getAttribute("data")) - 1;
+                clicked = [0, 0, 0, 0, 0];
+                clicked[index] = 1;
+                for (var i = 0; i < icons; ++i) {
+                    if (i != index)
+                        document.getElementsByClassName("backdrop")[i].style.backgroundColor = "transparent";
+                }
+                ev.target.style.backgroundColor = "#dfb3ff";
+                ev.target.style.border = ".1vh dashed darkslateblue";
+            });
+
+            //RIGHT CLICK
+            document.getElementsByClassName("backdrop")[i].addEventListener("contextmenu", function iconRightClick(ev, i) {
+                ev.preventDefault();
+                var index = parseInt(ev.target.getAttribute("data")) - 1;
+                var ctx = document.getElementsByClassName("ctxM")[0];
+                ctx.style.left = ev.clientX + 5 + "px";
+                ctx.style.top = ev.clientY + 15 + "px";
+                ctx.style.zIndex = 20;
+                document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+                currIndex = index;
+            });
+
+            //DOUBLE CLICK
+            document.getElementsByClassName("backdrop")[i].addEventListener("dblclick", function iconLaunch(ev, i) {
+                ev.preventDefault();
+                var index = parseInt(ev.target.getAttribute("data")) - 1;
+                document.getElementsByClassName("window")[index].style.transform = "scale(1)";
+
+                document.getElementsByClassName("iconTB")[index].style.display = "block";
+                document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+                document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+            });
+        }
+
+        // Window open animation
+        function openClick() {
+            document.getElementsByClassName("window")[currIndex].style.transform = "scale(1)";
+            document.getElementsByClassName("iconTB")[currIndex].style.display = "block";
+            document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+        }
+
+        //email in context menu click
+        function dumbClick() {
+            alert("dude shut the fuck up");
+            document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+        }
+
+        //renaming shortcut
+        function renameClick() {
+            var iconText = document.getElementsByClassName("Icontext")[currIndex]
+            iconText.disabled = false;
+            iconText.focus();
+            iconText.select();
+            document.getElementsByClassName("ctxM")[0].style.zIndex = "-10";
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+        }
+
+        //deleting (window closing not handled)
+        function deleteClick() {
+            if (currIndex == 0) {
+                window.close();
+            } else if (currIndex != 2 && currIndex != 1) {
+                document.getElementsByClassName("shortcut")[currIndex].style.display = "none";
+            }
+            document.getElementsByClassName("ctxM")[0].style.zIndex = "-10";
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+        }
+        
+        //utility function that makes textarea defocus when I press enter
+        function textEnter(ev) {
+            if (ev.keyCode == 13) {
+                document.getElementsByClassName("Icontext")[currIndex].disabled = true;
+            }
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+        }
+
+        //window click functions
+        
+        //clicking on minimize
+        function minimize(i) {
+            document.getElementsByClassName("window")[i].style.transform = "scale(0)";
+            document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+        }
+
+        //close - resets all values
+        function closeW(i) {
+            document.getElementsByClassName("iconTB")[i].style.display = "none";
+            document.getElementsByClassName("window")[i].style.transform = "scale(0)";
+            document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+            if (i == 2) {
+                document.getElementById("chromeSite").src = "./Dog/Cycle.html";
+                document.getElementById("searchbar").value = "";
+            }
+            var cw = document.getElementsByClassName("window")[i];
+            cw.style.zIndex = "inherit";
+            cw.style.left = "calc((20vw * var(--i)/2) + 60vh)";
+            cw.style.top = "calc((20vw * var(--i)/4) + 10vh)";
+            cw.style.width = "40vh";
+            cw.style.height = "40vh";
+            rsz[i] = 0;
+        }
+
+        //maximize
+        function maximize(i, cd) {
+            document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+            var cw = document.getElementsByClassName("window")[i];
+            if (rsz[i] == 0 && cd == 0) {
+                cw.style.zIndex = 25;
+                cw.style.left = 0;
+                cw.style.top = "4vh";
+                cw.style.width = "100vw";
+                cw.style.height = "91.5vh";
+                rsz[i] = 1;
+            } else {
+                cw.style.transform = "scale(1)";
+                cw.style.zIndex = "inherit";
+                cw.style.left = "calc((20vw * var(--i)/2) + 60vh)";
+                cw.style.top = "calc((20vw * var(--i)/4) + 10vh)";
+                cw.style.width = "40vh";
+                cw.style.height = "40vh";
+                rsz[i] = 0;
+            }
+        }
+
+        //audio slider handling
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+        
+        //audio slider input
+        slider.oninput = function() {
+            output.innerHTML = this.value;
+            document.getElementById("audio").volume = this.value / 100;
+        }
+
+        //audio slider animation
+        function audioPopup() {
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(1)";
+        }
+
+        //chrome url changing
+        function urlChange(ev) {
+            if (ev.keyCode == 13) {
+                var source = document.getElementById("searchbar").value;
+                var currentEmbed = document.getElementById("chromeSite");
+                var newEmbed = currentEmbed.cloneNode(true);
+                if (source == "somethingcool.com")
+                    source = "./room_noScript.html";
+                if (source == "pixapost.com")
+                    source = "./pixapost.html"
+                newEmbed.setAttribute("src", source);
+                currentEmbed.parentNode.replaceChild(newEmbed, currentEmbed);
+            }
+        }
+
+        //defocus function - resets icon, audio window, rename focus
+        function defocus() {
+            document.getElementsByClassName("audioSlider")[0].style.transform = "scale(0)";
+            document.getElementsByClassName("ctxM")[0].style.zIndex = -10;
+            clicked = [0, 0, 0, 0, 0];
+            for (var i = 0; i < icons; ++i) {
+                document.getElementsByClassName("backdrop")[i].style.backgroundColor = "transparent";
+                document.getElementsByClassName("backdrop")[i].style.border = "none";
+            }
+        }
+
+    </script>
+</body>
+
+</html>

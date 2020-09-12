@@ -1,0 +1,259 @@
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: countdown;
+            src: url("fonts/countdown.otf");
+        }
+
+        body {
+            overflow: hidden;
+            margin: 0;
+            background-color: #00001a;
+        }
+
+        #comb {
+            position: absolute;
+            top: 10vh;
+            left: 10vh;
+            animation: comb 6s ease infinite alternate;
+        }
+
+        #combBase {
+            position: absolute;
+            width: 8vh;
+            height: 47vh;
+            left: 0;
+            top: 0;
+            background-color: azure;
+            border-radius: 70% 0 0 70%;
+        }
+
+        #combProngs {
+            position: absolute;
+            left: 8vh;
+            top: 0;
+        }
+
+
+
+        #cpp {
+            position: relative;
+            width: 12vh;
+            height: 2vh;
+            margin-bottom: 3vh;
+            border-radius: 0 100% 100% 0;
+            background-color: azure;
+        }
+
+        #buttonPop {
+            position: absolute;
+            top: 40vh;
+            left: 40vh;
+            animation: btnPop .4s ease infinite alternate;
+        }
+
+        #buttonSeam {
+            position: absolute;
+            top: 0vh;
+            left: 0vh;
+            width: 10vh;
+            height: 10vh;
+            transform-style: preserve-3d;
+            animation: btnSpin .5s linear infinite alternate;
+        }
+
+        #buttonSeam::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10vh;
+            height: 10vh;
+            background-color: lightgray;
+            border-radius: 100%;
+            transform-style: preserve-3d;
+            animation: nshift .5s linear alternate infinite;
+            z-index: -1;
+        }
+        
+        #btnSeamCont {
+            position: absolute;
+            top:40vh;left:0;
+            animation: btnShift 3s ease forwards;
+        }
+
+        #button {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10vh;
+            height: 10vh;
+            border-radius: 100%;
+            background-color: azure;
+            display: grid;
+            place-items: center;
+            z-index: 2;
+        }
+
+        #buttonHoles {
+            width: 7vh;
+            height: 7vh;
+            border: 1vh solid #00001a;
+            border-radius: 100%;
+        }
+
+        #buttonHoles::before {
+            content: "";
+            position: absolute;
+            width: 1.5vh;
+            height: 1.5vh;
+            top: 4.25vh;
+            left: 3vh;
+            border-radius: 100%;
+            background-color: #00001a;
+        }
+
+        #buttonHoles::after {
+            content: "";
+            position: absolute;
+            width: 1.5vh;
+            height: 1.5vh;
+            top: 4.25vh;
+            left: 5.5vh;
+            border-radius: 100%;
+            background-color: #00001a;
+        }
+
+        #permaline {
+            position: absolute;
+            top: 0;
+            left: 80vh;
+            width: 1vh;
+            height: 100vh;
+            background-color: azure;
+            border-left: .5vh solid lightgray;
+        }
+
+        #seam {
+            position: absolute;
+            top: 0;
+            left: -5vh;
+            width: 1vh;
+            height: 100vh;
+            background-image: repeating-linear-gradient(0deg, white 0vh, white 12vh, transparent 12vh, transparent 24vh);
+            background-position: 0vh 23vh;
+            animation: seams 3s ease infinite;
+
+        }
+
+        @keyframes btnPop {
+            0% {
+                transform: scale(0.5) translate(0, 0);
+            }
+            100% {
+                transform: scale(1.1) translate(-2.5vh, -2.5vh);
+            }
+        }
+
+        @keyframes btnSpin {
+            0% {
+                transform: rotateY(-50deg);
+            }
+            100% {
+                transform: rotateY(50deg);
+            }
+        }
+
+        @keyframes nshift {
+            0% {
+                left: -1vh;
+            }
+            100% {
+                left: 1vh;
+            }
+        }
+        
+        @keyframes btnShift {
+            0% {
+                left:-10vh;
+            }
+            100% {
+                left:90vh;
+            }
+        }
+        
+        @keyframes seams {
+            0% {
+                background-position: 0 23vh;
+            }
+            100% {
+                background-position: 0 123vh;
+            }
+        }
+
+        @keyframes comb {
+            0% {
+                top: 160vh;
+                left: -17vh;
+            }
+            10% {
+                top: -45vh;
+                left: -17vh;
+            }
+            55% {
+                top: 100vh;
+                left: 0vh;
+            }
+
+            100% {
+                top: -45vh;
+                left: 20vh;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="comb">
+        <div id="combBase">
+        </div>
+        <div id="combProngs">
+            <div id="cpp" style="border-radius: 0 90% 10% 0"></div>
+            <div id="cpp"></div>
+            <div id="cpp"></div>
+            <div id="cpp"></div>
+            <div id="cpp"></div>
+            <div id="cpp"></div>
+            <div id="cpp"></div>
+            <div id="cpp"></div>
+            <div id="cpp"></div>
+            <div id="cpp" style="border-radius: 0 10% 90% 0"></div>
+        </div>
+    </div>
+
+    <div id="buttonPop">
+        <div id="button">
+            <div id="buttonHoles"></div>
+        </div>
+    </div>
+
+    <div id="seamAnim">
+        <div id="permaLine">
+            <div id="seam"></div>
+        </div>
+        <div id="btnSeamCont">
+            <div id="buttonSeam">
+                <div id="button">
+                    <div id="buttonHoles"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

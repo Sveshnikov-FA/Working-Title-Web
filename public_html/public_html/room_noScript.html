@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #2e004d;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+            align-items: center;
+        }
+
+        .container {
+        }
+
+        .scene {
+            position: relative;
+            width: 100vh;
+            height: 10vh;
+            margin-top: 10vh;
+            transform: scale(1.1);
+            background-color: transparent;
+        }
+
+
+        .character {
+            position: absolute;
+            top: 45vh;
+            left: 60vh;
+        }
+
+        .head {
+            position: relative;
+            width: 6vh;
+            height: 7vh;
+            background-color: #e4c381;
+            border-radius: 10% 10% 20% 20%;
+            transform: rotateZ(-10deg);
+            transition: 1s box-shadow ease;
+            box-shadow: inset -3px 5px 5px .5px rgba(255, 228, 181, 0.9);
+        }
+
+        .hair {
+            position: absolute;
+            top: -0.25vh;
+            width: 6.5vh;
+            height: 2.25vh;
+            background-color: slategray;
+            border-radius: 40% 10% 100% 0;
+
+        }
+
+        .hair::after {
+            content: "";
+            position: absolute;
+            top: 0.4vh;
+            left: -0.4vh;
+            width: 1.5vh;
+            height: 5.25vh;
+            border-radius: 60% 0% 100% 10%;
+            background-color: slategray;
+        }
+
+        .hair::before {
+            content: "";
+            position: absolute;
+            top: .5vh;
+            left: 5.7vh;
+            width: 1vh;
+            height: 2.5vh;
+            border-radius: 100% 0% 0% 100%;
+            background-color: darkslategray;
+            clip-path: polygon(0 28%, 70% 0%, 30% 100%);
+        }
+
+        .eyes::before {
+            position: absolute;
+            top: 5vh;
+            left: 2.5vh;
+            content: "";
+            width: 0.5vh;
+            height: 0.5vh;
+            background-color: black;
+            border-radius: 100% 100% 100% 100%;
+        }
+
+        .eyes::after {
+            content: "";
+            position: absolute;
+            top: 5vh;
+            left: 6.5vh;
+            width: 0.5vh;
+            height: 0.5vh;
+            background-color: black;
+            border-radius: 100% 100% 100% 100%;
+        }
+
+        .body {
+            position: absolute;
+            top: 6vh;
+            left: 1.2vh;
+            width: 4.6vh;
+            height: 6vh;
+            background-color: darkblue;
+            z-index: -1;
+            border-radius: 0 0 10% 10%;
+        }
+
+        .shirt {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 90%;
+            background-color: #5c0099;
+        }
+
+        .armLeft {
+            position: absolute;
+            top: 1vh;
+            left: -.5vh;
+            width: 1vh;
+            height: 3.5vh;
+            background-color: #e4c381;
+            border-radius: 40% 0 20% 20%;
+            z-index: 1;
+            transition: transform .1s linear;
+        }
+
+        .armLeftSleeve {
+            position: absolute;
+            width: 110%;
+            height: 20%;
+            background-color: #5c0099;
+            border-radius: 50% 30% 0 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+        }
+
+        .armRight {
+            position: absolute;
+            top: 0.7vh;
+            left: 4vh;
+            width: 1vh;
+            height: 3.5vh;
+            background-color: #e4c381;
+            border-radius: 40% 0 20% 20%;
+            transition: transform .1s linear;
+            z-index: -2;
+            box-shadow: inset .3px .5px 3px .5px rgba(255, 228, 181, 0.9);
+        }
+
+        .armRightSleeve {
+            position: absolute;
+            top: -0.1vh;
+            left: 0;
+            width: 110%;
+            height: 20%;
+            background-color: #5c0099;
+            z-index: -2;
+            border-radius: 50% 30% 0 0;
+            box-shadow: inset .3px .5px 3px .5px rgba(255, 228, 181, 0.9);
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+        }
+
+        .leg1 {
+            position: absolute;
+            top: 6vh;
+            left: .6vh;
+            width: 1vh;
+            height: 1vh;
+            background-color: darkblue;
+            z-index: 1;
+        }
+
+        .leg2 {
+            position: absolute;
+            top: 6vh;
+            left: 3vh;
+            width: 1vh;
+            height: 1vh;
+            background-color: darkblue;
+        }
+
+        .leg1::after {
+            content: "";
+            position: absolute;
+            top: 1vh;
+            left: auto;
+            width: 1.15vh;
+            height: .2vh;
+            background-color: darkblue;
+        }
+
+        .leg2::after {
+            content: "";
+            position: absolute;
+            top: 1vh;
+            left: auto;
+            width: 1.15vh;
+            height: .2vh;
+            background-color: darkblue;
+        }
+
+        .door {
+            position: absolute;
+            top: 23vh;
+            left: 75vh;
+            width: 15vh;
+            height: 32vh;
+            background-color: #1f0033;
+            z-index: -2;
+        }
+
+        .door::after {
+            content: "";
+            position: absolute;
+            top: 20vh;
+            left: 1.5vh;
+            width: 2vh;
+            height: 2vh;
+            border-radius: 100%;
+            background-color: #0f001a;
+        }
+
+        .obj1 {
+            position: absolute;
+            top: 3vh;
+            left: 0;
+            width: 15vh;
+            height: 58vh;
+            background-color: #2e004d;
+            z-index: 3;
+            perspective: 25vh;
+        }
+
+        .angle1 {
+            position: absolute;
+            top: 0;
+            left: 5.9vh;
+            width: 9vh;
+            height: 100%;
+            background: linear-gradient(90deg, #ffd480, #1f0033);
+            transform-style: preserve-3d;
+            transform-origin: right;
+            transform: rotateY(-145deg);
+        }
+
+        .angle1::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 10vh;
+            width: 100%;
+            height: .5vh;
+            background-color: black;
+        }
+
+        .angle1::before {
+            content: "";
+            position: absolute;
+            left: -2vh;
+            top: 30vh;
+            width: 1vh;
+            height: 6vh;
+            background-color: transparent;
+            border-top: 1vh solid #ffe6b3;
+            border-left: 1vh solid #ffe6b3;
+            border-bottom: 1vh solid #ffe6b3;
+            border-radius: 20%;
+            transform: rotateY(-40deg);
+        }
+
+        .angle2 {
+            position: absolute;
+            top: -1vh;
+            left: 88.25vh;
+            background: linear-gradient(90deg, #ffd480, #1f0033);
+            height: 57.5vh;
+            width: 11vh;
+            transform-style: preserve-3d;
+            transform-origin: right;
+            transform: rotateY(-160.5deg);
+            transition: transform .1s ease;
+        }
+
+        .angle3 {
+            position: absolute;
+            top: 2vh;
+            left: -1vh;
+            background-color: #1f0033;
+            height: 60.25vh;
+            width: 7vh;
+            transform: rotateY(100deg);
+            transform-origin: left;
+            transform-style: preserve-3d;
+            z-index: -3;
+        }
+
+        .sampleObj {
+            position: absolute;
+            transition: left 0.1s linear;
+        }
+
+        .window1 {
+            position: absolute;
+            top: 20vh;
+            left: 30vh;
+            width: 25vh;
+            height: 25vh;
+            background-color: #edd7ab;
+            z-index: -3;
+            transition: 0.1s left linear;
+        }
+
+        .window1::before {
+            content: "";
+            position: absolute;
+            top: 25vh;
+            left: -1vh;
+            width: 27vh;
+            height: 2vh;
+            background-color: darkblue;
+        }
+
+        .window1::after {
+            content: "";
+            position: absolute;
+            top: 27vh;
+            left: 0vh;
+            width: 25vh;
+            height: 8vh;
+            background-color: #003333;
+            opacity: .4;
+        }
+
+        .curtainRack {
+            position: absolute;
+            top: -2vh;
+            left: -1vh;
+            width: 27vh;
+            height: 1vh;
+            background-color: darkslateblue;
+        }
+
+        .curtainRack::before {
+            content: "";
+            position: absolute;
+            top: -.5vh;
+            left: -1vh;
+            height: 2vh;
+            width: 1vh;
+            background-color: darkblue;
+        }
+
+        .curtainRack::after {
+            content: "";
+            position: absolute;
+            top: -.5vh;
+            left: 27vh;
+            height: 2vh;
+            width: 1vh;
+            background-color: darkblue;
+        }
+
+        .curtain1 {
+            position: absolute;
+            top: -0.25vh;
+            left: -0.25vh;
+            width: 5vh;
+            height: 27vh;
+            background-color: #5c0099;
+        }
+
+        .curtain1::before {
+            content: "somet";
+            position: absolute;
+            top: -4.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .curtain1::after {
+            content: "somet";
+            position: absolute;
+            top: 22.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .curtain2 {
+            position: absolute;
+            top: -0.25vh;
+            left: 20.5vh;
+            width: 5vh;
+            height: 27vh;
+            background-color: #5c0099;
+        }
+
+        .curtain2::before {
+            content: "somet";
+            position: absolute;
+            top: -4.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .curtain2::after {
+            content: "somet";
+            position: absolute;
+            top: 22.25vh;
+            left: 0;
+            width: 5vh;
+            height: 14vh;
+            font-size: 4vh;
+            overflow: hidden;
+            color: transparent;
+            text-decoration: underline #5c0099 wavy;
+        }
+
+        .flower1 {
+            position: absolute;
+            left: 16vh;
+            top: 21vh;
+            perspective: 100px;
+        }
+
+        .pot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4vh;
+            height: 4vh;
+            background-image: repeating-linear-gradient(0deg, #3b0066 0px, #3b0066 5px, #fff 5px, #fff 10px);
+        }
+
+        .pot::after {
+            content: "";
+            position: absolute;
+            left: -0.5vh;
+            top: 3vh;
+            width: 5vh;
+            height: 1vh;
+            background-color: #2d004d;
+        }
+
+        .pot::before {
+            content: "";
+            position: absolute;
+            left: 1.75vh;
+            top: -1vh;
+            width: .5vh;
+            height: 1vh;
+            background-color: darkgreen;
+        }
+
+        .leaf {
+            position: absolute;
+            left: .4vh;
+            top: -2vh;
+            width: 2vh;
+            height: 2vh;
+            background-color: darkgreen;
+            border-radius: 100%;
+            transform-style: preserve-3d;
+            transform: skewX(10deg)skewY(5deg)rotateY(55deg) rotateX(10deg) rotateZ(20deg);
+        }
+
+        .leaf::after {
+            content: "";
+            position: absolute;
+            left: 2.25vh;
+            top: -1vh;
+            width: 2.5vh;
+            height: 2vh;
+            background-color: darkgreen;
+            border-radius: 100%;
+            transform-style: preserve-3d;
+            transform: skewX(-40deg)skewY(25deg) rotateY(65deg) rotateX(15deg);
+        }
+
+        .table {
+            position: absolute;
+            left: 28vh;
+            top: 50vh;
+            width: 30vh;
+            height: 2vh;
+            background-color: #3b0066;
+            z-index: 3
+        }
+
+        .table::before {
+            content: "";
+            position: absolute;
+            left: 2vh;
+            top: 2vh;
+            width: 1.5vh;
+            height: 8vh;
+            background-color: #390d59;
+        }
+
+        .table::after {
+            content: "";
+            position: absolute;
+            left: 26.5vh;
+            top: 2vh;
+            width: 1.5vh;
+            height: 8vh;
+            background-color: #390d59;
+        }
+
+        .laptop {
+            position: absolute;
+            left: 4vh;
+            top: -.5vh;
+            height: .5vh;
+            width: 10vh;
+            background-color: darkblue;
+            border-radius: .5vh .5vh 2vh 2vh;
+        }
+
+        .laptop::before {
+            content: "";
+            position: absolute;
+            left: 0h;
+            top: -7vh;
+            height: 7vh;
+            width: 10vh;
+            background-color: darkslateblue;
+            border-radius: .5vh;
+        }
+
+        .laptop::after {
+            content: "";
+            position: absolute;
+            left: 3.75vh;
+            top: -4.6vh;
+            height: 2vh;
+            width: 2vh;
+            background-color: transparent;
+            border-radius: 100%;
+            border: 0.4vh solid whitesmoke;
+        }
+
+        .cup1 {
+            position: absolute;
+            left: 15.5vh;
+            top: -3vh;
+            width: 2vh;
+            height: 3vh;
+            z-index: 3;
+            background-color: antiquewhite;
+        }
+
+        .cup1::before {
+            content: "";
+            position: absolute;
+            left: 1.69vh;
+            top: .6vh;
+            width: .5vh;
+            height: 1vh;
+            border: .4vh solid antiquewhite;
+            border-left: none;
+            border-radius: 1.5vh;
+        }
+
+        .smoke {
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: 15.7vh;
+            top: -3vh;
+            background-color: whitesmoke;
+            border-radius: 100%;
+            animation: smokeMovement 3s linear infinite;
+        }
+
+        .smoke::before {
+            content: "";
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: .5vh;
+            top: 0;
+            background-color: whitesmoke;
+            border-radius: 100%;
+            animation: smokeMovement 10s linear infinite;
+        }
+
+        .smoke::after {
+            content: "";
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            left: -.25vh;
+            top: 0;
+            background-color: whitesmoke;
+            border-radius: 100%;
+            animation: smokeMovement 1s linear infinite;
+        }
+
+        @keyframes smokeMovement {
+            0% {
+                opacity: .6;
+                width: 1vh;
+                height: 1vh;
+                transform: translateX(0) translateY(0);
+            }
+            50% {
+                opacity: .25;
+                width: .5vh;
+                height: .5vh;
+                transform: translateX(.6vh) translateY(-.5vh);
+            }
+            100% {
+                opacity: 0;
+                width: 0;
+                height: 0;
+                transform: translate(0) translateY(-1.5vh);
+            }
+        }
+
+        .lamp {
+            position: absolute;
+            left: 2vh;
+            top: -1vh;
+        }
+
+        .lampbtm {
+            position: absolute;
+            width: 5vh;
+            height: 1vh;
+            top: 0;
+            left: 0;
+            background-color: #3b0066;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .lampbtm::before {
+            content: "";
+            position: absolute;
+            width: .5vh;
+            height: .25vh;
+            top: -0.15vh;
+            left: 3.5vh;
+            background-color: aliceblue;
+        }
+
+        .lampstand {
+            position: absolute;
+            left: -1vh;
+            top: -6vh;
+            width: 1vh;
+            height: 7vh;
+            background-color: #4a0080;
+            transform: rotateZ(-30deg);
+        }
+
+        .lampstand::after {
+            content: "";
+            position: absolute;
+            left: -.25vh;
+            top: -1vh;
+            width: 2vh;
+            height: 1.5vh;
+            background-color: darkslateblue;
+            border-radius: 0 0 100% 100%;
+        }
+
+        .lampstand::before {
+            content: "";
+            position: absolute;
+            left: 3.5vh;
+            top: -4.5vh;
+            width: 1vh;
+            height: 7vh;
+            background-color: #4a0080;
+            transform: rotateZ(75deg);
+        }
+
+        .lamphead {
+            position: absolute;
+            top: -13vh;
+            left: 2.5vh;
+            width: 2.75vh;
+            height: 3vh;
+            border-radius: 10px 10px 0 0;
+            background-color: #4a0080;
+            transform: rotateZ(-45deg);
+        }
+
+        .lamphead::after {
+            content: "";
+            position: absolute;
+            left: -1.1vh;
+            top: 2.5vh;
+            width: 5vh;
+            height: 3vh;
+            background-color: #3b0066;
+            border-radius: 2vh 2vh 0 0;
+
+        }
+
+
+        .books {
+            position: absolute;
+            left: 23vh;
+            top: -1.5vh;
+            width: 5vh;
+            height: .5vh;
+            background-color: azure;
+            border: .5vh solid #4a0080;
+            border-left: .3vh solid #4a0080;
+            border-right: none;
+        }
+
+        .books::before {
+            content: "";
+            position: absolute;
+            left: .5vh;
+            top: -2.25vh;
+            width: 5vh;
+            height: .75vh;
+            background-color: azure;
+            border: .5vh solid #4a0080;
+            border-left: .3vh solid #4a0080;
+            border-right: .3vh solid #4a0080;
+        }
+
+        .books::after {
+            content: "";
+            position: absolute;
+            left: -3.2vh;
+            top: -2vh;
+            width: 4.5vh;
+            height: .5vh;
+            background-color: azure;
+            border: .5vh solid #4a0080;
+            border-left: .3vh solid #4a0080;
+            border-right: none;
+            transform: rotateZ(-60deg)
+        }
+
+        .rand {
+            position: absolute;
+            left: 18vh;
+            top: -.5vh;
+            width: 3vh;
+            height: .5vh;
+            background-color: aliceblue;
+            border-right: 1vh solid blue;
+        }
+
+        .rand::after {
+            content: "";
+            position: absolute;
+            left: -5vh;
+            top: 0vh;
+            width: 3vh;
+            height: .5vh;
+            background-color: aliceblue;
+            border-left: 1vh solid green;
+        }
+
+        .picture {
+            position: absolute;
+            left: 67vh;
+            top: 30vh;
+            width: 5vh;
+            height: 5vh;
+            background-image("files/1.png");
+            object-fit: fill;
+            border: 1vh solid #0f001a;
+        }
+
+        .picture::after {
+            content: "";
+            position: absolute;
+            left: -9.5vh;
+            top: -.75vh;
+            width: 6vh;
+            height: 6vh;
+            background-image: url("files/2.png");
+            border: .75vh solid #0f001a;
+        }
+
+        .picture::before {
+            content: "";
+            position: absolute;
+            left: -1vh;
+            top: 7vh;
+            width: 5vh;
+            height: 3vh;
+            background-image: url("files/4.png");
+            border: .75vh solid #0f001a;
+        }
+
+        .ceiling {
+            position: absolute;
+            top: 2vh;
+            left: -1vh;
+            background-color: #1f0033;
+            height: 5vh;
+            width: 100vh;
+        }
+
+        .ceilingLight {
+            position: absolute;
+            left: 55vh;
+            top: 2vh;
+            width: 5vh;
+            height: 2vh;
+            background-color: #0f001a;
+            border-radius: 0 0 .5vh .5vh;
+        }
+
+        .ceilingLight::before {
+            content: "";
+            position: absolute;
+            left: 2.4vh;
+            top: 2vh;
+            width: .5vh;
+            height: 15vh;
+            background-color: #0f001a;
+        }
+
+        .light {
+            position: absolute;
+            left: -2.5vh;
+            top: 17vh;
+            width: 10vh;
+            height: 6vh;
+            background-color: burlywood;
+            border-radius: 1.5vh 1.5vh .5vh .5vh;
+        }
+
+        .light::before {
+            content: "";
+            position: absolute;
+            top: 4.75vh;
+            left: 3vh;
+            width: 4vh;
+            height: 2vh;
+            background-color: #edd7ab;
+            z-index: -1;
+            border-radius: 1.5vh;
+        }
+
+        .walls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vh;
+            height: 90vh;
+            z-index: 1;
+            perspective: 15.5vh;
+        }
+
+        .wallPic {
+            position: absolute;
+            left: 1.5vh;
+            top: 30vh;
+            width: 5vh;
+            height: 5vh;
+            background-image: url("files/3.png");
+            border: .5vh solid #0f001a;
+        }
+
+        .wallPic::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: -.5vh;
+            width: .5vh;
+            height: 6vh;
+            background-color: #0f001a;
+            transform: rotateY(30deg);
+        }
+
+        .wallPic::after {
+            content: "";
+            position: absolute;
+            left: 5vh;
+            top: 0;
+            width: .5vh;
+            height: 5vh;
+            background-color: #0f001a;
+            transform: rotateY(40deg);
+        }
+
+
+        .floor {
+            position: absolute;
+            top: 55vh;
+            left: -12vh;
+            width: 122vh;
+            height: 65vh;
+            background-color: #1f0033;
+            z-index: -3;
+            box-shadow: inset 9px -200px 100px 40px rgba(0, 51, 51, 1), inset 0 4px 15px 1px rgba(255, 212, 128, 0.9), inset 0px 5px 40px 3px rgba(255, 212, 128, 0.75);
+            clip-path: polygon(9% 0%, 91% 0%, 91% 100%, 9% 100%);
+            perspective: 15vh;
+        }
+
+        .objs {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        @font-face {
+            font-family: fontName;
+            src: url("fonts/font2.ttf");
+        }
+
+        #dialogueBox {
+            position: absolute;
+            top: 65vh;
+            left: 10vh;
+            color: wheat;
+            font-size: 4vh;
+            width: 0;
+            font-family: fontName;
+            white-space: nowrap;
+            overflow: hidden;
+            word-break: break-all;
+        }
+
+        @keyframes typetype {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--fLen);
+            }
+        }
+
+        #overlay {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            transition: 3s;
+            opacity: 1;
+            z-index: 20;
+        }
+        
+        #soundbtn {
+            position: absolute;
+            top:0;left:0;
+            padding: 2vh;
+            border:.5vh solid black;
+            background-color: aliceblue;
+            z-index:50;
+        }
+
+    </style>
+
+    <script src="scripts/data.js"></script>
+</head>
+
+<body onkeydown="move(event)" onkeyup="unmove(event)" onload="loadstuff()">
+    <div id='overlay'></div>
+    <div class="container">
+        <div class="scene">
+            <div class="objs">
+                <div class="window1">
+                    <div class="curtainRack"></div>
+                    <div class="curtain1"></div>
+                    <div class="curtain2"></div>
+                    <div class="flower1">
+                        <div class="leaf"></div>
+                        <div class="pot"></div>
+                    </div>
+                </div>
+
+                <div class="sampleObj obj1">
+                    <div class="angle1"></div>
+                    <div class="handle"></div>
+                    <div class="angle2">
+                        <div class="wallPic"></div>
+                    </div>
+                </div>
+
+                <div id="dialogueBox"></div>
+
+                <div class="walls">
+                    <div class="angle3"></div>
+                </div>
+
+                <div class="picture"></div>
+
+                <div class="floor">
+                </div>
+
+                <div class="door"></div>
+
+                <div class="ceiling">
+                    <div class="ceilingLight">
+                        <div class="light"></div>
+                    </div>
+                </div>
+
+                <div class="table">
+                    <div class="laptop"></div>
+                    <div class="cup1">
+                    </div>
+                    <div class="smoke"></div>
+                    <div class="clock"></div>
+                    <div class="rand"></div>
+                    <div class="lamp">
+                        <div class="lamphead"></div>
+                        <div class="lampstand"></div>
+                        <div class="lampbtm"></div>
+                    </div>
+                    <div class="books"></div>
+                </div>
+            </div>
+
+            <div class="character">
+                <div class="head">
+                    <div class="hair"> </div>
+                    <div class="eyes"></div>
+                </div>
+                <div class="body">
+                    <div class="shirt"></div>
+                    <div class="armLeft">
+                        <div class="armLeftSleeve"></div>
+                    </div>
+                    <div class="armRight">
+                        <div class="armRightSleeve"></div>
+                    </div>
+                    <div class="leg1"></div>
+                    <div class="leg2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="soundbtn" onload="audioLoad" onclick="document.getElementById('audio').play();document.getElementById('soundbtn').remove();">Play</div>
+    <audio src="files/room.mp3" autoplay loop id="audio" allow="autoplay" onload="audioLoad"></audio>
+
+    <script>
+        
+        setTimeout(function audioLoad() {
+            let myAudio = document.getElementById("audio"); 
+            if(myAudio.duration > 0 && !myAudio.paused) document.getElementById("soundbtn").remove();
+        },2500);
+    
+        var tick = 0, //utility frame variable
+            chPos = 600, //to keep track of char position
+            winPos = 300, //window position (as in the one with curtains), there's a parallax thing going on
+            flPos = 0, //floor position
+            scenePosition = 0, //general scene container position
+            CurrObjPos = [0, 65, -1], //the position of 3d angles
+            initObjLeftPos = [0, 65, -1], //initial angle position to check how far we are away from them
+            clips = ["-145", "-160", "90"], //actually it's the rotateY value
+            interactables = [-29, -15, 0, 35, 42], //x position of objects we can interact with on the level
+            spans = [9, 5, 5, 30, 5], //how much we account for interactable size
+            //interactable object dialogue
+            ssl = [
+                ["Oh, this?", "It's a picture of the sun.", "It's zoomed in really close,", "but I'm sure you can make it out.", ""],
+                [
+                    ["Oh, I feel like we should finish everything else first."],
+                    ["Let's go."]
+                ],
+                ["And those here are pictures of the sky.", "It's quite blue, isn't it?", ""],
+                [
+                    ["Let's look at that then."],
+                    ["I think we should move on to the next bit."]
+                ],
+                [
+                    ["Let's take a look inside."],
+                    ["Let's take a look at something else now."]
+                ]
+            ],
+            //init dialogue options
+            dia = ["Well, I'm glad you made it!", "Let's look around for a bit now.", "I thought we could check out some new messages in chat", ",maybe then change for the weather", ",and then head outside!", "Let's get started.", ""];
+        var x2;
+
+        document.getElementById("audio").volume = 0.15;
+        
+        var cck = document.cookie.split(";");
+        for (var i = 0; i < cck.length; ++i)
+            eval("var " + cck[i].split("=")[0] + "='" + cck[i].split("=")[1]+"'");
+        
+        if(cl!="None") {
+                document.getElementsByClassName("shirt")[0].style.backgroundColor = cl;
+                document.getElementsByClassName("armLeftSleeve")[0].style.backgroundColor = cl;
+                document.getElementsByClassName("armRightSleeve")[0].style.backgroundColor = cl;
+                
+            }
+        //onload handler
+        function loadstuff() {
+            for (var i = 0; i < initObjLeftPos.length; ++i) { //setting init value
+                document.getElementsByClassName("angle" + (i + 1).toString())[0].style.transform = "rotateY(" + clips + "deg)";
+            }
+            //fade-in
+            document.getElementById("overlay").style.opacity = 0;
+            setTimeout("            document.getElementById('overlay').style.display = 'none';",3000);
+            var i = 0;
+            if (stC == "0" && stT == "0") {
+                if (diaDisplay == "Y") {
+                    setTimeout(function() {
+                        x2 = setInterval(function() {
+                            var iter = dia[i];
+                            document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                            document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                            document.getElementById("dialogueBox").innerHTML = iter;
+                            document.getElementById("dialogueBox").style.animation = "typetype 4s steps(var(--stepss)) infinite";
+                            document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                            ++i;
+
+                            if (i == dia.length) {
+                                clearInterval(x2);
+                                document.getElementById("dialogueBox").style.display = "none";
+                                document.cookie = "diaDisplay=N; path=/"
+                            }
+                        }, 4000);
+                    }, 1500);
+                }
+            }
+        }
+
+        //onkeyup event handler - stopping the animations and stabilizing position
+        function unmove(event) {
+            let QuirKey = event.keyCode;
+            if (QuirKey == 39 || QuirKey == 37) {
+                document.getElementsByClassName("leg1")[0].style.top = "6vh";
+                document.getElementsByClassName("leg2")[0].style.top = "6vh";
+                document.getElementsByClassName("armRight")[0].style.transform = "";
+                document.getElementsByClassName("armLeft")[0].style.transform = "";
+                tick = 0;
+            }
+        }
+
+        //force setting init value
+        document.getElementsByClassName("angle1")[0].style.left = "5.9vh";
+        
+        stage[3] = parseInt(stT);
+        stage[4] = parseInt(stC);
+        
+        function move(event) {
+            let QKey = event.keyCode;
+            let sizeA = 3;
+
+            //enter keypress handling
+            if (event.keyCode == 13) {
+                clearInterval(x2);
+                for (var i = 0; i < spans.length; ++i) {
+                    if ((interactables[i] - spans[i]) < scenePosition && scenePosition < (interactables[i] + spans[i])) {
+                        document.getElementById("dialogueBox").innerHTML = "";
+                        document.getElementById("dialogueBox").style.display = "block";
+                        var k = 0;
+                        var i1 = i;
+                        var x1 = setInterval(function() {
+                            var iter;
+                            if (i1 == 0 || i1 == 2) {
+                                iter = ssl[i1][k];
+                            } else if (i1 == 1) {
+                                if (stage[1] == 1) iter = ssl[1][1][0];
+                                else iter = ssl[1][0][0];
+                            } else if (i1 == 3 || i1 == 4) {
+                                if (stage[i1] == 1) iter = ssl[i1][1][0];
+                                else iter = ssl[i1][0][0];
+                            }
+                            document.documentElement.style.setProperty("--fLen", (iter.length).toString() + "em");
+                            document.documentElement.style.setProperty("--stepss", (iter.length).toString());
+                            document.getElementById("dialogueBox").innerHTML = iter;
+                            document.getElementById("dialogueBox").style.animation = "typetype 2s steps(var(--stepss)) infinite";
+                            document.getElementById("dialogueBox").style.width = "var(--fLen)";
+                            ++k;
+
+                            if (i == 1 || i == 3 || i == 4 || (k == ssl[i1].length)) {
+                                clearInterval(x1);
+                                document.getElementById("dialogueBox").style.display = "none";
+
+                                if (i1 == 1 && stage[3] == 1 && stage[4] == 1) {
+                                    document.getElementById("overlay").style.display = "block";
+                                    document.getElementById("overlay").style.opacity = 1;
+                                    setTimeout(function() {
+                                        window.location.assign("finale.html");
+                                    }, 3000);
+                                }
+                                if (i1 == 3 && stage[3] == 0) {
+                                    document.getElementById("overlay").style.display = "block";
+                                    document.getElementById("overlay").style.opacity = 1;
+                                    setTimeout(function() {
+                                        window.location.assign("table.html");
+                                    }, 3000);
+                                }
+                                if (i1 == 4 && stage[4] == 0) {
+                                    document.getElementById("overlay").style.display = "block";
+                                    document.getElementById("overlay").style.opacity = 1;
+                                    setTimeout(function() {
+                                        window.location.assign("closet.html");
+                                    }, 3000);
+                                }
+                            }
+
+
+                        }, 2000);
+
+                    }
+                }
+            } else if ((QKey == 39 && scenePosition > -31) || (QKey == 37 && scenePosition < 42)) { //Right Left 
+                function armSwing(val1, val2, val3, val4) { //walking animation
+                    document.getElementsByClassName("leg1")[0].style.top = val1;
+                    document.getElementsByClassName("leg2")[0].style.top = val2;
+                    document.getElementsByClassName("armRight")[0].style.transform = val3;
+                    document.getElementsByClassName("armLeft")[0].style.transform = val4;
+                }
+
+                //placeholder function for shading when player nears window; inactive for performance
+                /*
+                function shading(head, arm) {
+                    document.getElementsByClassName("head")[0].style.boxShadow = head;
+                    document.getElementsByClassName("armRight")[0].style.boxShadow = arm;
+                }*/
+
+                //setting starting values in JS, as sometimes it has trouble getting them
+                for (var i = 0; i < sizeA; ++i) {
+                    //3D perpective effect Y-wise rotation handling
+                    var rotateObjAngle = document.getElementsByClassName("angle" + (i + 1).toString())[0].style.transform;
+                    rotateObjAngle = (rotateObjAngle == "") ? clips[i] : (rotateObjAngle.match(/-?\d+/g)[0]); //regex for getting the degree value
+
+                    //utility variable for deciding which direction to rotate the objects
+                    var temp = (parseInt(rotateObjAngle) + ((QKey == 39) ? -1 : 1) * ((chPos > CurrObjPos[i]) ? 1 : -1));
+
+                    //absolutely ridiculous Y-wise rotation init
+                    if ((i == 2 && temp >= 90 && temp < 150) || (i == 1 && tick % 8 == 1 && temp > -164.0 && temp < -157.5) || (i == 0 && temp > -145 && temp < -115))
+                        document.getElementsByClassName("angle" + (i + 1).toString())[0].style.transform = "rotateY(" + temp.toString() + "deg)";
+
+                    CurrObjPos[i] -= 10 * ((QKey == 39) ? 1 : -1);
+                }
+
+                //moving the scene when character walks; keeping track of distance for bounds
+                document.getElementsByClassName("objs")[0].style.left = (scenePosition - 1.25 * ((QKey == 39) ? 1 : -1)).toString() + "%";
+                scenePosition -=1.25 * ((QKey == 39) ? 1 : -1);
+                //winPos -= 2 * ((QKey == 39) ? 1 : -1);
+                //flPos -= 2 * ((QKey == 39) ? 1 : -1);
+
+                //switching walking direction
+                document.getElementsByClassName("character")[0].style.transform = (QKey == 39) ? "rotateY(0)" : "rotateY(180deg)";
+
+                //(chPos > winPos + 500 || chPos < winPos - 500) ? shading("none", "none"): shading("-3px 5px 5px .5px rgba(255,228,181,0.9) inset", ".3px .5px 3px .5px rgba(255,228,181,0.9) inset");
+
+                //setInterval is for losers; I just increment variables and check when they're dividable by certain values
+                if (tick % 8 == 0)
+                    armSwing("5.75vh", "6vh", "rotateZ(45deg) translate(-2vh,2.5vh)", "rotateZ(-45deg) translate(2vh,1.5vh)");
+                else if (tick % 4 == 0)
+                    armSwing("6vh", "5.75vh", "rotateZ(-45deg) translate(.25vh,0)", "rotateZ(45deg) translate(.2vh,-.5vh)");
+                ++tick;
+            }
+        }
+
+    </script>
+</body>
+
+</html>
